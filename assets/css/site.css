@@ -343,6 +343,12 @@ section.follow{padding-top:0}
 .grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:920px){.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.grid.four{grid-template-columns:1fr}}
+/* Card grid whose last row stretches to fill (no gaps with an uneven count):
+   3 per row, 2 at tablet width, 1 on phones. */
+.grid.fill{display:flex;flex-wrap:wrap}
+.grid.fill > *{flex:1 1 calc((100% - 32px) / 3);min-width:0}
+@media (max-width:920px){.grid.fill > *{flex-basis:calc((100% - 16px) / 2)}}
+@media (max-width:600px){.grid.fill > *{flex-basis:100%}}
 .honors .cols{margin-top:26px}
 .honors .cols h3{color:#fff;margin-top:6px}
 .honors-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
