@@ -107,10 +107,10 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 Both pages render from CSVs, so updating them means editing a CSV. Neither page has a hand-written count or list.
 
-**`assets/data/records.csv`**: `gender, event_group, event_order, event, rank, athlete, mark, year, flag`
+**`assets/data/records.csv`**: `gender, event_group, event_order, event, rank, athlete, mark, year, flag, active`
 - `event_group` is shown in the order Sprints, Hurdles, Distance, Relays, Field. Events within a group are sorted by `event_order`.
 - `flag` is `w` (wind-aided), `c` (converted mark) or empty, and is shown as a small badge after the mark. Keep the letter out of `mark` itself.
-- Rank 1 in each event is tinted.
+- `active` is `yes` for athletes currently on the roster (for relays: if any leg is current). Those rows get the red tint. **It's set by hand. The page never guesses from names**: the board uses initials and has same-surname athletes (two Rosatis on the girls board; two Daltons, Turners and Wilsons on the boys). Empty for every row until Patrick sends the roster.
 
 **`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
 - Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
@@ -118,9 +118,9 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 
 **`assets/data/varsity-standards.csv`**: `gender, event_group, event_order, event, standard`
 - The **2026** standards, the most recent published set. Groups are shown as Sprints, Hurdles, Distance, Field, sorted by `event_order`. `standard` is printed as-is.
-- The page also explains the formula: (3 × three-year average of EBAL 7th place + EBAL qualifying standard) / 4, from the 2027 standards on. The published 2026 numbers used the average weighted twice, and stay as published.
+- Formula (README only, deliberately not on the page): (3 × three-year average of EBAL 7th place + EBAL qualifying standard) / 4, from the 2027 standards on. The published 2026 numbers used the average weighted twice, and stay as published.
+- The page also lists the three ways to earn a letter: meet the standard, qualify individually for the CIF NCS Tri-Valley Area Championships, or run on a relay that finishes top three there.
 - **To do: replace this file (and the "2026" eyebrow on the page) when the 2027 EBAL qualifying marks are published** and the 2027 standards are final.
-- **To do: Patrick to supply the other routes to a varsity letter.** The page currently says only "Meeting a standard is one way to earn a varsity letter. It is not the only way."
 - Not in the repo on purpose: `source/data/varsity-standards-2027-DRAFT.csv`, `ebal-2026-seventh-place.csv` and `MV_Varsity_Standards.csv`/`.xlsx`. Everything committed is publicly served, and the 2027 numbers aren't final.
 
 The standards page isn't in the top nav (seven items is the limit). It's linked from Track & Field, Records, and the footer under "The program".

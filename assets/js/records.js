@@ -30,9 +30,13 @@
       '<th scope="col" class="num">#</th><th scope="col">Athlete</th><th scope="col" class="num">Mark</th><th scope="col" class="num">Year</th>' +
       "</tr></thead><tbody>" +
       rows.map(function (r) {
-        return '<tr' + (r.rank === "1" ? ' class="hl"' : "") + ">" +
+        // Highlight comes only from the active column (set by hand, including
+        // relays with any current leg). Never infer it from names: the board
+        // uses initials and has same-surname athletes.
+        var active = (r.active || "").trim().toLowerCase() === "yes";
+        return '<tr' + (active ? ' class="hl"' : "") + ">" +
           '<td class="rank num">' + esc(r.rank) + "</td>" +
-          '<td class="athlete">' + esc(r.athlete) + "</td>" +
+          '<td class="athlete">' + esc(r.athlete) + (active ? '<span class="sr-only"> (current athlete)</span>' : "") + "</td>" +
           '<td class="mono num">' + markHTML(r) + "</td>" +
           '<td class="mono num">' + esc(r.year) + "</td></tr>";
       }).join("") +
