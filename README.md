@@ -18,15 +18,20 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
 | `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
-| `assets/js/records.js` | Renders `records.html` from `assets/data/records.csv`. |
+| `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
+| `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
 | `assets/data/records.csv`, `assets/data/letter-winners.csv`, `assets/data/varsity-standards.csv` | School records, varsity letter winners and letter standards (see "Records and letters"). |
 | `assets/js/standards.js` | Renders `varsity-standards.html` from `assets/data/varsity-standards.csv`. |
 | `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
-| `source/data/` | The CSVs that `state-history.html` is regenerated from (see "State history"). Served publicly like everything else in the repo. |
+| `source/data/` | The CSVs that `cross-country-records.html` is regenerated from (see "Cross Country Records"). Served publicly like everything else in the repo. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
+
+**Light only.** The site has no dark mode; every colour is defined once on `:root`. Don't add a `prefers-color-scheme` block.
+
+Tables that can be wider than the screen sit in `.table-scroll`, which shows a soft shadow on the right edge while there's more to scroll. It's CSS-only (`background-attachment: local` / `scroll`). Row tints in tables are translucent so the shadow shows through them.
 
 Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space Mono (numbers and times, as `var(--mono)` / `.mono`).
 
@@ -34,15 +39,15 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 ## The header and footer are duplicated. Change them together.
 
-Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav link has `aria-current="page"`.
+Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, state-history, cross-country, track-field, coaches, records, varsity-letters, varsity-standards, donate and summer-run. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, cross-country, track-field, coaches, donate, summer-run, track-field-records, cross-country-records, varsity-letters and varsity-standards. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
 ```
 
-`state-history.html` marks **Cross Country** as current, not itself. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners and Track & Field Letter Standards. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
 ## The schedule
 
@@ -175,9 +180,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |
 
-## State history
+## Cross Country Records
 
-`state-history.html` is the "Monte Vista at State" record book. It is **regenerated from the CSVs in `source/data/`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The data and table logic are the page's `<script>` block; the rest of the page is the shared header/footer and site styling. The page is light-only (`<html data-theme="light">`).
+`cross-country-records.html` (formerly `state-history.html`) is the Woodward Park record book. "Monte Vista at State" is now a section within it. It is **regenerated from the CSVs in `source/data/`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The data and table logic are the page's `<script>` block; the rest of the page is the shared header/footer and site styling.
 
 The CSVs are `source/data/mv_cif_state_xc_individuals_1987_2025.csv` and `source/data/mv_woodward_park_all_marks.csv`. **Not in the repo yet:** the script that turns them into the page's `DATA` objects. Until that script is added, a rebuild means producing a new `<script>` block elsewhere and pasting it over the old one. Leave everything outside that block alone.
 

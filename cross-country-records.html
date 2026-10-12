@@ -1,19 +1,18 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Monte Vista at State · Monte Vista Mustangs Distance</title>
-<meta name="description" content="Every Monte Vista team and individual at the CIF State Cross Country Championships, plus Woodward Park times.">
+<title>Cross Country Records · Monte Vista Mustangs Distance</title>
+<meta name="description" content="Every Monte Vista performance at Woodward Park in Fresno: the CIF State Championships, the Clovis Invitational, Rough Rider and NXR California.">
 <link rel="icon" type="image/png" href="assets/img/mustang-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400..600&family=Space+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
-/* State history: page-specific rules only (layout, year strip, podium,
-   qualifier groups, chips). Shared components live in site.css.
-   Light-only by design: <html data-theme="light"> opts out of dark mode. */
+/* Cross Country Records: page-specific rules only (layout, year strip,
+   podium, qualifier groups, chips). Shared components live in site.css. */
 .book-main{background:var(--surface)}
 .book{display:flex;flex-direction:column;gap:56px;padding-block:40px 64px;font-family:var(--display);font-size:15px;line-height:1.5}
 .book section{padding-block:0;display:flex;flex-direction:column;gap:18px;min-width:0}
@@ -22,7 +21,11 @@
 .book h2{font-size:clamp(28px,4.5vw,40px);line-height:.95}
 
 /* year strip */
-.strip-scroll{overflow-x:auto;padding-bottom:4px}
+.strip-scroll{overflow-x:auto;padding-bottom:4px;
+  /* Right-edge scroll cue, same technique as .table-scroll in site.css, on this page's surface ground */
+  background:linear-gradient(to left,var(--surface) 40%,transparent) right center/48px 100% no-repeat local,
+    linear-gradient(to left,color-mix(in srgb,var(--ink) 14%,transparent),transparent) right center/16px 100% no-repeat scroll}
+.book h2.part-head{font-size:clamp(36px,6.5vw,60px)}
 .strip{display:grid;grid-template-columns:56px repeat(39,minmax(16px,1fr));gap:4px;min-width:760px;align-items:center}
 .strip .lab{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
 .cell{height:26px;border-radius:2px;background:transparent;border:1px dashed var(--line)}
@@ -86,10 +89,18 @@
     <nav class="nav" aria-label="Main">
       <a href="index.html">Home</a>
       <a href="schedule.html">Schedule</a>
-      <a href="cross-country.html" aria-current="page">Cross Country</a>
+      <a href="cross-country.html">Cross Country</a>
       <a href="track-field.html">Track &amp; Field</a>
       <a href="coaches.html">Coaches</a>
-      <a href="records.html">Records</a>
+      <div class="nav-dd">
+        <button type="button" class="nav-dd-btn is-current" aria-expanded="false" aria-controls="records-menu">Records</button>
+        <ul class="nav-menu" id="records-menu" hidden>
+          <li><a href="track-field-records.html">Track &amp; Field Records</a></li>
+          <li><a href="cross-country-records.html" aria-current="page">Cross Country Records</a></li>
+          <li><a href="varsity-letters.html">Track &amp; Field Letter Winners</a></li>
+          <li><a href="varsity-standards.html">Track &amp; Field Letter Standards</a></li>
+        </ul>
+      </div>
       <a href="donate.html">Donate</a>
     </nav>
   </div>
@@ -99,11 +110,12 @@
 <div class="wrap book">
   <header class="mast">
     <div class="eyebrow">CIF State Cross Country · Woodward Park, Fresno · 5K</div>
-    <h1>Monte Vista <em>at State</em></h1>
-    <p>Every Mustang team and individual at the CIF State Championships, 1987–2025.</p>
+    <h1>Cross Country Records</h1>
+    <p>Every Monte Vista performance at Woodward Park in Fresno &mdash; the CIF State Championships, the Clovis Invitational, Rough Rider and NXR California. Woodward Park is the only course the team races often enough, across enough years, to compare fairly.</p>
   </header>
  
-  <section aria-label="Headline numbers">
+  <section aria-labelledby="h-state">
+    <h2 id="h-state" class="part-head">Monte Vista at State</h2>
     <div class="stats">
       <div class="stat"><div class="n">12</div><div class="l">Straight girls team trips</div><div class="s">Every state meet from 2013 through 2025</div></div>
       <div class="stat"><div class="n">2<small>nd</small></div><div class="l">Brooke Starn, 2015</div><div class="s">Division I · 17:22.6, fastest in school history</div></div>
@@ -197,7 +209,7 @@
         <h4>The program</h4>
         <a href="cross-country.html">Cross Country</a>
         <a href="track-field.html">Track &amp; Field</a>
-        <a href="records.html">School records</a>
+        <a href="track-field-records.html">School records</a>
         <a href="varsity-letters.html">Varsity letter winners</a>
         <a href="varsity-standards.html">Varsity standards</a>
       </div>
@@ -359,5 +371,6 @@ bind('[aria-label="Sort individuals"]', "is", "s", renderInd);
 renderTeams(); renderInd();
 </script>
 
+<script src="assets/js/nav.js"></script>
 </body>
 </html>

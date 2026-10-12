@@ -1,4 +1,4 @@
-/* School records (records.html).
+/* School records (track-field-records.html).
    Reads assets/data/records.csv and renders event panels grouped by
    event group, with a Girls/Boys toggle. Needs assets/js/csv.js first. */
 (function () {

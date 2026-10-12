@@ -1,6 +1,6 @@
 # State history source data
 
-The data embedded in `state-history.html` comes from these CSVs. Rebuild the page from them after each CIF State meet and each Clovis Invitational. Don't hand-edit the data in the page.
+The data embedded in `cross-country-records.html` comes from these CSVs. Rebuild the page from them after each CIF State meet and each Clovis Invitational. Don't hand-edit the data in the page.
 
 | File | What it holds |
 | --- | --- |

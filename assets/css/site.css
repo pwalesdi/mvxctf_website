@@ -19,24 +19,6 @@
   --maxw:1140px;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --ground:#131010; --surface:#1B1716; --surface-2:#241F1D;
-    --line:#342D2A; --line-strong:#4A413D;
-    --ink:#F3EDEA; --ink-2:#B2A8A2; --ink-3:#877D77;
-    --red:#E8455C; --red-ink:#F3798A; --red-soft:#2B1519;
-    --logo-filter:brightness(0) invert(1);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#131010; --surface:#1B1716; --surface-2:#241F1D;
-  --line:#342D2A; --line-strong:#4A413D;
-  --ink:#F3EDEA; --ink-2:#B2A8A2; --ink-3:#877D77;
-  --red:#E8455C; --red-ink:#F3798A; --red-soft:#2B1519;
-  --logo-filter:brightness(0) invert(1);
-  color-scheme:dark;
-}
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -85,6 +67,30 @@ p{margin:0}
 .nav a[aria-current="page"]{color:var(--ink);background:var(--surface)}
 .nav a[aria-current="page"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
 
+/* Records dropdown (assets/js/nav.js). The button matches .nav a; menu links
+   inherit .nav a styling, including the current-page dot. */
+.nav-dd{display:flex;flex-shrink:0}
+.nav-dd-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
+.nav-dd-btn::after{content:"";border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid currentColor;transition:transform .15s ease}
+.nav-dd-btn[aria-expanded="true"]::after{transform:rotate(180deg)}
+.nav-dd-btn:hover,.nav-dd-btn[aria-expanded="true"],.nav-dd-btn.is-current{color:var(--ink);background:var(--surface)}
+.nav-dd-btn.is-current::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:1px}
+.nav-menu{list-style:none;margin:0;padding:6px;background:var(--ground);z-index:60}
+.nav-menu[hidden]{display:none}
+.nav-menu a{display:block}
+/* Desktop: a dropdown under the button, right-aligned so it never runs off-screen. */
+@media (min-width:1201px){
+  .nav{overflow:visible}
+  .nav-dd{position:relative}
+  .nav-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:max-content;border:1px solid var(--line);border-radius:8px}
+}
+/* Narrower: a band under the nav. It's positioned against .site-head (outside
+   the nav's horizontal scroller, so it isn't clipped) in space nav.js adds. */
+@media (max-width:1200px){
+  .site-head.dd-open{padding-bottom:var(--dd-h,0px)}
+  .nav-menu{position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--line);padding:6px max(calc(var(--gutter) - 10px),calc((100% - var(--maxw))/2 + var(--gutter) - 10px)) 10px}
+}
+
 /* ---------- hero ---------- */
 .hero{position:relative;background:var(--surface)}
 .hero-media{position:relative;width:100%;aspect-ratio:16/8;max-width:100%;overflow:hidden}
@@ -112,8 +118,7 @@ section.tint{background:var(--surface)}
 
 /* ---------- accomplishments ---------- */
 .honors{background:#14100F;color:#F5F0ED;padding-block:clamp(36px,5vw,60px)}
-:root[data-theme="dark"] .honors,
-:root:not([data-theme="light"]) .honors{border-block:1px solid var(--line)}
+.honors{border-block:1px solid var(--line)}
 .honors .eyebrow{color:rgba(245,240,237,.55)}
 .honors h2{color:#fff}
 .honors-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(245,240,237,.16);border:1px solid rgba(245,240,237,.16);border-radius:8px;overflow:hidden;margin-top:26px}
@@ -161,6 +166,13 @@ th{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875re
 td.num{font-family:var(--display);font-stretch:92%;font-weight:600;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 td.day{font-family:var(--display);font-stretch:92%;font-weight:600;letter-spacing:.01em}
 .table-scroll{overflow-x:auto}
+/* Scroll cue: a soft shadow on the right edge while there's more table to the
+   right. The cover gradient scrolls with the content (local) and hides the
+   shadow (scroll) once the end is reached, or when nothing overflows. No JS. */
+.table-scroll{
+  background:
+    linear-gradient(to left,var(--ground) 40%,transparent) right center/48px 100% no-repeat local,
+    linear-gradient(to left,color-mix(in srgb,var(--ink) 14%,transparent),transparent) right center/16px 100% no-repeat scroll}
 
 /* ---------- link list ---------- */
 .linklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
@@ -260,7 +272,7 @@ th.num{text-align:right}
 }
 
 /* ---------- record book components (from Monte Vista at State) ---------- */
-/* Built for state-history.html; written against the site tokens so they can
+/* Built for cross-country-records.html; written against the site tokens so they can
    be reused. Body text on that page is Archivo, set by its .book container. */
 [hidden]{display:none!important}
 
@@ -306,7 +318,8 @@ th.num{text-align:right}
 .ledger td.mono{font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:14px;white-space:nowrap}
 .ledger td.rank{font-family:var(--mono);font-stretch:100%;font-weight:400;color:var(--ink-2);width:3ch}
 .ledger td.name{font-weight:600;white-space:nowrap}
-.ledger td.scor{color:var(--ink-2);font-size:13px;min-width:280px}
+/* Enough width for five names to wrap onto 2-3 lines; with none, auto layout squeezes it to one word per line. */
+.ledger td.scor{color:var(--ink-2);font-size:13px;min-width:14em}
 .ledger td.race{color:var(--ink-2);font-size:13px;white-space:nowrap}
 .ledger .place{white-space:nowrap}
 .ledger .place b{font-weight:700}
@@ -314,7 +327,8 @@ th.num{text-align:right}
 .ledger .calc{color:var(--ink-2)}
 .ledger .meet{white-space:nowrap}
 .ledger .meet.st{color:var(--red-ink);font-weight:700}
-.ledger .top10 td,.ledger tr.hl td{background:var(--red-soft)}
+/* Translucent so the .table-scroll edge cue shows through; over the white panel it is exactly --red-soft (#FAEDEF). */
+.ledger .top10 td,.ledger tr.hl td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 .ledger .top10 td.rank,.ledger tr.hl td.rank{color:var(--red-ink);font-weight:700}
 
 /* ---------- cross country page ---------- */
@@ -331,7 +345,7 @@ section.follow{padding-top:0}
 .honors-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
 @media (max-width:460px){.honors-grid.two{grid-template-columns:1fr}}
 /* Results table: our runners get the record-book highlight (red-soft row, red-ink place). */
-tr.ours td{background:var(--red-soft)}
+tr.ours td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 tr.ours td.num{color:var(--red-ink)}
 tr.ours td:nth-child(2){font-weight:600}
 .scores{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
