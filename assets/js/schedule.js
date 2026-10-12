@@ -155,18 +155,21 @@
     if (safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
     if (r.extra_label && safeUrl(r.extra_url)) links.push(link(r.extra_url, r.extra_label));
     return "<tr>" +
-      '<td class="day">' + esc(formatDate(m.key)) + "</td>" +
-      "<td>" + esc(r.meet) + (r.notes ? '<span class="note">' + esc(r.notes) + "</span>" : "") + "</td>" +
-      "<td>" + (r.location ? link(r.map_url, r.location) : "") + "</td>" +
-      "<td>" + esc(r.level) + "</td>" +
-      '<td class="time">' + esc(r.time) + "</td>" +
-      '<td class="links">' + links.join("") + "</td>" +
+      // data-label feeds the stacked phone layout; the date has a long
+      // (desktop) and short (phone) form, toggled in CSS.
+      '<td class="day" data-label="Date"><span class="d-long">' + esc(formatDate(m.key)) +
+        '</span><span class="d-short">' + esc(formatDate(m.key).replace(",", "")) + "</span></td>" +
+      '<td class="event" data-label="Meet">' + esc(r.meet) + (r.notes ? '<span class="note">' + esc(r.notes) + "</span>" : "") + "</td>" +
+      '<td data-label="Location">' + (r.location ? link(r.map_url, r.location) : "") + "</td>" +
+      '<td data-label="Level">' + esc(r.level) + "</td>" +
+      '<td class="time" data-label="Time">' + esc(r.time) + "</td>" +
+      '<td class="links" data-label="Links">' + (links.length ? "<span>" + links.join("") + "</span>" : "") + "</td>" +
       "</tr>";
   }
 
   function blockHTML(title, list, sportLabel) {
     var body = list.length
-      ? '<div class="panel"><div class="table-scroll"><table class="sched">' +
+      ? '<div class="panel sched-panel"><div class="table-scroll"><table class="sched">' +
         '<thead><tr><th scope="col">Date</th><th scope="col">Meet</th><th scope="col">Location</th>' +
         '<th scope="col">Level</th><th scope="col">Time</th><th scope="col">Links</th></tr></thead>' +
         "<tbody>" + list.map(rowHTML).join("") + "</tbody></table></div></div>"
@@ -184,7 +187,7 @@
       var upcoming = mine.filter(function (m) { return m.key && m.key >= today; });
       var completed = mine.filter(function (m) { return m.key && m.key < today; });
       var undated = mine.filter(function (m) { return !m.key; });
-      var seg = '<div class="seg" role="group" aria-label="Sport">' + SPORTS.map(function (s) {
+      var seg = '<div class="toggle" role="group" aria-label="Sport">' + SPORTS.map(function (s) {
         return '<button type="button" data-sport="' + s.key + '" aria-pressed="' + (s.key === current) + '">' + esc(s.label) + "</button>";
       }).join("") + "</div>";
       app.innerHTML = seg + blockHTML("Upcoming", upcoming, sport.label) + blockHTML("Completed", completed, sport.label) +

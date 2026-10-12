@@ -67,7 +67,7 @@ p{margin:0}
 .logo{height:48px;width:auto;filter:var(--logo-filter);flex-shrink:0}
 .mark .l1{font-family:var(--display);font-stretch:76%;font-weight:800;font-size:1.25rem;letter-spacing:.015em;text-transform:uppercase;line-height:1;white-space:nowrap}
 .mark .l2{font-family:var(--display);font-stretch:84%;font-weight:700;font-size:.875rem;letter-spacing:.085em;text-transform:uppercase;color:var(--red-ink);line-height:1;margin-top:7px;display:block}
-@media (max-width:900px){
+@media (max-width:1200px){
   .head-in{flex-wrap:wrap;gap:12px;min-height:0}
   .mark{margin-right:0;width:100%}
   .nav{width:100%;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter);border-top:1px solid var(--line);padding-top:6px}
@@ -224,14 +224,95 @@ th.num{text-align:right}
 
 /* ---------- schedule ---------- */
 /* Sport toggle: same treatment as the nav links and their current-page dot. */
-.seg{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:24px}
-.seg button{font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
-.seg button:hover{color:var(--ink);background:var(--surface)}
-.seg button[aria-pressed="true"]{color:var(--ink);background:var(--surface)}
-.seg button[aria-pressed="true"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
+.toggle{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:24px}
+.toggle button{font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
+.toggle button:hover{color:var(--ink);background:var(--surface)}
+.toggle button[aria-pressed="true"]{color:var(--ink);background:var(--surface)}
+.toggle button[aria-pressed="true"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
 .sched-block + .sched-block{margin-top:clamp(28px,4vw,44px)}
 .sched-block h2{margin-bottom:14px}
 .sched-status{color:var(--ink-2)}
 .sched td{vertical-align:top}
 .sched .note{display:block;font-size:.8125rem;color:var(--ink-3);line-height:1.45;margin-top:3px}
 .sched td.links a{display:block;white-space:nowrap}
+.sched .d-short{display:none}
+
+/* Phones: each meet becomes a card. Meet name is the heading; every other
+   cell is a label/value row; empty cells disappear. */
+@media (max-width:639.98px){
+  .sched-panel{background:none;border:0;border-radius:0;overflow:visible}
+  .sched-panel .table-scroll{overflow:visible}
+  .sched thead{display:none}
+  .sched,.sched tbody,.sched tr,.sched td{display:block}
+  .sched tr{display:flex;flex-direction:column;gap:6px;background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:18px 20px 20px}
+  .sched tr + tr{margin-top:12px}
+  .sched td,.sched tbody tr:last-child td{padding:0;border-bottom:0}
+  .sched td:not(.event){display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:baseline;font-size:.9375rem}
+  .sched td:not(.event)::before{content:attr(data-label);font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+  .sched td.event{order:-1;margin-bottom:4px;font-family:var(--display);font-stretch:88%;font-weight:700;font-size:1.0625rem;letter-spacing:.005em;line-height:1.25}
+  .sched td.event .note{font-family:var(--body);font-stretch:100%;font-weight:400;letter-spacing:0}
+  .sched td.time{font-size:.8125rem}
+  .sched td.time,.sched td.links a{white-space:normal}
+  .sched td.links span{display:flex;flex-direction:column;gap:4px}
+  .sched .d-long{display:none}
+  .sched .d-short{display:inline}
+  .sched td:empty{display:none} /* after the grid rule: same specificity */
+}
+
+/* ---------- record book components (from Monte Vista at State) ---------- */
+/* Built for state-history.html; written against the site tokens so they can
+   be reused. Body text on that page is Archivo, set by its .book container. */
+[hidden]{display:none!important}
+
+.mast{display:flex;flex-direction:column;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:22px}
+.mast p{margin:0;max-width:60ch;color:var(--ink-2);font-size:16px}
+
+/* Section head with controls on the right */
+.sec-head.split{flex-direction:row;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 20px;max-width:none;margin-bottom:0}
+.sec-head.split p{margin:4px 0 0;color:var(--ink-2);max-width:60ch}
+
+/* Headline numbers */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.stats{grid-template-columns:1fr}}
+.stat{padding:18px 18px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;background:var(--ground)}
+.stat .n{font-family:var(--display);font-stretch:74%;font-weight:800;font-size:clamp(44px,7vw,64px);line-height:1;color:var(--red);font-variant-numeric:tabular-nums}
+.stat .n small{font-size:.5em;color:var(--ink);margin-left:2px}
+.stat .l{font-weight:700;font-size:15px}
+.stat .s{color:var(--ink-2);font-size:13.5px}
+
+/* Segmented control (pill buttons) */
+.controls{display:flex;flex-wrap:wrap;gap:10px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg button{font:600 13px var(--display);letter-spacing:.02em;padding:7px 14px;border:0;background:var(--ground);color:var(--ink);cursor:pointer}
+.seg button+button{border-left:1.5px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.seg button:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+.seg-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);align-self:center;margin-right:-2px}
+@media (prefers-reduced-motion:no-preference){.seg button{transition:background .15s,color .15s}}
+
+.pill{display:inline-block;font:700 11px var(--display);letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1.5px solid currentColor}
+.pill.g{color:var(--red-ink)}
+.pill.b{color:var(--ink)}
+.pill.act{color:var(--red-ink);background:var(--red-soft);border-color:transparent}
+.count{color:var(--ink-2);font-size:13px}
+.notes{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-2);font-size:13px;display:flex;flex-direction:column;gap:6px;max-width:75ch}
+
+/* Ledger: dense data table layered on the site table (use inside .panel > .table-scroll) */
+.ledger{font-variant-numeric:tabular-nums}
+.ledger th{padding:10px 12px;white-space:nowrap}
+.ledger td{padding:9px 12px;vertical-align:top}
+.ledger td.num,.ledger th.num{text-align:right}
+.ledger td.mono{font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:14px;white-space:nowrap}
+.ledger td.rank{font-family:var(--mono);font-stretch:100%;font-weight:400;color:var(--ink-2);width:3ch}
+.ledger td.name{font-weight:600;white-space:nowrap}
+.ledger td.scor{color:var(--ink-2);font-size:13px;min-width:280px}
+.ledger td.race{color:var(--ink-2);font-size:13px;white-space:nowrap}
+.ledger .place{white-space:nowrap}
+.ledger .place b{font-weight:700}
+.ledger .place .d{color:var(--ink-2);font-size:13px}
+.ledger .calc{color:var(--ink-2)}
+.ledger .meet{white-space:nowrap}
+.ledger .meet.st{color:var(--red-ink);font-weight:700}
+.ledger .top10 td{background:var(--red-soft)}
+.ledger .top10 td.rank{color:var(--red-ink);font-weight:700}

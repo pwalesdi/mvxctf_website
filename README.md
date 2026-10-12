@@ -20,11 +20,12 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
 | `assets/img/` | Logo and hero photo (downloaded from Wix). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
-| `montevistaxc-mockup.html` | The approved single-page design. Reference only; nothing links to it. |
-| `CNAME` | Custom domain for GitHub Pages. |
+| `source/montevistaxc-mockup.html` | The approved single-page design. Reference only; nothing links to it. Note that GitHub Pages serves everything in the repo, so it is publicly reachable at `/source/montevistaxc-mockup.html`. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
 
 Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space Mono (numbers and times, as `var(--mono)` / `.mono`).
+
+`site.css` sections, top to bottom: the mockup's styles; additions (numeric face, former inline styles, interior pages, the schedule table and its phone card layout); then the record-book components that came from the State history page (`.mast`, `.stats`, `.seg` pill controls, `.pill`, `.notes`, and `.ledger` for dense data tables). Only the State page's year strip, podium, qualifier groups and chips stay in that page's own `<style>` block.
 
 ## The header and footer are duplicated. Change them together.
 
@@ -36,7 +37,7 @@ Static HTML has no includes, so every page carries its own copy of the site head
 grep -c 'class="nav"' *.html      # every page should report 1
 ```
 
-`state-history.html` marks **Cross Country** as current, not itself.
+`state-history.html` marks **Cross Country** as current, not itself. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
 ## The schedule
 
@@ -67,7 +68,7 @@ Columns are matched by header name, so their order doesn't matter. Header names 
 | `extra_label` / `extra_url` | Optional second link (Tickets, Live video…). Shown only when both are filled. |
 | `notes` | Optional small text under the meet name |
 
-Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net.
+Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
 
 ### Data to fix
 
@@ -93,7 +94,6 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 | Page | Missing |
 | --- | --- |
-| `state-history.html` | **Placeholder.** The finished record book (`mv-state-history.html`) wasn't in the repo when this was built. See "State history" below. |
 | `cross-country.html` | Program overview and season information |
 | `track-field.html` | Program overview, season and event-group information |
 | `coaches.html` | Coach names, bios, emails (currently points at the team parent) |
@@ -104,11 +104,6 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 ## State history
 
-`state-history.html` is supposed to be the "Monte Vista at State" record book, built from `mv-state-history.html`. When it arrives:
+`state-history.html` is the "Monte Vista at State" record book (originally `mv-state-history.html`). Its data and table logic are the original `<script>` block, unchanged. Edit data there, not in the markup. The page is light-only (`<html data-theme="light">`).
 
-1. Keep its data and table logic untouched.
-2. Wrap it in the shared header and footer (nav: Cross Country current), keep `<html data-theme="light">` (the page is light-only), and link `assets/css/site.css`.
-3. Map its tokens to the site's: `--red` → `#C0102A`, `--red-ink` → `#A20D23`, `--paper` → the site surface `#F6F3F1`, `--ink` → `#16110F`. Anton headings → Archivo 800 at ~76% width, uppercase, same sizes. Space Mono stays (already in `site.css` as `--mono`).
-4. Move shared rules into `site.css`. Leave only the year strip, podium list, qualifier groups and chips in a page `<style>` block.
-
-Wording rule: that page says "fastest in school history," never "school record." Keep it that way in anything added to the site.
+**Wording rule:** on this page, State and Woodward Park times are "fastest in school history," never "school record." A 5K course time isn't a ratified school record. The rule doesn't apply to the Records page, which is the school's actual record board, so "School records" in the nav and footer is correct.
