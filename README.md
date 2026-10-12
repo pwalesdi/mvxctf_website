@@ -116,7 +116,7 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
    - Don't name years for the boys' two NCS team titles in prose (the source records conflict). The NCS table shows them as the CSV has them, 2007 and 2015, by decision.
 4. **Home page accomplishments band**: `index.html`. "14" NCS team titles, "3" titles in four years ("2022, 2024 and 2025"), "21" section titles since 2019, "77" All-NCS honors ("31 different athletes"), and the four highlight lines with their year labels ("2025 · Cross country", "2019–2025 · Depth" and so on).
 5. **Head coach bio**: `coach-wales-dinan.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
-6. **Roster highlights on the records board**: `assets/data/records.csv`, column `active`. Set `yes` for athletes now on the roster (relays: if any leg is current), clear graduates. Set it by hand. The page never matches names, because the board uses initials and has same-surname athletes.
+6. **Roster highlights on the records board**: `assets/data/records.csv`, column `active`. Set `yes` for athletes now on the roster (relays: if any leg is current), clear graduates. Set it by hand.
 
 ### After each track season (late May / June)
 
@@ -141,7 +141,7 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 **`assets/data/records.csv`**: `gender, event_group, event_order, event, rank, athlete, mark, year, flag, active`
 - `event_group` is shown in the order Sprints, Hurdles, Distance, Relays, Field. Events within a group are sorted by `event_order`.
 - `flag` is `w` (wind-aided), `c` (converted mark) or empty, and is shown as a small badge after the mark. Keep the letter out of `mark` itself.
-- `active` is `yes` for athletes currently on the roster (for relays: if any leg is current). Those rows get the red tint. **It's set by hand. The page never guesses from names**: the board uses initials and has same-surname athletes (two Rosatis on the girls board; two Daltons, Turners and Wilsons on the boys). Empty for every row until Patrick sends the roster.
+- `active` is `yes` for athletes currently on the roster (for relays: if any leg is current). Those rows get the red tint. **It's set by hand.** Empty for every row until Patrick sends the roster.
 
 **`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
 - Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
@@ -192,7 +192,7 @@ To add a photo, save it as:
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
 
-Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. Names come from the original filenames plus what's visible; nobody has been identified beyond what the original filename said. None of these are on a page yet. When one is placed, give its `<img>` `loading="lazy"` (every image except the hero and the header logo) plus `width`/`height` attributes, so the page only fetches what the visitor scrolls to.
+Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. None of these are on a page yet. When one is placed, give its `<img>` `loading="lazy"` (every image except the hero and the header logo) plus `width`/`height` attributes, so the page only fetches what the visitor scrolls to.
 
 | File | What it shows |
 | --- | --- |
@@ -201,21 +201,21 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2019-11-09-xc-girls.jpg` | Girls XC runners walking on a dirt course area |
 | `2019-11-23-xc-team-photo.jpg` | XC team photo under the "Monte Vista Cross Country" tent banner |
 | `2019-xc-girls-group.jpg` | Seven girls in team kit, arms crossed, in a park (iPhone export; date uncertain) |
-| `2022-cif-state-xc-ethan-miller.jpg` | Boys XC race; filename says Ethan Miller at CIF State 2022 |
-| `2019-05-18-track-kelli-wilson.jpg` | Girls distance race on the track; filename says Kelli Wilson |
-| `2022-track-ebal-binder-pogue.jpg` | Girls distance race; filename says Binder and Pogue at EBAL |
-| `2022-track-ebal-finals-team.jpg` | Large track team photo in the stands area; filename says EBAL finals 2022 |
-| `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); filename says Ethan Miller at EBAL |
-| `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); filename says Jack Loughery |
+| `2022-cif-state-xc-ethan-miller.jpg` | Boys XC race; Ethan Miller at CIF State 2022 |
+| `2019-05-18-track-kelli-wilson.jpg` | Girls distance race on the track; Kelli Wilson |
+| `2022-track-ebal-binder-pogue.jpg` | Girls distance race; Binder and Pogue at EBAL |
+| `2022-track-ebal-finals-team.jpg` | Large track team photo in the stands area; EBAL finals 2022 |
+| `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); Ethan Miller at EBAL |
+| `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); Jack Loughery |
 | `2022-track-caden-honda.jpg` | Three boys sprinting; Caden Honda |
 | `2022-04-23-track-hurdles.jpg` | Wide shot of a hurdles race with a full grandstand |
-| `2022-04-08-track-arcadia-peters.jpg` | Girl finishing a race, "Finish on…" banner; filename says Peters at Arcadia |
-| `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; filename says Rosati |
-| `2022-track-pole-vault-wong.jpg` | Girl on a pole vault runway (portrait); filename says Wong |
-| `2022-05-28-cif-state-track-wright.jpg` | Hurdles finish, athlete flexing; filename says Wright at CIF State |
-| `2022-track-coach-graham.jpg` | Coach and athlete on the infield; filename says Coach Graham |
-| `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; filename says D. Graham |
-| `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; filename says Wales-Dinan |
+| `2022-04-08-track-arcadia-peters.jpg` | Girl finishing a race, "Finish on…" banner; Peters at Arcadia |
+| `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; Rosati |
+| `2022-track-pole-vault-wong.jpg` | Girl on a pole vault runway (portrait); Wong |
+| `2022-05-28-cif-state-track-wright.jpg` | Hurdles finish, athlete flexing; Wright at CIF State |
+| `2022-track-coach-graham.jpg` | Coach and athlete on the infield; Coach Graham |
+| `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; D. Graham |
+| `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; Wales-Dinan |
 | `ncs-logo.png` | CIF North Coast Section logo (PNG, transparent background) |
 
 ## Unfinished pages

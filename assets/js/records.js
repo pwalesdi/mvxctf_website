@@ -31,8 +31,7 @@
       "</tr></thead><tbody>" +
       rows.map(function (r) {
         // Highlight comes only from the active column (set by hand, including
-        // relays with any current leg). Never infer it from names: the board
-        // uses initials and has same-surname athletes.
+        // relays with any current leg).
         var active = (r.active || "").trim().toLowerCase() === "yes";
         return '<tr' + (active ? ' class="hl"' : "") + ">" +
           '<td class="rank num">' + esc(r.rank) + "</td>" +
