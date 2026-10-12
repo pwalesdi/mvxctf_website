@@ -91,6 +91,9 @@ These rows link to **2025** results pages even though the meets are 2026. They a
 - 2026-11-21 NCS Championships: `diablotiming.com/results/2025-11-22/`
 - 2026-11-28 CIF State Championships: `rtspt.com/events/cif/xc2025/`
 
+
+The 2026-10-10 Clovis Invitational `results_url` is blank: the old link (`www2.finishedresults.com/meets/6370`) returns 404. Add the 2026 Clovis results URL when there is one.
+
 Picture Day has no date yet.
 
 ## Post-season checklist
