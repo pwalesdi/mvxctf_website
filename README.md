@@ -18,7 +18,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
 | `assets/js/schedule.js` | Loads the meet schedule CSV and renders `schedule.html` and the "Next" row on the home page. One parser, used by both. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
-| `assets/img/` | Logo and hero photo (downloaded from Wix). |
+| `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
 | `source/data/` | The CSVs that `state-history.html` is regenerated from (see "State history"). Served publicly like everything else in the repo. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
@@ -89,6 +89,36 @@ The Athletic.net links have the year in the path. Bump `2026` in both of them ea
 - `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`
 
 They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of every page, in the home page's schedule panel, and in the `<noscript>` line on `schedule.html`. To find them all: `grep -rn "athletic.net/team" .`
+
+## Photos
+
+Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
+
+Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. Names come from the original filenames plus what's visible; nobody has been identified beyond what the original filename said. None of these are on a page yet.
+
+| File | What it shows |
+| --- | --- |
+| `2022-ncs-xc-girls-champions.jpg` | Girls XC team with the 2022 NCS D2 championship plaque at the NCS backdrop |
+| `2021-11-06-xc-girls-race-start.jpg` | Girls XC race start, Mustangs at the front |
+| `2019-11-09-xc-girls.jpg` | Girls XC runners walking on a dirt course area |
+| `2019-11-23-xc-team-photo.jpg` | XC team photo under the "Monte Vista Cross Country" tent banner |
+| `2019-xc-girls-group.jpg` | Seven girls in team kit, arms crossed, in a park (iPhone export; date uncertain) |
+| `2022-cif-state-xc-ethan-miller.jpg` | Boys XC race; filename says Ethan Miller at CIF State 2022 |
+| `2019-05-18-track-kelli-wilson.jpg` | Girls distance race on the track; filename says Kelli Wilson |
+| `2022-track-ebal-binder-pogue.jpg` | Girls distance race; filename says Binder and Pogue at EBAL |
+| `2022-track-ebal-finals-team.jpg` | Large track team photo in the stands area; filename says EBAL finals 2022 |
+| `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); filename says Ethan Miller at EBAL |
+| `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); filename says Jack Loughery |
+| `2022-track-honda-sprint.jpg` | Three boys sprinting; the original was `honda_22`, and its meaning is unknown |
+| `2022-04-23-track-hurdles.jpg` | Wide shot of a hurdles race with a full grandstand |
+| `2022-04-08-track-arcadia-peters.jpg` | Girl finishing a race, "Finish on…" banner; filename says Peters at Arcadia |
+| `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; filename says Rosati |
+| `2022-track-pole-vault-wong.jpg` | Girl on a pole vault runway (portrait); filename says Wong |
+| `2022-05-28-cif-state-track-wright.jpg` | Hurdles finish, athlete flexing; filename says Wright at CIF State |
+| `2022-track-coach-graham.jpg` | Coach and athlete on the infield; filename says Coach Graham |
+| `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; filename says D. Graham |
+| `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; filename says Wales-Dinan |
+| `ncs-logo.png` | CIF North Coast Section logo (PNG, transparent background) |
 
 ## Unfinished pages
 
