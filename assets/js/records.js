@@ -15,18 +15,12 @@
   if (!window.MVCSV) { fail(); return; }
   var esc = window.MVCSV.esc;
 
-  // The source marks already carry the flag letter ("10.90c" with flag "c").
-  // Drop that trailing letter for display so the badge isn't doubled; the
-  // CSV itself is left as-is.
   function markHTML(r) {
-    var mark = r.mark, flag = r.flag;
-    if (flag && mark.slice(-flag.length).toLowerCase() === flag.toLowerCase()) {
-      mark = mark.slice(0, -flag.length);
-    }
+    var flag = r.flag;
     var badge = flag
       ? '<sup class="flag" title="' + esc(FLAG_TITLES[flag.toLowerCase()] || flag) + '">' + esc(flag) + "</sup>"
       : "";
-    return esc(mark) + badge;
+    return esc(r.mark) + badge;
   }
 
   function panelHTML(event, rows) {
@@ -53,9 +47,17 @@
     return groups.map(function (g) {
       var inGroup = mine.filter(function (r) { return r.event_group === g; });
       if (!inGroup.length) return "";
-      // Events in the order the file lists them.
-      var events = [];
-      inGroup.forEach(function (r) { if (events.indexOf(r.event) < 0) events.push(r.event); });
+      // Events by event_order; file order breaks ties or fills in if it's missing.
+      var events = [], order = {};
+      inGroup.forEach(function (r) {
+        if (events.indexOf(r.event) < 0) { events.push(r.event); order[r.event] = parseFloat(r.event_order); }
+      });
+      events = events.map(function (ev, i) { return { ev: ev, i: i, o: order[ev] }; })
+        .sort(function (a, b) {
+          var ao = isNaN(a.o) ? Infinity : a.o, bo = isNaN(b.o) ? Infinity : b.o;
+          return ao - bo || a.i - b.i;
+        })
+        .map(function (x) { return x.ev; });
       var id = "rec-" + gender.toLowerCase() + "-" + g.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       return '<section class="data-group" aria-labelledby="' + esc(id) + '">' +
         '<h2 id="' + esc(id) + '">' + esc(g) + "</h2>" +

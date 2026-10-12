@@ -21,7 +21,8 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/records.js` | Renders `records.html` from `assets/data/records.csv`. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
-| `assets/data/records.csv`, `assets/data/letter-winners.csv` | School records and varsity letter winners (see "Records and letters"). |
+| `assets/data/records.csv`, `assets/data/letter-winners.csv`, `assets/data/varsity-standards.csv` | School records, varsity letter winners and letter standards (see "Records and letters"). |
+| `assets/js/standards.js` | Renders `varsity-standards.html` from `assets/data/varsity-standards.csv`. |
 | `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
 | `source/data/` | The CSVs that `state-history.html` is regenerated from (see "State history"). Served publicly like everything else in the repo. |
@@ -35,7 +36,7 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav link has `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, state-history, cross-country, track-field, coaches, records, varsity-letters, donate and summer-run. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, state-history, cross-country, track-field, coaches, records, varsity-letters, varsity-standards, donate and summer-run. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
@@ -106,14 +107,23 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 Both pages render from CSVs, so updating them means editing a CSV. Neither page has a hand-written count or list.
 
-**`assets/data/records.csv`**: `gender, event_group, event, rank, athlete, mark, year, flag`
-- `event_group` is shown in the order Sprints, Hurdles, Distance, Relays, Field. Events within a group appear in the order the file lists them.
-- `flag` is `w` (wind-aided), `c` (converted mark) or empty, and is shown as a small badge after the mark. The source marks already end in that letter (`10.90c`), so the page hides the trailing letter for display; the CSV keeps it.
+**`assets/data/records.csv`**: `gender, event_group, event_order, event, rank, athlete, mark, year, flag`
+- `event_group` is shown in the order Sprints, Hurdles, Distance, Relays, Field. Events within a group are sorted by `event_order`.
+- `flag` is `w` (wind-aided), `c` (converted mark) or empty, and is shown as a small badge after the mark. Keep the letter out of `mark` itself.
 - Rank 1 in each event is tinted.
 
 **`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
 - Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
 - A non-empty `honor` shows as a red pill after the name.
+
+**`assets/data/varsity-standards.csv`**: `gender, event_group, event_order, event, standard`
+- The **2026** standards, the most recent published set. Groups are shown as Sprints, Hurdles, Distance, Field, sorted by `event_order`. `standard` is printed as-is.
+- The page also explains the formula: (3 × three-year average of EBAL 7th place + EBAL qualifying standard) / 4, from the 2027 standards on. The published 2026 numbers used the average weighted twice, and stay as published.
+- **To do: replace this file (and the "2026" eyebrow on the page) when the 2027 EBAL qualifying marks are published** and the 2027 standards are final.
+- **To do: Patrick to supply the other routes to a varsity letter.** The page currently says only "Meeting a standard is one way to earn a varsity letter. It is not the only way."
+- Not in the repo on purpose: `source/data/varsity-standards-2027-DRAFT.csv`, `ebal-2026-seventh-place.csv` and `MV_Varsity_Standards.csv`/`.xlsx`. Everything committed is publicly served, and the 2027 numbers aren't final.
+
+The standards page isn't in the top nav (seven items is the limit). It's linked from Track & Field, Records, and the footer under "The program".
 
 ### Open questions for Patrick
 
@@ -122,7 +132,6 @@ The data is rendered exactly as the CSVs have it. None of this has been changed:
 - Girls pole vault "Synder" and boys 1987 4x100 "Martidale". Probably Snyder and Martindale.
 - Girls 2006 4x400: "Randall, Zorich Anderson, Stringer". Three names for four runners; a comma is missing.
 - 2025 girls letters: "Powell, Arthur", where 2024 has "Powell, Alexandra".
-- 2025 boys letters: the file still has **"Mania, Grant"**. It was meant to be normalised to Maina like 2026, but wasn't, so the page shows "Mania".
 - The `c` flag is assumed to mean "converted mark". Unconfirmed.
 - Also spotted while building (not changed): "Giren" (boys 1999 4x400) vs "Giron" elsewhere; "Wily" (boys 300H 2005) vs "Wiley" (110H 2005); "Gebhardt" (girls 2015 DMR) vs "Gebhart"; "De Maio" (boys 2014 4x100) vs "DeMaio"; girls 2016 DMR "Fuhriman, Cervantes, Coney, A, Coney, M" mixes the two name formats.
 

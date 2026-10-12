@@ -368,3 +368,9 @@ section.panel.letters{padding-block:0}
 .name-list li{break-inside:avoid;padding:5px 0;font-size:.9375rem;line-height:1.45}
 .name-list .pill{margin-left:4px;vertical-align:1px}
 .controls + #letters-body{margin-top:20px}
+/* Varsity standards: compact tables, one per event group */
+.std-app{margin-top:clamp(28px,4vw,44px)}
+.std-app #standards-body{max-width:640px}
+.std-app .controls + #standards-body .data-group:first-child{margin-top:20px}
+.std-table td.num{width:1%}
+.std-notes{display:flex;flex-direction:column;gap:10px;margin-top:28px;max-width:65ch}
