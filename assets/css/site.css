@@ -401,27 +401,38 @@ section.panel.letters{padding-block:0}
 .ebal-table tbody th,.ebal-detail tbody th{background:none;font-family:inherit;font-stretch:100%;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--ink);padding:9px 12px;text-align:left}
 
 /* Coaches page */
-.coach-lead{display:flex;flex-direction:column;gap:8px;padding-bottom:clamp(28px,4vw,40px);margin-bottom:clamp(28px,4vw,40px);border-bottom:1px solid var(--line)}
 .coach-bio{margin-top:16px}
-/* Coach bios: native <details>/<summary>, no JS. All share name="coach",
-   so opening one closes the others where supported. Coaches without a bio
-   are plain text (.coach.plain): no chevron, pointer or hover. */
-.coach > summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-.coach > summary::-webkit-details-marker{display:none}
-.coach > summary::after{content:"";flex-shrink:0;margin-top:.55em;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--ink-2);transition:transform .15s ease}
-.coach[open] > summary::after{transform:rotate(180deg)}
-.coach-id{display:flex;flex-direction:column;gap:4px;min-width:0}
-.coach-id .lede{display:block}
-.coach-head > summary{border-radius:6px;justify-content:flex-start} /* chevron sits beside the name, not at the far edge */
-.coach-head > summary:hover h2{color:var(--red-ink)}
-.staff-list{background:var(--ground);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.staff-list > .coach + .coach{border-top:1px solid var(--line)}
-.staff-list > details > summary,.staff-list > .plain{padding:16px 20px}
-.staff-list > details > summary:hover,.staff-list > details[open] > summary{background:var(--surface)}
-.staff-list > details > summary:focus-visible{outline-offset:-3px}
-.staff-list .t{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:1rem;letter-spacing:.005em}
-.staff-list .d{font-size:.875rem;color:var(--ink-2);line-height:1.5}
-.coach-body{padding:14px 20px 20px}
+/* Coach photos: one slot for every coach, 4:5 portrait, cropped to fill
+   (centred, weighted toward the top). The photo is a CSS background, so a
+   missing file just leaves the neutral block: no broken-image icon, no
+   alt text. Drop a JPEG at assets/img/coaches/<slug>.jpg and it appears. */
+.coach-photo{display:block;aspect-ratio:4/5;width:100%;background:var(--surface-2) no-repeat 50% 25%/cover;border:1px solid var(--line);border-radius:6px}
+.p-wales-dinan{background-image:url("../img/coaches/wales-dinan.jpg")}
+.p-spilker{background-image:url("../img/coaches/spilker.jpg")}
+.p-graham{background-image:url("../img/coaches/graham.jpg")}
+.p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")}
+.p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")}
+.p-rothstein{background-image:url("../img/coaches/rothstein.jpg")}
+.p-pogue{background-image:url("../img/coaches/pogue.jpg")}
+/* Coaches index */
+.coach-sec{margin-top:clamp(36px,5vw,56px)}
+.coach-card .coach-photo{margin-bottom:6px}
+/* Phones: compact rows (same 4:5 photo, smaller) so seven full-width portraits don't fill the screen. */
+@media (max-width:600px){
+  .coach-card{display:grid;grid-template-columns:88px minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:16px;align-items:start}
+  .coach-card .coach-photo{grid-row:1 / span 3;margin-bottom:0}
+  .coach-card .m{padding-top:4px}
+}
+div.card.static:hover{transform:none;border-color:var(--line)} /* coaches without a page: not a link */
+/* Coach page */
+.coach-back{margin-bottom:18px}
+.coach-back a{color:inherit;text-decoration:none}
+.coach-back a:hover{color:var(--red-ink)}
+.coach-hero{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:clamp(20px,4vw,40px);align-items:end;margin-bottom:clamp(28px,4vw,40px)}
+@media (max-width:600px){.coach-hero{grid-template-columns:minmax(0,1fr)}.coach-hero .coach-photo{max-width:240px}}
+.coach-hero .coach-id{display:flex;flex-direction:column;gap:10px}
+.coach-hero h1{font-size:clamp(2rem,5vw,3.25rem)}
+.coach-section{margin-top:clamp(32px,4vw,48px)}
 .coach-bio h3{margin-top:14px;color:var(--ink)}
 .prose ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
 /* EBAL expanded breakdown: rows in the same table, so columns align with the school row */

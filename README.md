@@ -43,7 +43,7 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, cross-country, track-field, coaches, donate, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **16 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
@@ -115,7 +115,7 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
    - **These go stale after every season. Replace them:** girls `1-5-6` ("…Padilla sixth. **All three return.**") and boys `4th` ("**Kotamraju returns** after placing fourth…").
    - Don't name years for the boys' two NCS team titles in prose (the source records conflict). The NCS table shows them as the CSV has them, 2007 and 2015, by decision.
 4. **Home page accomplishments band**: `index.html`. "14" NCS team titles, "3" titles in four years ("2022, 2024 and 2025"), "21" section titles since 2019, "77" All-NCS honors ("31 different athletes"), and the four highlight lines with their year labels ("2025 · Cross country", "2019–2025 · Depth" and so on).
-5. **Head coach bio**: `coaches.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
+5. **Head coach bio**: `coach-wales-dinan.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
 6. **Roster highlights on the records board**: `assets/data/records.csv`, column `active`. Set `yes` for athletes now on the roster (relays: if any leg is current), clear graduates. Set it by hand. The page never matches names, because the board uses initials and has same-surname athletes.
 
 ### After each track season (late May / June)
@@ -125,14 +125,14 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
 3. **School records**: `assets/data/records.csv`. Insert new marks, re-number `rank` within each event, and keep `event_order` as is. Flags go in `flag` (`w` wind-aided, `c` converted), never in `mark`. Set `active` as above.
 4. **EBAL distance points**: `assets/data/ebal-distance.csv`. Add one row per scoring place (top six) for the 800m, 1600m, 3200m and 4x800, girls and boys, with `points` 10-8-6-4-2-1. Use `program` "Carondelet / De La Salle" for those two schools, otherwise the school name. The page's year range and totals update themselves.
 5. **Varsity standards for next year**: `assets/data/varsity-standards.csv`, plus the eyebrow "Track & Field · 2026" in `varsity-standards.html`. Once EBAL publishes the new qualifying marks: standard = (3 × average of the last three years' EBAL 7th-place marks + EBAL qualifying standard) / 4. That's the 3:1 weighting, used from the 2027 standards on; the published 2026 standards used 2:1 and stay as published. Field marks are rounded to the nearest half inch (`28' 6"`, `15' 6.5"`). Working files: `source/data/MV_Varsity_Standards.*`, `ebal-2026-seventh-place.csv`, `varsity-standards-2027-DRAFT.csv`. These are git-ignored and not published until final.
-6. **Head coach bio, track section**: `coaches.html`. Meet of Champions and Tri-Valley titles and counts ("19 … titles", the two title lists), EBAL and NCS team results, "77 All-NCS honors … 31 different athletes".
+6. **Head coach bio, track section**: `coach-wales-dinan.html`. Meet of Champions and Tri-Valley titles and counts ("19 … titles", the two title lists), EBAL and NCS team results, "77 All-NCS honors … 31 different athletes".
 
 ### Every year, before the new season
 
 1. **Athletic.net links**: the year is in the path of both: `https://www.athletic.net/team/1027/cross-country/2026` and `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`. They're in the footer of **every page** (change all pages in one commit, as with any header or footer change), the home page's schedule panel, the `<noscript>` line on `schedule.html`, and `assets/js/schedule.js` (`SPORTS`). Find them all with `grep -rn "athletic.net/team" .`
 2. **Schedule**: replace `assets/data/schedule.csv` with the new season (same columns), or point `SHEET_CSV_URL` in `assets/js/schedule.js` at the published Google Sheet. Check that every `results_url` points at the new season's results.
 3. **Home page season text**: `index.html`. The hero "2026 Cross Country", the "2026 pre-season" practice line, "2026 cross country schedule & results", the "Printable season schedule" Google Doc link, and the "Past seasons & results archive 2020–2025" label.
-4. **Coach bio year counts**: `coaches.html`. Head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". Add 1 to each.
+4. **Coach bio year counts**: head coach "ninth season" (`coach-wales-dinan.html`), Spilker "8th year" (`coach-spilker.html`), Graham "40th year" (`coach-graham.html`), Williams "4th season" (`coach-williams-brittany.html`). Add 1 to each.
 
 ## Records and letters
 
@@ -167,6 +167,26 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 - Not in the repo on purpose: `source/data/varsity-standards-2027-DRAFT.csv`, `ebal-2026-seventh-place.csv` and `MV_Varsity_Standards.csv`/`.xlsx`. Everything committed is publicly served, and the 2027 numbers aren't final.
 
 The standards page isn't in the top nav (seven items is the limit). It's linked from Track & Field, Records, and the footer under "The program".
+
+## Coach photos
+
+`coaches.html` lists every coach; coaches with a bio have their own page, `coach-<name>.html`, in the repo root (not a subfolder, so asset paths and the shared header/footer keep working). Each shows a photo slot that stays a neutral grey block until the file exists.
+
+To add a photo, save it as:
+
+| Coach | File |
+| --- | --- |
+| Patrick Wales-Dinan | `assets/img/coaches/wales-dinan.jpg` |
+| Logan Spilker | `assets/img/coaches/spilker.jpg` |
+| Dan Graham | `assets/img/coaches/graham.jpg` |
+| Edd Williams | `assets/img/coaches/williams-edd.jpg` |
+| Brittany Williams | `assets/img/coaches/williams-brittany.jpg` |
+| Craig Rothstein | `assets/img/coaches/rothstein.jpg` |
+| Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
+
+- **Aspect ratio 4:5 (portrait). Size 800 × 1000 px**, JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS).
+- Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
+- No code change is needed. The slots are CSS backgrounds (`.p-<name>` rules in `site.css`), so a missing file shows the grey block rather than a broken image. Until a file exists, the browser logs a harmless "not found" for it.
 
 ## Photos
 
@@ -203,9 +223,11 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | Page | Missing |
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
-| `coaches.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
-| `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue (they show name and title only, by design, until then). |
-| `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the page. |
+| `coach-*.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
+| `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add a `coach-<name>.html` page (copy an existing one) and turn their index entry into a link. |
+| `coach-wales-dinan.html` | "Coaching history" section is a placeholder awaiting years for each stop (college 2009–2017, Monte Vista from 2018). |
+| `coach-*.html`, `coaches.html` | Coach photos not supplied yet. See "Coach photos". |
+| `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |
