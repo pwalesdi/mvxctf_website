@@ -104,14 +104,17 @@ The 2026-10-10 Wildcat Invitational (Dougherty Valley High School) has no `resul
 
 Sections, top to bottom: hero, **Latest**, schedule & results (with the next meet), the program record band, practice times, sign-ups & volunteering, contacts. Clearance has its own page (`clearance.html`) and the donation has `donate.html`; the home page has a one-line pointer to each under practice times. They are deliberately not presented as steps: the donation is not required.
 
-**Latest** comes from `assets/data/news.csv`, columns `date, headline, body, link_label, link_url`:
+**Latest** comes from `assets/data/news.csv`, columns `date, headline, body, link_label, link_url, image, image_alt, image_credit`:
 
 | Column | Notes |
 | --- | --- |
 | `date` | `YYYY-MM-DD`. The row with the latest date is shown; only one item ever shows. |
 | `headline` | Required. Rows without one are ignored. |
 | `body` | Two or three sentences, plain text. Wrap it in double quotes if it contains a comma. |
-| `link_label` / `link_url` | Optional link, e.g. "See the results" and a results URL. Only `http`/`https` or site-relative links are rendered. |
+| `link_label` / `link_url` | Optional link, e.g. "See the results" and a results URL. Only `http`/`https` or site-relative links are rendered. With `link_url` empty nothing renders, not even the label. |
+| `image` | Optional photo, e.g. `assets/img/2026-10-10-xc-clovis-girls.jpg` (processed to the photo rules first; never HEIC). Shown beside the text at 300px tall on wider screens, above it at 240px on phones, lazy-loaded. |
+| `image_alt` | Describe the photo. Required whenever `image` is set. |
+| `image_credit` | Optional photographer credit. Used only if the image isn't already listed in `assets/data/photo-credits.csv`, which wins. |
 
 Everything is HTML-escaped. With no rows (headers only), a missing file or a load error, the section doesn't render at all: no box, no placeholder.
 
@@ -215,7 +218,7 @@ To add a photo, save it as:
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**: no Exif, XMP or IPTC/Photoshop blocks. What remains is the JFIF header, the ICC colour profile and, on one file, Adobe's APP14 colour marker, none of which identify anyone. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, and adds an Exif block of its own, so it isn't safe to use on its own. Strip losslessly afterwards (`exiftool -all= -tagsfromfile @ -icc_profile file.jpg`, or `jpegtran -copy icc`) rather than re-encoding. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
 
-Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-ebal-track-champs.jpeg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`). Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
+Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-ebal-track-champs.jpeg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`; an image not in the CSV can carry `data-credit`, which is how the news item's `image_credit` works). Scripts that add photos after load call `MVPhotos.apply(element)`. Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
 
 **Known:** photos committed before October 2026 still carry their old Exif and Photoshop blocks in git history (no GPS). The current files are clean; the history was left alone on purpose.
 
@@ -251,6 +254,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova |
 | `wales-dinan-xc-scrimmage-2026.jpg` | Runner on the track at the 2026 XC scrimmage, Coach Wales-Dinan cut off at the right edge |
 | `wales-dinan-xc-scrimmage-2026-1.jpg` | Coach Wales-Dinan talking to the girls at the 2026 XC scrimmage |
+| `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
+| `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
+| `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
 | `coaches/wales-dinan.jpg`, `coaches/graham.jpg` | Coach portraits, 4:5 crops at source resolution (see "Coach photos") |
 
 ## Unfinished pages

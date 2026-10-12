@@ -1,6 +1,9 @@
 /* "Latest" news item (index.html).
-   Reads assets/data/news.csv (date, headline, body, link_label, link_url)
-   and renders the most recent row into #latest. Needs csv.js first.
+   Reads assets/data/news.csv (date, headline, body, link_label, link_url,
+   image, image_alt, image_credit) and renders the most recent row into
+   #latest. Needs csv.js first; photos.js (loaded after it) adds the photo
+   credit, from photo-credits.csv when the image is listed there, otherwise
+   from image_credit.
    The section ships hidden and is only shown once there is an item, so an
    empty, missing or unreadable file leaves no trace on the page. */
 (function () {
@@ -40,15 +43,21 @@
       if (!items.length) return;
       // Newest date first; rows with the same (or no) date keep file order, last row wins.
       var item = items.reduce(function (best, r) { return key(r.date) >= key(best.date) ? r : best; });
-      var href = safeUrl(item.link_url);
-      sec.querySelector(".wrap").innerHTML =
-        '<div class="latest-item">' +
-          '<p class="eyebrow">Latest' + (item.date ? " &middot; " + esc(formatDate(item.date)) : "") + "</p>" +
-          "<h2>" + esc(item.headline) + "</h2>" +
-          (item.body ? "<p>" + esc(item.body) + "</p>" : "") +
-          (href ? '<a class="latest-link" href="' + esc(href) + '">' + esc(item.link_label || "Read more") + "</a>" : "") +
+      var href = safeUrl(item.link_url), src = safeUrl(item.image);
+      var wrap = sec.querySelector(".wrap");
+      wrap.innerHTML =
+        '<div class="latest-item' + (src ? " has-media" : "") + '">' +
+          (src ? '<figure class="latest-media"><img src="' + esc(src) + '" alt="' + esc(item.image_alt) + '" loading="lazy" decoding="async"' +
+            (item.image_credit ? ' data-credit="' + esc(item.image_credit) + '"' : "") + "></figure>" : "") +
+          '<div class="latest-text">' +
+            '<p class="eyebrow">Latest' + (item.date ? " &middot; " + esc(formatDate(item.date)) : "") + "</p>" +
+            "<h2>" + esc(item.headline) + "</h2>" +
+            (item.body ? "<p>" + esc(item.body) + "</p>" : "") +
+            (href ? '<a class="latest-link" href="' + esc(href) + '">' + esc(item.link_label || "Read more") + "</a>" : "") +
+          "</div>" +
         "</div>";
       sec.hidden = false;
+      if (src && window.MVPhotos) window.MVPhotos.apply(wrap);
     })
     .catch(function () { /* stay hidden */ });
 })();

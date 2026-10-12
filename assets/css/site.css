@@ -452,8 +452,20 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 /* Home page: "Latest" news item (rendered by news.js; the section stays hidden until there is one),
    single-column schedule and practice blocks, and the clearance/donation pointers. */
 .latest{border-bottom:1px solid var(--line)}
-.latest-item{display:flex;flex-direction:column;gap:10px;max-width:62ch;border-left:3px solid var(--red);padding-left:clamp(14px,2vw,20px)}
-.latest-item p:not(.eyebrow){color:var(--ink-2);font-size:1.0625rem;line-height:1.55}
+section.latest{padding-block:clamp(28px,4vw,44px)}
+.latest-item{display:flex;align-items:center;gap:clamp(18px,3vw,32px)}
+.latest-text{display:flex;flex-direction:column;gap:10px;max-width:62ch;border-left:3px solid var(--red);padding-left:clamp(14px,2vw,20px)}
+.latest-text p:not(.eyebrow){color:var(--ink-2);font-size:1.0625rem;line-height:1.55}
+/* Optional photo: beside the text on wider screens at a fixed height so the item stays compact;
+   stacked above it on phones, cropped toward the top where faces usually are. */
+.latest-media{margin:0;flex:none;max-width:40%}
+.latest-media img{display:block;height:300px;width:auto;max-width:100%;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+.latest-media figcaption{margin-top:4px}
+@media (max-width:640px){
+  .latest-item{flex-direction:column;align-items:stretch;gap:16px}
+  .latest-media{max-width:none}
+  .latest-media img{width:100%;height:240px;object-position:50% 30%}
+}
 .latest-link{align-self:flex-start;font-family:var(--display);font-stretch:92%;font-weight:700;font-size:.8125rem;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;color:var(--red-ink)}
 .latest-link::after{content:" →"}
 .solo{max-width:720px}
