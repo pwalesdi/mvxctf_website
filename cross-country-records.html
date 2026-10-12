@@ -155,7 +155,7 @@
  
   <section aria-labelledby="h-ind">
     <div class="sec-head split">
-      <div><h2 id="h-ind">Individual times</h2><p>Every State run under 20:00. Shaded rows are the all-time top ten. <span class="count" id="indCount"></span></p></div>
+      <div><h2 id="h-ind">Individual times</h2><p>Every State run under 20:00.</p></div>
       <div class="controls">
         <div class="seg" role="group" aria-label="Individual filter"><button id="ig-girls" data-g="Girls" aria-pressed="true">Girls</button><button id="ig-boys" data-g="Boys" aria-pressed="false">Boys</button></div>
         <div class="seg" role="group" aria-label="Sort individuals"><button id="is-time" data-s="time" aria-pressed="true">By time</button><button id="is-year" data-s="year" aria-pressed="false">By year</button></div>
@@ -375,7 +375,6 @@ function renderInd(){
   rows.sort(state.is === "time" ? (a,b) => a.ts - b.ts || a.y - b.y : (a,b) => b.y - a.y || a.ts - b.ts);
   document.querySelector("#indTbl tbody").innerHTML = rows.map(r =>
     `<tr class="${r.rank <= 10 ? "top10" : ""}"><td class="rank num">${r.rank}</td><td class="name">${esc(r.n)}</td><td>${grade(r.gr)}</td><td class="mono">${r.y}</td><td class="mono num">${r.t}</td><td>${placeCell(r.pl, r.div, r.calc)}</td></tr>`).join("");
-  document.getElementById("indCount").textContent = `${rows.length} ${state.ig.toLowerCase()}'s runs.`;
 }
 function bind(groupSel, key, attr, render){
   const btns = document.querySelectorAll(groupSel + " button");
