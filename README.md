@@ -90,6 +90,14 @@ The Athletic.net links have the year in the path. Bump `2026` in both of them ea
 
 They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of every page, in the home page's schedule panel, and in the `<noscript>` line on `schedule.html`. To find them all: `grep -rn "athletic.net/team" .`
 
+### Cross Country page (`cross-country.html`)
+
+- **"How a meet works" table has no year.** It's an EBAL Championships varsity girls result. Add the year to the label above the table (`EBAL Championships · Varsity girls`) once Patrick confirms it.
+- **These go stale after the 2026 season.** Update or replace them:
+  - Girls, `1-5-6`: "…Makarova fifth, Padilla sixth. **All three return.**"
+  - Boys, `4th`: "**Kotamraju returns** after placing fourth in the section as a junior."
+- The other "Why Monte Vista" figures are tied to dates ("since 2019", "2022–26", "in 2026") and should be checked each season too.
+
 ## Photos
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
@@ -124,7 +132,6 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 
 | Page | Missing |
 | --- | --- |
-| `cross-country.html` | Program overview and season information |
 | `track-field.html` | Program overview, season and event-group information |
 | `coaches.html` | Coach names, bios, emails (currently points at the team parent) |
 | `records.html` | School records and the varsity letter winners list (the old site had a separate `/varsity-letter-winners` page; links to it now go here) |
