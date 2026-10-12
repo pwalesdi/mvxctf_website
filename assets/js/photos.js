@@ -1,0 +1,52 @@
+/* Photo credits. Reads assets/data/photo-credits.csv (file, credit) and adds
+   "Photo: <credit>" to every photo on the page whose file is listed, so a
+   credit follows the file wherever it's used rather than relying on markup.
+   Covers two kinds of photo:
+     .coach-photo slots (CSS background images) — the credit sits along the
+       slot's bottom edge, so card and grid layouts don't change;
+     <figure> images — the credit goes at the end of the figcaption (one is
+       added if missing).
+   Needs csv.js first. Any page that shows photos loads csv.js + photos.js. */
+(function () {
+  "use strict";
+
+  var DATA_URL = "assets/data/photo-credits.csv";
+  if (!window.MVCSV) return;
+
+  // Site-relative path ("assets/img/…") of a URL, for matching against the CSV.
+  function sitePath(u) {
+    if (!u) return "";
+    try { u = new URL(u, window.location.href).pathname; } catch (e) { return ""; }
+    var i = u.indexOf("assets/img/");
+    return i < 0 ? "" : decodeURIComponent(u.slice(i));
+  }
+
+  function creditEl(text) {
+    var el = document.createElement("span");
+    el.className = "photo-credit";
+    el.textContent = "Photo: " + text;
+    return el;
+  }
+
+  window.MVCSV.load(DATA_URL, ["file", "credit"]).then(function (records) {
+    var credits = {};
+    records.forEach(function (r) { if (r.file && r.credit) credits[r.file] = r.credit; });
+
+    Array.prototype.forEach.call(document.querySelectorAll(".coach-photo"), function (slot) {
+      var m = /url\(["']?(.*?)["']?\)/.exec(getComputedStyle(slot).backgroundImage || "");
+      var c = m && credits[sitePath(m[1])];
+      if (c && !slot.querySelector(".photo-credit")) {
+        slot.appendChild(creditEl(c));
+        slot.removeAttribute("aria-hidden"); // the slot is decorative, but its credit should be announced
+      }
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll("figure img"), function (img) {
+      var c = credits[sitePath(img.getAttribute("src"))];
+      if (!c) return;
+      var fig = img.closest("figure"), cap = fig.querySelector("figcaption");
+      if (!cap) { cap = document.createElement("figcaption"); fig.appendChild(cap); }
+      if (!cap.querySelector(".photo-credit")) cap.appendChild(creditEl(c));
+    });
+  }).catch(function () { /* credits unavailable: photos still show */ });
+})();

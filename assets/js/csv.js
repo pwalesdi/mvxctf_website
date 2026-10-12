@@ -31,7 +31,8 @@
   // Rows → objects keyed by lower-case header name, so column order in the
   // file doesn't matter. Throws if any `required` column is missing (a
   // guard against loading the wrong file, or an HTML error page).
-  // Fully blank rows are dropped.
+  // Fully blank rows are dropped, and so are comment rows: any row whose
+  // first cell starts with "#" (for documenting a file's format in place).
   function toRecords(rows, required) {
     if (!rows.length) throw new Error("empty CSV");
     var head = rows[0].map(function (h) { return h.trim().toLowerCase(); });
@@ -40,6 +41,7 @@
     });
     var out = [];
     for (var r = 1; r < rows.length; r++) {
+      if ((rows[r][0] || "").trim().charAt(0) === "#") continue;
       var rec = {}, blank = true;
       for (var k = 0; k < head.length; k++) {
         rec[head[k]] = (rows[r][k] || "").trim();

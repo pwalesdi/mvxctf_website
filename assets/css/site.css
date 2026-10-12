@@ -434,7 +434,7 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .coach-hero h1{font-size:clamp(2rem,5vw,3.25rem)}
 .coach-section{margin-top:clamp(32px,4vw,48px)}
 .coach-bio h3{margin-top:14px;color:var(--ink)}
-.prose ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+.prose ul,.prose ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
 /* EBAL expanded breakdown: rows in the same table, so columns align with the school row */
 .ebal-detail tr > *{background:var(--surface)}
 .ebal-table .ebal-detail th{padding-left:28px}
@@ -449,3 +449,26 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .resume{display:flex;flex-direction:column;margin:26px 0 24px;padding:22px 0 24px;border-block:1px solid var(--line)}
 .resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:28px 0 6px}
 .resume ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:2px;color:var(--ink-2);font-size:.9375rem;line-height:1.45}
+/* Home page: "Latest" news item (rendered by news.js; the section stays hidden until there is one),
+   single-column schedule and practice blocks, and the clearance/donation pointers. */
+.latest{border-bottom:1px solid var(--line)}
+.latest-item{display:flex;flex-direction:column;gap:10px;max-width:62ch;border-left:3px solid var(--red);padding-left:clamp(14px,2vw,20px)}
+.latest-item p:not(.eyebrow){color:var(--ink-2);font-size:1.0625rem;line-height:1.55}
+.latest-link{align-self:flex-start;font-family:var(--display);font-stretch:92%;font-weight:700;font-size:.8125rem;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;color:var(--red-ink)}
+.latest-link::after{content:" →"}
+.solo{max-width:720px}
+.pointers{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);font-size:.9375rem;max-width:720px}
+/* Home page accomplishments band: same figures, less air, so it reads as a dense strip. */
+.honors.band{padding-block:clamp(28px,4vw,44px)}
+.honors.band .lede{margin-top:2px}
+.honors.band .honors-grid{margin-top:16px}
+.honors.band .honor{padding:14px 18px 16px;gap:4px}
+.honors.band .highlights{margin-top:12px}
+.honors.band .highlights li{padding:11px 18px;gap:3px}
+.honors.band .honors-more{margin-top:14px}
+/* Photo credits (added by photos.js from assets/data/photo-credits.csv). */
+.coach-photo{position:relative}
+.coach-photo .photo-credit{position:absolute;left:0;right:0;bottom:0;padding:14px 8px 5px;border-radius:0 0 5px 5px;background:linear-gradient(0deg,rgba(10,7,6,.62),rgba(10,7,6,0));color:rgba(255,255,255,.9);font-family:var(--display);font-stretch:90%;font-size:.625rem;letter-spacing:.06em;text-transform:uppercase;text-align:right;line-height:1.2}
+/* Phone coach cards shrink the photo to an 88px thumbnail: the credit drops just below it as one line. */
+@media (max-width:600px){.coach-card .coach-photo .photo-credit{top:calc(100% + 3px);bottom:auto;right:auto;padding:0;background:none;border-radius:0;color:var(--ink-3);font-size:.5625rem;letter-spacing:.02em;text-transform:none;text-align:left;white-space:nowrap}}
+figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display);font-stretch:90%;font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}

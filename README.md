@@ -16,18 +16,22 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | Path | What it is |
 | --- | --- |
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
-| `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
+| `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. A row whose first cell starts with `#` is a comment and is skipped, in every CSV. |
 | `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
 | `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
+| `assets/js/news.js` | Renders the home page's "Latest" item from `assets/data/news.csv` (see "Home page"). |
+| `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `coaches.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
+| `assets/data/news.csv` | The home page's "Latest" item. Headers only means no item. |
+| `assets/data/photo-credits.csv` | One row per credited photo: `file` (site path, e.g. `assets/img/carlson-alexys.jpg`) and `credit`. |
 | `assets/data/records.csv`, `assets/data/letter-winners.csv`, `assets/data/varsity-standards.csv` | School records, varsity letter winners and letter standards (see "Records and letters"). |
 | `assets/js/standards.js` | Renders `varsity-standards.html` from `assets/data/varsity-standards.csv`. |
 | `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
-| `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
+| `assets/docs/clearance-guide.pdf` | Clearance step-by-step guide (downloaded from the old Wix site). Linked from `clearance.html`. It describes **AthleticClearance.com**, not Home Campus; see "Unfinished pages". |
 | `source/data/` | The CSVs that `cross-country-records.html` is regenerated from (see "Cross Country Records"). Served publicly like everything else in the repo. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
 
@@ -43,13 +47,13 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **16 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **17 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, clearance, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
 ```
 
-The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. `clearance.html` isn't in the nav either and marks nothing current; the home page hero's "XC / T&F clearance" button links to it. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
 ## The schedule
 
@@ -80,7 +84,7 @@ Columns are matched by header name, so their order doesn't matter. Header names 
 | `extra_label` / `extra_url` | Optional second link (Tickets, Live video…). Shown only when both are filled. |
 | `notes` | Optional small text under the meet name |
 
-Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
+A row whose `date` cell starts with `#` is a comment (the file ends with one, showing an undated row). Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
 
 ### Data to fix
 
@@ -94,7 +98,22 @@ These rows link to **2025** results pages even though the meets are 2026. They a
 
 The 2026-10-10 Clovis Invitational `results_url` is blank: the old link (`www2.finishedresults.com/meets/6370`) returns 404. Add the 2026 Clovis results URL when there is one.
 
-Picture Day has no date yet.
+The 2026-10-10 Wildcat Invitational (Dougherty Valley High School) has no `results_url` yet.
+
+## Home page
+
+Sections, top to bottom: hero, **Latest**, schedule & results (with the next meet), the program record band, practice times, sign-ups & volunteering, contacts. Clearance has its own page (`clearance.html`) and the donation has `donate.html`; the home page has a one-line pointer to each under practice times. They are deliberately not presented as steps: the donation is not required.
+
+**Latest** comes from `assets/data/news.csv`, columns `date, headline, body, link_label, link_url`:
+
+| Column | Notes |
+| --- | --- |
+| `date` | `YYYY-MM-DD`. The row with the latest date is shown; only one item ever shows. |
+| `headline` | Required. Rows without one are ignored. |
+| `body` | Two or three sentences, plain text. Wrap it in double quotes if it contains a comma. |
+| `link_label` / `link_url` | Optional link, e.g. "See the results" and a results URL. Only `http`/`https` or site-relative links are rendered. |
+
+Everything is HTML-escaped. With no rows (headers only), a missing file or a load error, the section doesn't render at all: no box, no placeholder.
 
 ## Post-season checklist
 
@@ -187,13 +206,18 @@ To add a photo, save it as:
 | Craig Rothstein | `assets/img/coaches/rothstein.jpg` |
 | Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
 
-- **Aspect ratio 4:5 (portrait). Size 800 × 1000 px**, JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS).
+- **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). The current two are 710 × 887 (Wales-Dinan) and 691 × 864 (Graham), about three times the 240px card.
+- If the photographer needs credit, add the file to `assets/data/photo-credits.csv`; `photos.js` puts the credit on the photo wherever it appears.
 - Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
 - No code change is needed. The slots are CSS backgrounds (`.p-<name>` rules in `site.css`), so a missing file shows the grey block rather than a broken image. Until a file exists, the browser logs a harmless "not found" for it.
 
 ## Photos
 
-Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
+Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**: no Exif, XMP or IPTC/Photoshop blocks. What remains is the JFIF header, the ICC colour profile and, on one file, Adobe's APP14 colour marker, none of which identify anyone. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, and adds an Exif block of its own, so it isn't safe to use on its own. Strip losslessly afterwards (`exiftool -all= -tagsfromfile @ -icc_profile file.jpg`, or `jpegtran -copy icc`) rather than re-encoding. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
+
+Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-ebal-track-champs.jpeg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`). Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
+
+**Known:** photos committed before October 2026 still carry their old Exif and Photoshop blocks in git history (no GPS). The current files are clean; the history was left alone on purpose.
 
 Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. None of these are on a page yet. When one is placed, give its `<img>` `loading="lazy"` (every image except the hero and the header logo) plus `width`/`height` attributes, so the page only fetches what the visitor scrolls to.
 
@@ -207,7 +231,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2022-cif-state-xc-ethan-miller.jpg` | Boys XC race; Ethan Miller at CIF State 2022 |
 | `2019-05-18-track-kelli-wilson.jpg` | Girls distance race on the track; Kelli Wilson |
 | `2022-track-ebal-binder-pogue.jpg` | Girls distance race; Binder and Pogue at EBAL |
-| `2022-track-ebal-finals-team.jpg` | Large track team photo in the stands area; EBAL finals 2022 |
+| `2022-track-ebal-finals-team.jpg` | Large track team photo on the infield, coaches at both ends; EBAL finals 2022. Candidate page banner (a group shot, not a coach-card portrait) |
 | `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); Ethan Miller at EBAL |
 | `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); Jack Loughery |
 | `2022-track-caden-honda.jpg` | Three boys sprinting; Caden Honda |
@@ -217,9 +241,17 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2022-track-pole-vault-wong.jpg` | Girl on a pole vault runway (portrait); Wong |
 | `2022-05-28-cif-state-track-wright.jpg` | Hurdles finish, athlete flexing; Wright at CIF State |
 | `2022-track-coach-graham.jpg` | Coach and athlete on the infield; Coach Graham |
-| `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; D. Graham |
+| `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; D. Graham. Candidate in-action photo for his bio (too little headroom for the portrait slot) |
 | `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; Wales-Dinan |
 | `ncs-logo.png` | CIF North Coast Section logo (PNG, transparent background) |
+| `2024-ebal-track-champs.jpeg` | Girls track team with coaches at the 2024 EBAL Championships, "Winning is a Habit" shirts. Lindsay Baloun |
+| `carlson-alexys.jpg` | Thrower in Monte Vista kit by the throws-ring fence; Alexys Carlson. Lindsay Baloun |
+| `dan-graham-high-five-2024.jpg` | Coach Graham high-fiving relay runners, 2024. Lindsay Baloun. Source of `coaches/graham.jpg` |
+| `ethan-miller-2023-moc-3200m.jpg` | Boys 3200m at the 2023 Meet of Champions; Ethan Miller. Lindsay Baloun |
+| `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova |
+| `wales-dinan-xc-scrimmage-2026.jpg` | Runner on the track at the 2026 XC scrimmage, Coach Wales-Dinan cut off at the right edge |
+| `wales-dinan-xc-scrimmage-2026-1.jpg` | Coach Wales-Dinan talking to the girls at the 2026 XC scrimmage |
+| `coaches/wales-dinan.jpg`, `coaches/graham.jpg` | Coach portraits, 4:5 crops at source resolution (see "Coach photos") |
 
 ## Unfinished pages
 
@@ -228,11 +260,16 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `track-field.html` | Program overview, season and event-group information |
 | `coach-*.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
 | `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add a `coach-<name>.html` page (copy an existing one) and turn their index entry into a link. |
-| `coach-*.html`, `coaches.html` | Coach photos not supplied yet. See "Coach photos". |
+| `coach-*.html`, `coaches.html` | Coach photos: Wales-Dinan and Graham done; the other five not supplied yet. See "Coach photos". |
+| `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
 | `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |
+
+## Results archive
+
+Archived results files are kept outside the repo, in `~/Developer/mvxctf_archive/`, until they're published. **The alumni-run spreadsheets (2006–2016) are never published.** They are a social event, not meet results, and they name children who were never on the team ("youth" and "sibling" divisions) and parents next to same-surname athletes. They stay in the archive only; `publication-manifest.csv` there records every file's publish decision and why.
 
 ## Cross Country Records
 
