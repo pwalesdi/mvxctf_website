@@ -102,11 +102,11 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 ### Cross Country page (`cross-country.html`)
 
-- **"How a meet works" table has no year.** It's an EBAL Championships varsity girls result. Add the year to the label above the table (`EBAL Championships · Varsity girls`) once Patrick confirms it.
 - **These go stale after the 2026 season.** Update or replace them:
   - Girls, `1-5-6`: "…Makarova fifth, Padilla sixth. **All three return.**"
   - Boys, `4th`: "**Kotamraju returns** after placing fourth in the section as a junior."
-- The other "Why Monte Vista" figures are tied to dates ("since 2019", "2022–26", "in 2026") and should be checked each season too.
+- The other figures are tied to seasons ("since 2019", "2013 through 2025", "1984 through 2025", "22 of 37", the State counts) and should be checked each season too. Both the top-line band and "Why Monte Vista" are cross country only.
+- **Don't name years for the boys' two NCS team titles.** The source records conflict on the year.
 
 ## Records and letters
 

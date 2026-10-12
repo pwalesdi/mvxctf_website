@@ -344,20 +344,9 @@ section.follow{padding-top:0}
 .honors .cols h3{color:#fff;margin-top:6px}
 .honors-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
 @media (max-width:460px){.honors-grid.two{grid-template-columns:1fr}}
-/* Results table: our runners get the record-book highlight (red-soft row, red-ink place). */
-tr.ours td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
-tr.ours td.num{color:var(--red-ink)}
-tr.ours td:nth-child(2){font-weight:600}
-.scores{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.scores li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);color:var(--ink-2)}
-.scores .sch{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.9375rem}
-.scores .sum{font-family:var(--mono);font-size:.875rem;font-variant-numeric:tabular-nums;white-space:nowrap}
-.scores li.ours{color:var(--ink)}
-.scores li.ours .sch{color:var(--red-ink)}
-.scores li.ours .sum b{color:var(--red-ink)}
-.table-label{margin-bottom:12px}
-table.results td:nth-child(2){white-space:nowrap}
-@media (max-width:600px){table.results th,table.results td{padding-inline:12px}}
+.honors-grid.two .fig{font-size:clamp(2rem,3.6vw,2.75rem)} /* half-width cells: keeps "12 straight" on one line */
+h1.statement{font-size:clamp(1.75rem,4vw,3rem)}
+.honors-grid.flush{margin-top:0}
 
 /* ---------- data pages: school records, varsity letters ---------- */
 .rec-legend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:.875rem;color:var(--ink-2);margin:0}
