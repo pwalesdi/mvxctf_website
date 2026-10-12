@@ -11,6 +11,10 @@ python3 -m http.server 8000
 
 Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fetched with `fetch()`, and browsers block that from `file://` pages.
 
+## Committing
+
+**Never `git add` a directory in this repo** (`git add .`, `git add assets/img`, `git commit -a`…). Stage files by name. Working files pass through `assets/img/` all the time (crops, phone originals), and staging a folder publishes them: in October 2026 two in-progress crops (`coaches/wales-dinan-2.jpg`, 11 MB with a camera serial, and `coaches/wales-dinan-3.jpg`) were committed that way and served for about twenty minutes. They were removed, but **they remain in git history**, like the old Exif in earlier photos.
+
 ## Where things live
 
 | Path | What it is |
@@ -23,10 +27,13 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/news.js` | Renders the home page's "Latest" item from `assets/data/news.csv` (see "Home page"). |
+| `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
 | `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `coaches.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
 | `assets/data/news.csv` | The home page's "Latest" item. Headers only means no item. |
+| `assets/data/results-archive.csv` | One row per archived results file (see "Results archive"). |
+| `archive/results/` | The archived results files themselves, one folder per season. |
 | `assets/data/photo-credits.csv` | One row per credited photo: `file` (site path, e.g. `assets/img/carlson-alexys.jpg`) and `credit`. |
 | `assets/data/records.csv`, `assets/data/letter-winners.csv`, `assets/data/varsity-standards.csv` | School records, varsity letter winners and letter standards (see "Records and letters"). |
 | `assets/js/standards.js` | Renders `varsity-standards.html` from `assets/data/varsity-standards.csv`. |
@@ -47,7 +54,7 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **18 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, clearance, 404, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **19 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
@@ -82,8 +89,9 @@ Columns are matched by header name, so their order doesn't matter. Header names 
 | `location` | Plain text |
 | `map_url` | Optional. Makes the location a link. |
 | `time` | Free text, printed as-is ("7:30 AM", "Boys 7:40 AM, Girls 10:00 AM") |
-| `results_url` | Optional. Shows a "Results" link. |
-| `extra_label` / `extra_url` | Optional second link (Tickets, Live video…). Shown only when both are filled. |
+| `results_url` | Optional. Shows a "Results" link. Where we hold the final results, point it at our copy (a relative path such as `results-archive.html#m-2026-09-19-woodbridge-invitational`). |
+| `results_source_url` | Not shown. Where the results came from (the timing company's page), kept for provenance. Also the archivable copy when `results_url` points somewhere that blocks capture: Clovis 2026 links to athletic.net, but its source is `finishedresults.com/meets/14352`. |
+| `extra_label` / `extra_url` | Optional second link (Tickets, Live video, Race video…). Shown only when both are filled. Keep a `&t=` timestamp on a race video so it opens at the race. |
 | `notes` | Optional small text under the meet name |
 
 A row whose `date` cell starts with `#` is a comment (the file ends with one, showing an undated row). Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
@@ -98,7 +106,6 @@ These rows link to **2025** results pages even though the meets are 2026. They a
 - 2026-11-28 CIF State Championships: `rtspt.com/events/cif/xc2025/`
 
 
-The 2026-10-10 Clovis Invitational `results_url` is blank: the old link (`www2.finishedresults.com/meets/6370`) returns 404. Add the 2026 Clovis results URL when there is one.
 
 The 2026-10-10 Wildcat Invitational (Dougherty Valley High School) has no `results_url` yet.
 
@@ -123,6 +130,16 @@ Everything is HTML-escaped. With no rows (headers only), a missing file or a loa
 ## Post-season checklist
 
 Several parts of the site go stale on a fixed yearly cycle. Work through the relevant list after each season. Every change below is to a file in this repo. Afterwards, run the site locally (see the top of this file), click through the pages you touched, and check nothing says "couldn't load".
+
+**Results archive, after every meet with final results:**
+
+1. Download the final compiled results (Hy-Tek PDF or the meet's own file). Not live results.
+2. Keep the original in `~/Developer/mvxctf_archive/`. For the repo copy, take the smaller of the original and a Ghostscript `/ebook` pass, and strip metadata.
+3. Screen it: results only. No rosters, contact details, forms, or social events (see "Results archive").
+4. Save it as `archive/results/<season>/<YYYY>-<track|xc>-<MM>-<DD>-<meet-slug>-results.pdf`. A meet published as many per-event pages gets a folder of that name, with the original filenames.
+5. Add one row per file to `assets/data/results-archive.csv`. **Relative paths only**, no leading `/`.
+6. In `schedule.csv`, point `results_url` at the copy (the file, or `results-archive.html#m-<date>-<meet-slug>` for multi-file meets) and keep the original URL in `results_source_url`.
+7. At season end, open `results-archive.html` and click every link for the season.
 
 To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (use whichever year just ended).
 
@@ -218,9 +235,11 @@ To add a photo, save it as:
 
 ## Photos
 
-Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**: no Exif, XMP or IPTC/Photoshop blocks. What remains is the JFIF header, the ICC colour profile and, on one file, Adobe's APP14 colour marker, none of which identify anyone. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, and adds an Exif block of its own, so it isn't safe to use on its own. Strip losslessly afterwards (`exiftool -all= -tagsfromfile @ -icc_profile file.jpg`, or `jpegtran -copy icc`) rather than re-encoding. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
+Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**: no Exif, XMP or IPTC/Photoshop blocks. What remains is the JFIF header, the ICC colour profile and, on one file, Adobe's APP14 colour marker, none of which identify anyone. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, and adds an Exif block of its own, so it isn't safe to use on its own. Strip losslessly afterwards (`exiftool -all= -tagsfromfile @ -icc_profile file.jpg`, or `jpegtran -copy icc`) rather than re-encoding. There are no full-size masters any more: photos are either processed into `assets/img/` or deleted, never kept in a third place.
 
-Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-ebal-track-champs.jpeg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`; an image not in the CSV can carry `data-credit`, which is how the news item's `image_credit` works). Scripts that add photos after load call `MVPhotos.apply(element)`. Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
+**Photo decisions (October 2026).** Deleted: the ten full-size masters of photos already in `assets/img/` at the 1600px cap (two carried GPS), and one unidentified 1060px race photo. Processed: the sharper 5333px frame of the 2024 EBAL champions photo (replacing the 1536px one), the 2024 EBAL discus photo, two 2016/2025 team photos, the 2026 Clovis photo, and three crops of Coach Wales-Dinan. Held in `~/Developer/mvxctf_archive/photos/` and not to be touched: Lindsay Baloun's 2024 EBAL photo of the girls carrying a coach (the source of `coaches/wales-dinan-3.jpg`), and `spilker_edited.jpg` (392px; a full-size file has been requested from the photographer, and it is probably hers). `assets/img/coaches/` holds card portraits only; photos that appear inside a bio go in `assets/img/` with dated names.
+
+Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-05-03-track-ebal-champions-team.jpg`, `2024-05-03-track-ebal-discus.jpg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`; an image not in the CSV can carry `data-credit`, which is how the news item's `image_credit` works). Scripts that add photos after load call `MVPhotos.apply(element)`. Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
 
 **Known:** photos committed before October 2026 still carry their old Exif and Photoshop blocks in git history (no GPS). The current files are clean; the history was left alone on purpose.
 
@@ -249,13 +268,15 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2022-track-coach-graham-pole-vault.jpg` | Pole vault coaching on the infield; D. Graham. Candidate in-action photo for his bio (too little headroom for the portrait slot) |
 | `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; Wales-Dinan |
 | `ncs-logo.png` | CIF North Coast Section logo (PNG, transparent background) |
-| `2024-ebal-track-champs.jpeg` | Girls track team with coaches at the 2024 EBAL Championships, "Winning is a Habit" shirts. Lindsay Baloun |
+| `2024-05-03-track-ebal-champions-team.jpg` | Girls track team with coaches after winning the 2024 EBAL Championships, "Winning is a Habit" shirts. Lindsay Baloun. Replaced a 1536px frame of the same moment. On the head coach page |
+| `2024-05-03-track-ebal-discus.jpg` | Discus throw at the 2024 EBAL Championships. Lindsay Baloun. **Caption by event and meet only, no athlete name**: the thrower isn't confirmed |
 | `carlson-alexys.jpg` | Thrower in Monte Vista kit by the throws-ring fence; Alexys Carlson. Lindsay Baloun |
 | `dan-graham-high-five-2024.jpg` | Coach Graham high-fiving relay runners, 2024. Lindsay Baloun. Source of `coaches/graham.jpg` |
 | `ethan-miller-2023-moc-3200m.jpg` | Boys 3200m at the 2023 Meet of Champions; Ethan Miller. Lindsay Baloun |
 | `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova |
-| `wales-dinan-xc-scrimmage-2026.jpg` | Runner on the track at the 2026 XC scrimmage, Coach Wales-Dinan cut off at the right edge |
-| `wales-dinan-xc-scrimmage-2026-1.jpg` | Coach Wales-Dinan talking to the girls at the 2026 XC scrimmage |
+| `2026-08-22-xc-scrimmage-wales-dinan-cheering.jpg` | Coach Wales-Dinan cheering a boy on the track at the August 2026 XC scrimmage. On the head coach page |
+| `2026-08-22-xc-scrimmage-wales-dinan-girls.jpg` | Coach Wales-Dinan talking with the girls at the August 2026 XC scrimmage. On the head coach page |
+| `xc-wales-dinan-on-course.jpg` | Coach Wales-Dinan alone on a cross country course, pointing. **Undated** (no camera data), so not placed: every photo on a page needs a dated caption |
 | `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
 | `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
@@ -276,6 +297,10 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |
 
 ## Results archive
+
+`results-archive.html` lists every archived file by season, from `assets/data/results-archive.csv` (`season, date, meet, group, label, path, source_url`, one row per file). The files live in `archive/results/<season>/` (seasons like `2024-track`, `2021-xc`, `2021-xc-spring`). Rows with a `group` (`events`, `races`) are a multi-file meet, listed under a collapsible "Event results" or "Race results"; those files keep their original names in the meet's own folder. Each meet has an id, `m-<date>-<meet-slug>`, that the schedule can link to. Every path is relative: the site moves from `pwalesdi.github.io/mvxctf_website/` to a domain root, and a leading `/` would break on one or the other.
+
+**Not in the repo** (kept in `~/Developer/mvxctf_archive/`): Diablo Timing's MeetPro cross country pages (2019 Monte Vista Invitational, 2024 and 2025 XC meets including EBAL and NCS 2025) and its newer results viewer (2026 Dublin Last Chance PR), because they need Diablo's own stylesheet and scripts; saved third-party web pages (MileSplit, CIF State, Sacramento MoC, TimerHub, xcstats); and Wayback captures. Those meets keep their external links. The two EBAL 2022 track files from Wix are left out as duplicates of Diablo's compiled copy, and the misnamed Wix "Sacramento Meet of Champions" file is published under its real name, the Northern California Frosh/Soph Championships.
 
 Archived results files are kept outside the repo, in `~/Developer/mvxctf_archive/`, until they're published. **The alumni-run spreadsheets (2006–2016) are never published.** They are a social event, not meet results, and they name children who were never on the team ("youth" and "sibling" divisions) and parents next to same-surname athletes. They stay in the archive only; `publication-manifest.csv` there records every file's publish decision and why.
 

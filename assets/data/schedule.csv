@@ -1,18 +1,18 @@
-date,meet,sport,level,location,map_url,time,results_url,extra_label,extra_url,notes
-2026-08-10,First Day of Official Practice,XC,All Athletes,Monte Vista Track,,7:30 AM,,,,
-2026-08-13,First Day of School,XC,All Athletes,MVHS,,1:30 PM,,,,
-2026-08-13,Mandatory Parent Meeting,XC,All Parents,Workday Student Center,,4:30 PM,,,,
-2026-08-21,MVHS vs Cal Scrimmage,XC,All Athletes,MVHS,"https://www.google.com/maps/place/Piccadilly+Park/@37.7772243,-121.8978831,752m/data=!3m2!1e3!4b1!4m6!3m5!1s0x808fee01bf78bb95:0xb89046e504946c1f!8m2!3d37.7772243!4d-121.8978831",6:00 PM,,,,Athletes arrive 4:30
-2026-09-12,Lowell Invitational,XC,All Athletes,Golden Gate Park,"https://www.google.com/maps/place/37%C2%B046'15.2%22N+122%C2%B029'13.7%22W/@37.7708889,-122.4871389,17z",,https://rt.trackscoreboard.com/meets/91226/events,,,
-2026-09-19,Woodbridge Invitational,XC,Select Athletes,"Great Park, Irvine, CA",https://www.woodbridgexcclassic.com/,,https://www.woodbridgexcclassic.com/results/raceResults,,,
-2026-09-19,Nike De La Salle Invitational,XC,All Athletes,"Newhall Park, Concord, CA","https://www.google.com/maps/dir//Turtle+Creek+Rd,+Concord,+CA+94521/@37.9557466,-121.9966541,15z",,https://www.diablotiming.com/results/2025-09-20/,,,
-2026-09-30,Mid Season Mania 1600m,XC,All Athletes,Campolindo HS,"https://www.google.com/maps/dir/37.8446939,-121.986525/300+Moraga+Rd,+Moraga,+CA+94556",Doors open 3:30 PM,,Athletes / heats,https://drive.google.com/drive/folders/13gEYv8np2SAn9OhbfaY6r-5zvvgpn-zM?usp=sharing,
-2026-10-10,Clovis Invitational,XC,Select Athletes,"Woodward Park, Fresno, CA","https://www.google.com/maps/dir//7775+N+Friant+Rd,+Fresno,+CA+93720/@36.8625678,-119.7908694,1506m","Boys 7:40 AM, Girls 10:00 AM",,Live video,https://www.youtube.com/watch?v=OHPckIcUSAM,
-2026-10-10,Wildcat Invitational,XC,All Athletes,Dougherty Valley High School,,,,,,
-2026-10-21,Mid Season Mania 3200m,XC,All Athletes,Campolindo HS,"https://www.google.com/maps/dir/37.8446939,-121.986525/300+Moraga+Rd,+Moraga,+CA+94556",,,,,
-2026-10-24,Haystack Tune-Up,XC,Select Athletes,Hayward High School,"https://www.google.com/maps/place/1633+East+Ave,+Hayward,+CA+94541",,https://live.adkinstrakwest.com/meets/58594/live,,,
-2026-11-07,EBAL Championships,XC,All Athletes,"Newhall Park, Concord, CA","https://www.google.com/maps/place/1450+Wharton+Way,+Concord,+CA+94521",,https://diablotiming.com/results/2025-11-08/,,,
-2026-11-21,NCS Championships,XC,Varsity Athletes,Hayward High School,"https://www.google.com/maps/place/1633+East+Ave,+Hayward,+CA+94541",,https://diablotiming.com/results/2025-11-22/,Tickets,https://gofan.co/event/4506860?schoolId=CIFNCS,Division 2
-2026-11-28,CIF State Championships,XC,Varsity Athletes,"Woodward Park, Clovis, CA",,,https://www.rtspt.com/events/cif/xc2025/,,,Division 2
-2026-11-29,Cross Country Banquet Luncheon,XC,All Athletes & Family,Round Hill Country Club,,12:00 PM,,,,
-#Example (a # first cell makes a row a comment). An undated row - blank date - lists under Date to be announced. Clear this cell to use it,Picture Day,XC,All Athletes,MVHS,,3:15 PM,,,,Date TBD
+date,meet,sport,level,location,map_url,time,results_url,extra_label,extra_url,notes,results_source_url
+2026-08-10,First Day of Official Practice,XC,All Athletes,Monte Vista Track,,7:30 AM,,,,,
+2026-08-13,First Day of School,XC,All Athletes,MVHS,,1:30 PM,,,,,
+2026-08-13,Mandatory Parent Meeting,XC,All Parents,Workday Student Center,,4:30 PM,,,,,
+2026-08-21,MVHS vs Cal Scrimmage,XC,All Athletes,MVHS,"https://www.google.com/maps/place/Piccadilly+Park/@37.7772243,-121.8978831,752m/data=!3m2!1e3!4b1!4m6!3m5!1s0x808fee01bf78bb95:0xb89046e504946c1f!8m2!3d37.7772243!4d-121.8978831",6:00 PM,,,,Athletes arrive 4:30,
+2026-09-12,Lowell Invitational,XC,All Athletes,Golden Gate Park,"https://www.google.com/maps/place/37%C2%B046'15.2%22N+122%C2%B029'13.7%22W/@37.7708889,-122.4871389,17z",,https://rt.trackscoreboard.com/meets/91226/events,,,,
+2026-09-19,Woodbridge Invitational,XC,Select Athletes,"Great Park, Irvine, CA",https://www.woodbridgexcclassic.com/,,results-archive.html#m-2026-09-19-woodbridge-invitational,,,,https://www.woodbridgexcclassic.com/results/raceResults
+2026-09-19,Nike De La Salle Invitational,XC,All Athletes,"Newhall Park, Concord, CA","https://www.google.com/maps/dir//Turtle+Creek+Rd,+Concord,+CA+94521/@37.9557466,-121.9966541,15z",,https://www.diablotiming.com/results/2025-09-20/,,,,
+2026-09-30,Mid Season Mania 1600m,XC,All Athletes,Campolindo HS,"https://www.google.com/maps/dir/37.8446939,-121.986525/300+Moraga+Rd,+Moraga,+CA+94556",Doors open 3:30 PM,,Athletes / heats,https://drive.google.com/drive/folders/13gEYv8np2SAn9OhbfaY6r-5zvvgpn-zM?usp=sharing,,
+2026-10-10,Clovis Invitational,XC,Select Athletes,"Woodward Park, Fresno, CA","https://www.google.com/maps/dir//7775+N+Friant+Rd,+Fresno,+CA+93720/@36.8625678,-119.7908694,1506m","Boys 7:40 AM, Girls 10:00 AM",https://live.athletic.net/meets/75287/events/xc/2930497,Race video,https://www.youtube.com/watch?v=2Pugm3lfCuI&t=5403s,,https://www.finishedresults.com/meets/14352
+2026-10-10,Wildcat Invitational,XC,All Athletes,Dougherty Valley High School,,,,,,,
+2026-10-21,Mid Season Mania 3200m,XC,All Athletes,Campolindo HS,"https://www.google.com/maps/dir/37.8446939,-121.986525/300+Moraga+Rd,+Moraga,+CA+94556",,,,,,
+2026-10-24,Haystack Tune-Up,XC,Select Athletes,Hayward High School,"https://www.google.com/maps/place/1633+East+Ave,+Hayward,+CA+94541",,https://live.adkinstrakwest.com/meets/58594/live,,,,
+2026-11-07,EBAL Championships,XC,All Athletes,"Newhall Park, Concord, CA","https://www.google.com/maps/place/1450+Wharton+Way,+Concord,+CA+94521",,https://diablotiming.com/results/2025-11-08/,,,,
+2026-11-21,NCS Championships,XC,Varsity Athletes,Hayward High School,"https://www.google.com/maps/place/1633+East+Ave,+Hayward,+CA+94541",,https://diablotiming.com/results/2025-11-22/,Tickets,https://gofan.co/event/4506860?schoolId=CIFNCS,Division 2,
+2026-11-28,CIF State Championships,XC,Varsity Athletes,"Woodward Park, Clovis, CA",,,https://www.rtspt.com/events/cif/xc2025/,,,Division 2,
+2026-11-29,Cross Country Banquet Luncheon,XC,All Athletes & Family,Round Hill Country Club,,12:00 PM,,,,,
+#Example (a # first cell makes a row a comment). An undated row - blank date - lists under Date to be announced. Clear this cell to use it,Picture Day,XC,All Athletes,MVHS,,3:15 PM,,,,Date TBD,
