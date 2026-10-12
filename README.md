@@ -168,16 +168,6 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 
 The standards page isn't in the top nav (seven items is the limit). It's linked from Track & Field, Records, and the footer under "The program".
 
-### Open questions for Patrick
-
-The data is rendered exactly as the CSVs have it. None of this has been changed:
-
-- Girls pole vault "Synder" and boys 1987 4x100 "Martidale". Probably Snyder and Martindale.
-- Girls 2006 4x400: "Randall, Zorich Anderson, Stringer". Three names for four runners; a comma is missing.
-- 2025 girls letters: "Powell, Arthur", where 2024 has "Powell, Alexandra".
-- The `c` flag is assumed to mean "converted mark". Unconfirmed.
-- Also spotted while building (not changed): "Giren" (boys 1999 4x400) vs "Giron" elsewhere; "Wily" (boys 300H 2005) vs "Wiley" (110H 2005); "Gebhardt" (girls 2015 DMR) vs "Gebhart"; "De Maio" (boys 2014 4x100) vs "DeMaio"; girls 2016 DMR "Fuhriman, Cervantes, Coney, A, Coney, M" mixes the two name formats.
-
 ## Photos
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
