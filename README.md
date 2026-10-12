@@ -189,7 +189,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | Page | Missing |
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
-| `coaches.html` | Coach bios and a contact method for the coaching staff are still pending. Names and titles are done. |
+| `coaches.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
+| `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue (they show name and title only, by design, until then). |
+| `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the page. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |

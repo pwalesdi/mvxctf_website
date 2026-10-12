@@ -413,3 +413,9 @@ section.panel.letters{padding-block:0}
 /* Coaches page */
 .coach-lead{display:flex;flex-direction:column;gap:8px;padding-bottom:clamp(28px,4vw,40px);margin-bottom:clamp(28px,4vw,40px);border-bottom:1px solid var(--line)}
 div.card:hover{transform:none;border-color:var(--line)} /* staff cards aren't links: no hover lift */
+.coach-bio{margin-top:16px}
+.coach-bio h3{margin-top:14px;color:var(--ink)}
+.prose ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+.grid.staff{align-items:start} /* cards size to their content; some have bios, some don't */
+.card .bio{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.card .bio p{font-size:.875rem;line-height:1.55;color:var(--ink-2)}

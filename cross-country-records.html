@@ -191,6 +191,7 @@
       </div>
     </div>
     <div class="chips" role="group" aria-label="Meet filter"><button id="wm-all" data-m="All" aria-pressed="true">All meets</button><button id="wm-state" data-m="CIF State" aria-pressed="false">CIF State</button><button id="wm-clovis" data-m="Clovis Invitational" aria-pressed="false">Clovis Invitational</button><button id="wm-rr" data-m="Rough Rider Invitational" aria-pressed="false">Rough Rider</button><button id="wm-nxr" data-m="NXR California Regional" aria-pressed="false">NXR California</button></div>
+    <p class="count" id="wpBestNote" hidden>Best per athlete lists only athletes who broke 20:00 at Woodward Park.</p>
     <div class="panel"><div class="table-scroll"><table id="wpTbl" class="ledger"><thead><tr><th class="num">#</th><th>Athlete</th><th>Gr</th><th>Year</th><th>Meet</th><th class="num">Time</th><th>Place</th><th>Race</th></tr></thead><tbody></tbody></table></div></div>
   </section>
  
@@ -337,6 +338,7 @@ const placeCell = (pl, div, calc) => pl ? `<span class="place"><b>${ord(pl)}</b>
   try { Object.assign(st, JSON.parse(localStorage.getItem("mvwp2") || "{}")); } catch(e) {}
   function render(){
     let rows = WP.filter(r => r.g === st.g && (st.m === "All" || r.m === st.m)).sort((a,b) => a.ts - b.ts);
+    document.getElementById("wpBestNote").hidden = st.v !== "best"; // filter rule, shown only in that view
     if (st.v === "best") { const seen = new Set(); rows = rows.filter(r => r.ts < 1200 && !seen.has(r.n) && seen.add(r.n)); }
     rows.forEach((r,i) => { r.rk = (i && rows[i-1].ts === r.ts) ? rows[i-1].rk : i + 1; });
     rows = rows.slice(0, 100);
