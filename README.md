@@ -19,7 +19,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
 | `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
-| `assets/js/ebal-distance.js` | Renders the EBAL distance points table on `track-field-records.html#ebal-distance` from `assets/data/ebal-distance.csv`. |
+| `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
@@ -43,13 +43,13 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, cross-country, track-field, coaches, donate, summer-run, track-field-records, cross-country-records, varsity-letters and varsity-standards. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, cross-country, track-field, coaches, donate, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
 ```
 
-The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners and Track & Field Letter Standards. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
 ## The schedule
 
@@ -127,7 +127,7 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 - One row per scoring place at the EBAL Championships (800m, 1600m, 3200m, 4x800), 2022 on. `points` is the score for that place (10-8-6-4-2-1). The page adds up `points` and never assumes the weights, so a change in scoring is a data change.
 - `program` is the row the points count toward. Carondelet (girls) and De La Salle (boys) share "Carondelet / De La Salle"; every other school's `program` is its own name.
 - Relays score once per team. Leave unfilled places out (there was no 4x800 in 2022). The page notes event-years with no rows automatically.
-- Page interactions: sort by girls, boys or combined total; show girls' or boys' points in the year columns; select a school to expand its points by event and year.
+- Lives on its own page, `ebal-distance.html` (in the Records menu). Interactions: sort by girls, boys or combined total; show girls' or boys' points in the year columns; select a school to expand its points by event. The expanded breakdown is extra rows in the same table (separate Girls and Boys blocks, one number per cell, the selected gender first), so its year columns line up with the school's row.
 - Monte Vista boys' 2026 EBAL total is 14. (24 is the NCS Tri-Valley figure; don't label it EBAL.)
 
 **`assets/data/ncs-championships.csv`**: `gender, year, place, place_num, division, note`

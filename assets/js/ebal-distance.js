@@ -1,10 +1,11 @@
-/* EBAL distance points (track-field-records.html#ebal-distance).
+/* EBAL distance points (ebal-distance.html).
    Reads assets/data/ebal-distance.csv: one row per scoring place, with the
    points it earned (the 10-8-6-4-2-1 weights live in the data, not here).
    `program` groups schools that share a row (Carondelet girls + De La Salle
-   boys). Interactions, as in the original component: sort by girls, boys or
-   combined total; year columns show girls or boys; select a school to
-   expand its points by event and year. Needs assets/js/csv.js first. */
+   boys). Interactions: sort by girls, boys or combined total; year columns
+   show girls or boys; select a school to expand its points by event.
+   The expanded breakdown is extra rows in the same table, so its year
+   columns line up exactly with the school's row. Needs assets/js/csv.js. */
 (function () {
   "use strict";
 
@@ -25,7 +26,7 @@
     var years = uniq(rows.map(function (r) { return r.year; })).sort();
     var events = uniq(rows.map(function (r) { return r.event; }));
     var programs = uniq(rows.map(function (r) { return r.program; }));
-    // tally[program][gender][year|"total"] and ev[program][gender][event][year]
+    // tally[program][gender][year|"total"]; ev[program][gender][event][year|"total"]
     var tally = {}, ev = {};
     programs.forEach(function (p) {
       tally[p] = { Girls: { total: 0 }, Boys: { total: 0 } };
@@ -35,8 +36,9 @@
       var t = tally[r.program][r.gender];
       t[r.year] = (t[r.year] || 0) + r.points;
       t.total += r.points;
-      var e = ev[r.program][r.gender][r.event] = ev[r.program][r.gender][r.event] || {};
+      var e = ev[r.program][r.gender][r.event] = ev[r.program][r.gender][r.event] || { total: 0 };
       e[r.year] = (e[r.year] || 0) + r.points;
+      e.total += r.points;
     });
     // Scoring and footnotes come from the data too.
     var weights = uniq(rows.slice().sort(function (a, b) { return a.place - b.place; })
@@ -64,26 +66,24 @@
       }).join("") + "</div>";
   }
 
-  function detailHTML(d, p) {
-    var g = d.tally[p].Girls, b = d.tally[p].Boys;
-    var head = "<tr><th scope=\"col\">Girls / boys</th>" + d.years.map(function (y) { return '<th scope="col" class="num">' + y + "</th>"; }).join("") + '<th scope="col" class="num">All-time</th></tr>';
-    var evRows = d.events.filter(function (e) {
-      return d.years.some(function (y) { return ((d.ev[p].Girls[e] || {})[y] || 0) + ((d.ev[p].Boys[e] || {})[y] || 0) > 0; });
-    }).map(function (e) {
-      return '<tr><th scope="row">' + esc(e) + "</th>" + d.years.map(function (y) {
-        var gp = (d.ev[p].Girls[e] || {})[y] || 0, bp = (d.ev[p].Boys[e] || {})[y] || 0;
-        return '<td class="mono num">' + (gp || bp ? show(gp) + " / " + show(bp) : "—") + "</td>";
-      }).join("") + "<td></td></tr>";
+  // One gender's breakdown as rows of the main table: a label row with the
+  // years, one row per event, and a total. Columns: label, one per year,
+  // then "All-time" across the three total columns.
+  function genderBlock(d, p, gender) {
+    var t = d.tally[p][gender], e = d.ev[p][gender];
+    var head = '<tr class="ebal-sub"><th scope="rowgroup">' + gender + "</th>" +
+      d.years.map(function (y) { return '<td class="num">' + y + "</td>"; }).join("") +
+      '<td class="num" colspan="3">All-time</td></tr>';
+    var evRows = d.events.map(function (name) {
+      var row = e[name] || { total: 0 };
+      return '<tr class="ebal-ev"><th scope="row">' + esc(name) + "</th>" +
+        d.years.map(function (y) { return '<td class="mono num">' + show(row[y] || 0) + "</td>"; }).join("") +
+        '<td class="mono num" colspan="3">' + show(row.total) + "</td></tr>";
     }).join("");
-    function totalRow(label, fn, all) {
-      return '<tr class="sum"><th scope="row">' + label + "</th>" + d.years.map(function (y) { return '<td class="mono num">' + show(fn(y)) + "</td>"; }).join("") +
-        '<td class="mono num">' + show(all) + "</td></tr>";
-    }
-    return '<table class="ledger ebal-detail"><thead>' + head + "</thead><tbody>" + evRows +
-      totalRow("Girls total", function (y) { return g[y] || 0; }, g.total) +
-      totalRow("Boys total", function (y) { return b[y] || 0; }, b.total) +
-      totalRow("Combined", function (y) { return (g[y] || 0) + (b[y] || 0); }, g.total + b.total) +
-      "</tbody></table>";
+    var total = '<tr class="ebal-ev ebal-total"><th scope="row">' + gender + " total</th>" +
+      d.years.map(function (y) { return '<td class="mono num">' + show(t[y] || 0) + "</td>"; }).join("") +
+      '<td class="mono num" colspan="3">' + show(t.total) + "</td></tr>";
+    return head + evRows + total;
   }
 
   function mount(rows) {
@@ -100,17 +100,20 @@
           return diff || a.i - b.i;
         }).map(function (x) { return x.p; });
       var gender = view === "girls" ? "Girls" : "Boys";
-      var cols = d.years.length + 4;
-      var body = list.map(function (p, i) {
+      // The selected gender's block opens first; both always render.
+      var order = view === "girls" ? ["Girls", "Boys"] : ["Boys", "Girls"];
+      var html = list.map(function (p, i) {
         var g = tot(p, "Girls"), b = tot(p, "Boys"), open = expanded === p, id = "ebal-d-" + i;
-        var row = '<tr class="ebal-row' + (open ? " open" : "") + (p === OURS ? " ours" : "") + '" data-p="' + esc(p) + '">' +
+        return '<tbody class="ebal-school"><tr class="ebal-row' + (open ? " open" : "") + (p === OURS ? " ours" : "") + '" data-p="' + esc(p) + '">' +
           '<th scope="row"><button type="button" class="row-toggle" aria-expanded="' + open + '" aria-controls="' + id + '">' + esc(p) + "</button></th>" +
           d.years.map(function (y) { return '<td class="mono num">' + show(d.tally[p][gender][y] || 0) + "</td>"; }).join("") +
-          '<td class="mono num col-sep">' + show(g) + '</td><td class="mono num">' + show(b) + '</td><td class="mono num col-sep comb">' + show(g + b) + "</td></tr>";
-        var detail = '<tr class="ebal-detail-row" id="' + id + '"' + (open ? "" : " hidden") + '><td colspan="' + cols + '">' + (open ? detailHTML(d, p) : "") + "</td></tr>";
-        return row + detail;
+          '<td class="mono num col-sep">' + show(g) + '</td><td class="mono num">' + show(b) + '</td><td class="mono num col-sep comb">' + show(g + b) + "</td></tr></tbody>" +
+          '<tbody class="ebal-detail" id="' + id + '"' + (open ? "" : " hidden") + ">" +
+          (open ? genderBlock(d, p, order[0]) + genderBlock(d, p, order[1]) : "") + "</tbody>";
       }).join("");
-      app.querySelector("tbody").innerHTML = body;
+      var table = app.querySelector("table");
+      Array.prototype.slice.call(table.tBodies).forEach(function (tb) { table.removeChild(tb); });
+      table.insertAdjacentHTML("beforeend", html);
       app.querySelector(".year-head").textContent = view === "girls" ? "Girls" : "Boys";
       app.querySelectorAll(".seg button").forEach(function (btn) {
         var k = btn.hasAttribute("data-sort") ? sortMode === btn.getAttribute("data-sort") : view === btn.getAttribute("data-view");
@@ -118,17 +121,18 @@
       });
     }
 
+    var cols = '<col class="c-school">' + d.years.map(function () { return '<col class="c-year">'; }).join("") + '<col class="c-tot"><col class="c-tot"><col class="c-tot">';
     app.innerHTML =
       '<p class="count">' + d.years[0] + "–" + d.years[d.years.length - 1] + " · Varsity · " + esc(d.weights.join("-")) + " scoring · Relay counts once</p>" +
       '<div class="controls ebal-controls">' +
         seg("Sort by", "sort", [["girls", "Girls total"], ["boys", "Boys total"], ["combined", "Combined"]], sortMode) +
         seg("Year columns", "view", [["girls", "Girls"], ["boys", "Boys"]], view) +
       "</div>" +
-      '<div class="panel"><div class="table-scroll"><table class="ledger ebal-table"><thead>' +
+      '<div class="panel"><div class="table-scroll"><table class="ledger ebal-table"><colgroup>' + cols + "</colgroup><thead>" +
         '<tr><th scope="col" rowspan="2">School</th><th scope="colgroup" colspan="' + d.years.length + '" class="year-group"><span class="year-head"></span> by year</th>' +
         '<th scope="col" rowspan="2" class="num col-sep">Girls</th><th scope="col" rowspan="2" class="num">Boys</th><th scope="col" rowspan="2" class="num col-sep">Combined</th></tr>' +
         "<tr>" + d.years.map(function (y) { return '<th scope="col" class="num">' + y + "</th>"; }).join("") + "</tr>" +
-      "</thead><tbody></tbody></table></div></div>" +
+      "</thead></table></div></div>" +
       '<p class="table-note">' + esc(d.missing.concat(d.merged).join(". ") + (d.missing.length || d.merged.length ? ". " : "") + "Select a school to see its points by event.") + "</p>";
 
     app.addEventListener("click", function (e) {

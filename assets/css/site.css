@@ -343,12 +343,6 @@ section.follow{padding-top:0}
 .grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:920px){.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.grid.four{grid-template-columns:1fr}}
-/* Card grid whose last row stretches to fill (no gaps with an uneven count):
-   3 per row, 2 at tablet width, 1 on phones. */
-.grid.fill{display:flex;flex-wrap:wrap}
-.grid.fill > *{flex:1 1 calc((100% - 32px) / 3);min-width:0}
-@media (max-width:920px){.grid.fill > *{flex-basis:calc((100% - 16px) / 2)}}
-@media (max-width:600px){.grid.fill > *{flex-basis:100%}}
 .honors .cols{margin-top:26px}
 .honors .cols h3{color:#fff;margin-top:6px}
 .honors-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px}
@@ -404,10 +398,6 @@ section.panel.letters{padding-block:0}
 .row-toggle{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left;display:inline-flex;align-items:center;gap:6px}
 .row-toggle::before{content:"";border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:5px solid currentColor;transition:transform .15s ease}
 .row-toggle[aria-expanded="true"]::before{transform:rotate(90deg)}
-.ebal-detail-row > td{background:var(--surface);padding:6px 12px 14px}
-.ebal-detail{background:var(--ground);border:1px solid var(--line);border-radius:6px;font-size:.8125rem}
-.ebal-detail th[scope="row"]{font-weight:600;white-space:nowrap}
-.ebal-detail tr.sum th,.ebal-detail tr.sum td{border-top:1px solid var(--line-strong)}
 .ebal-table tbody th,.ebal-detail tbody th{background:none;font-family:inherit;font-stretch:100%;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--ink);padding:9px 12px;text-align:left}
 
 /* Coaches page */
@@ -434,3 +424,11 @@ section.panel.letters{padding-block:0}
 .coach-body{padding:14px 20px 20px}
 .coach-bio h3{margin-top:14px;color:var(--ink)}
 .prose ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
+/* EBAL expanded breakdown: rows in the same table, so columns align with the school row */
+.ebal-detail tr > *{background:var(--surface)}
+.ebal-table .ebal-detail th{padding-left:28px}
+.ebal-detail .ebal-sub > *{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:14px;padding-bottom:6px}
+.ebal-table .ebal-detail .ebal-sub th{color:var(--ink-2);font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;font-stretch:90%;font-weight:700;font-family:var(--display)}
+.ebal-detail .ebal-ev > *{padding-top:6px;padding-bottom:6px;font-size:.875rem}
+.ebal-detail .ebal-total > *{border-top:1px solid var(--line-strong);font-weight:700}
+.ebal-detail tr:last-child > *{padding-bottom:14px}
