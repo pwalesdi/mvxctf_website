@@ -443,3 +443,9 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .ebal-detail .ebal-ev > *{padding-top:6px;padding-bottom:6px;font-size:.875rem}
 .ebal-detail .ebal-total > *{border-top:1px solid var(--line-strong);font-weight:700}
 .ebal-detail tr:last-child > *{padding-bottom:14px}
+/* Coaching resume (head coach page): denser, scannable lists ahead of the narrative.
+   Group labels are h4s styled as small labels. */
+.resume{display:flex;flex-direction:column;gap:8px;margin:12px 0 10px;padding:22px 0 24px;border-block:1px solid var(--line)}
+.resume h2{margin-bottom:4px}
+.resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-top:12px}
+.resume ul{gap:2px;font-size:.9375rem;line-height:1.45}
