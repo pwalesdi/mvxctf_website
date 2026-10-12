@@ -225,7 +225,6 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `track-field.html` | Program overview, season and event-group information |
 | `coach-*.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
 | `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add a `coach-<name>.html` page (copy an existing one) and turn their index entry into a link. |
-| `coach-wales-dinan.html` | "Coaching history" section is a placeholder awaiting years for each stop (college 2009–2017, Monte Vista from 2018). |
 | `coach-*.html`, `coaches.html` | Coach photos not supplied yet. See "Coach photos". |
 | `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
