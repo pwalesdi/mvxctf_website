@@ -330,6 +330,9 @@ th.num{text-align:right}
 /* Translucent so the .table-scroll edge cue shows through; over the white panel it is exactly --red-soft (#FAEDEF). */
 .ledger .top10 td,.ledger tr.hl td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 .ledger .top10 td.rank,.ledger tr.hl td.rank{color:var(--red-ink);font-weight:700}
+/* NCS table: a first-place cell gets the same tint */
+.ledger td.win{background:color-mix(in srgb,var(--red) 7.5%,transparent);color:var(--red-ink);font-weight:700}
+.ledger td.ncs-none{color:var(--ink-2)}
 
 /* ---------- cross country page ---------- */
 /* Layout modifiers on existing components; no new visual treatment. */

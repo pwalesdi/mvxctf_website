@@ -19,6 +19,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
 | `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
+| `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
@@ -106,7 +107,7 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
   - Girls, `1-5-6`: "…Makarova fifth, Padilla sixth. **All three return.**"
   - Boys, `4th`: "**Kotamraju returns** after placing fourth in the section as a junior."
 - The other figures are tied to seasons ("since 2019", "2013 through 2025", "1984 through 2025", "22 of 37", the State counts) and should be checked each season too. Both the top-line band and "Why Monte Vista" are cross country only.
-- **Don't name years for the boys' two NCS team titles.** The source records conflict on the year.
+- **Don't name years for the boys' two NCS team titles in prose.** The source records conflict on the year. (The NCS Championships table on Cross Country Records shows them as the CSV has them, 2007 and 2015; that was a deliberate decision.)
 
 ## Records and letters
 
@@ -120,6 +121,11 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 **`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
 - Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
 - A non-empty `honor` shows as a red pill after the name.
+
+**`assets/data/ncs-championships.csv`**: `gender, year, place, place_num, division, note`
+- One row per team per year. The Cross Country Records page shows one row per year, newest first: Year, Division (shared by both teams), Girls, Boys. `place` is printed as-is (`1st`, `15th`); `place_num` of 1 gets the red tint.
+- An empty `place` shows as an em dash, with the `note` available to screen readers. When both teams have no place and the same note (2020, "No championship held"), the note spans both columns.
+- The sentence under the table about divisions is hand-written. Check it if the division column changes.
 
 **`assets/data/varsity-standards.csv`**: `gender, event_group, event_order, event, standard`
 - The **2026** standards, the most recent published set. `event_group` is `Track` or `Field`, shown in that order; rows within each are sorted by `event_order`. `standard` is printed as-is: track times to two decimals, field marks rounded to the nearest half inch (`28' 6"`, `15' 6.5"`, `85' 0"`).

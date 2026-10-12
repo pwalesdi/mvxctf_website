@@ -164,6 +164,12 @@
     <div class="panel"><div class="table-scroll"><table id="indTbl" class="ledger"><thead><tr><th class="num">#</th><th>Athlete</th><th>Gr</th><th>Year</th><th class="num">Time</th><th>Place</th></tr></thead><tbody></tbody></table></div></div>
   </section>
  
+  <section aria-labelledby="h-ncs">
+    <div class="sec-head split"><div><h2 id="h-ncs">NCS Championships</h2><p>Every Monte Vista team finish at the North Coast Section championships since 1988.</p></div></div>
+    <div id="ncs-app"><p class="count">Loading NCS results&hellip;</p></div>
+    <p class="legend-note">Monte Vista competed in 3A before 1990, Division I from 1997 to 2015 except 1999 and 1998, and Division II otherwise. The 1989 boys result is unknown.</p>
+  </section>
+
   <section aria-labelledby="h-wpt">
     <div class="sec-head split">
       <div><h2 id="h-wpt">Woodward Park team times</h2><p>Every race where five or more Mustangs finished: CIF State, Clovis, Rough Rider and NXR. Team time is the sum of the top five, rounded to the second.</p></div>
@@ -384,6 +390,8 @@ bind('[aria-label="Sort individuals"]', "is", "s", renderInd);
 renderTeams(); renderInd();
 </script>
 
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/ncs.js"></script>
 <script src="assets/js/nav.js"></script>
 </body>
 </html>
