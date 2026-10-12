@@ -403,3 +403,7 @@ section.panel.letters{padding-block:0}
 .ebal-detail th[scope="row"]{font-weight:600;white-space:nowrap}
 .ebal-detail tr.sum th,.ebal-detail tr.sum td{border-top:1px solid var(--line-strong)}
 .ebal-table tbody th,.ebal-detail tbody th{background:none;font-family:inherit;font-stretch:100%;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--ink);padding:9px 12px;text-align:left}
+
+/* Coaches page */
+.coach-lead{display:flex;flex-direction:column;gap:8px;padding-bottom:clamp(28px,4vw,40px);margin-bottom:clamp(28px,4vw,40px);border-bottom:1px solid var(--line)}
+div.card:hover{transform:none;border-color:var(--line)} /* staff cards aren't links: no hover lift */

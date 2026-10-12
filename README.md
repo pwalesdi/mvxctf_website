@@ -189,7 +189,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | Page | Missing |
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
-| `coaches.html` | Coach names, bios, emails (currently points at the team parent) |
+| `coaches.html` | Coach bios and a contact method for the coaching staff are still pending. Names and titles are done. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |

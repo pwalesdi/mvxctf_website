@@ -155,7 +155,7 @@
  
   <section aria-labelledby="h-ind">
     <div class="sec-head split">
-      <div><h2 id="h-ind">Individual times</h2><p>Every State run under 20:00.</p></div>
+      <div><h2 id="h-ind">Individual times</h2><p id="indCaption">Every performance under 20 minutes.</p></div>
       <div class="controls">
         <div class="seg" role="group" aria-label="Individual filter"><button id="ig-girls" data-g="Girls" aria-pressed="true">Girls</button><button id="ig-boys" data-g="Boys" aria-pressed="false">Boys</button></div>
         <div class="seg" role="group" aria-label="Sort individuals"><button id="is-time" data-s="time" aria-pressed="true">By time</button><button id="is-year" data-s="year" aria-pressed="false">By year</button></div>
@@ -183,7 +183,7 @@
  
   <section aria-labelledby="h-wp">
     <div class="sec-head split">
-      <div><h2 id="h-wp">Woodward Park top 100</h2><p>The 100 fastest Mustang 5K times on the Fresno course, from CIF State, the Clovis Invitational, the Rough Rider Invitational and NXR California (2021). Shaded rows are the top ten in the current view. <span class="count" id="wpCount"></span></p></div>
+      <div><h2 id="h-wp">Woodward Park top 100</h2><p>The 100 fastest Mustang 5K times on the Fresno course, from CIF State, the Clovis Invitational, the Rough Rider Invitational and NXR California (2021).</p></div>
       <div class="controls">
         <div class="seg" role="group" aria-label="Woodward gender"><button id="wg-girls" data-g="Girls" aria-pressed="true">Girls</button><button id="wg-boys" data-g="Boys" aria-pressed="false">Boys</button></div>
         <div class="seg" role="group" aria-label="Woodward view"><button id="wv-all" data-v="all" aria-pressed="true">All marks</button><button id="wv-best" data-v="best" aria-pressed="false">Best per athlete</button></div>
@@ -343,7 +343,6 @@ const placeCell = (pl, div, calc) => pl ? `<span class="place"><b>${ord(pl)}</b>
     if (st.s === "year") rows = rows.slice().sort((a,b) => b.y - a.y || a.ts - b.ts);
     document.querySelector("#wpTbl tbody").innerHTML = rows.map(r =>
       `<tr class="${r.rk <= 10 ? "top10" : ""}"><td class="rank num">${r.rk}</td><td class="name">${esc(r.n)}</td><td>${grade(r.gr)}</td><td class="mono">${r.y}</td><td class="meet ${r.m === "CIF State" ? "st" : ""}">${esc(r.m)}</td><td class="mono num">${r.t}</td><td>${r.pl ? ord(r.pl) : ""}</td><td class="race">${esc(r.race)}</td></tr>`).join("");
-    document.getElementById("wpCount").textContent = st.v === "best" ? `${rows.length} athletes shown. Best per athlete lists only athletes who broke 20:00 at Woodward Park.` : `Top ${rows.length} marks shown.`;
     try { localStorage.setItem("mvwp2", JSON.stringify(st)); } catch(e) {}
   }
   const wire = (sel, key, attr) => {
@@ -370,11 +369,17 @@ function renderTeams(){
   document.querySelector("#teamTbl tbody").innerHTML = rows.map(t =>
     `<tr><td class="mono">${t.y}</td><td><span class="pill ${t.g === "Girls" ? "g" : "b"}">${t.g}</span></td><td>${placeCell(t.place, t.div, t.calc)}</td><td class="mono num">${t.tt}</td><td class="mono num">${t.avg}</td><td class="scor">${t.top.map(esc).join(", ")}</td></tr>`).join("");
 }
+// Caption follows the gender toggle. Boys show only the 50 fastest State
+// performances (a fixed count, by decision, not a time cutoff).
+const IND_CAPTION = { Girls: "Every performance under 20 minutes.", Boys: "Every performance under 17 minutes." };
+const IND_LIMIT = { Boys: 50 };
 function renderInd(){
   let rows = DATA.ind.filter(r => r.g === state.ig);
+  if (IND_LIMIT[state.ig]) rows = rows.slice().sort((a,b) => a.ts - b.ts || a.y - b.y).slice(0, IND_LIMIT[state.ig]);
   rows.sort(state.is === "time" ? (a,b) => a.ts - b.ts || a.y - b.y : (a,b) => b.y - a.y || a.ts - b.ts);
   document.querySelector("#indTbl tbody").innerHTML = rows.map(r =>
     `<tr class="${r.rank <= 10 ? "top10" : ""}"><td class="rank num">${r.rank}</td><td class="name">${esc(r.n)}</td><td>${grade(r.gr)}</td><td class="mono">${r.y}</td><td class="mono num">${r.t}</td><td>${placeCell(r.pl, r.div, r.calc)}</td></tr>`).join("");
+  document.getElementById("indCaption").textContent = IND_CAPTION[state.ig];
 }
 function bind(groupSel, key, attr, render){
   const btns = document.querySelectorAll(groupSel + " button");
