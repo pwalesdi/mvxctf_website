@@ -1,0 +1,227 @@
+gender,event,relay,year,place,school,program,points
+Girls,800m,,2022,1,Monte Vista,Monte Vista,10
+Girls,800m,,2022,2,Carondelet,Carondelet / De La Salle,8
+Girls,800m,,2022,3,Granada,Granada,6
+Girls,800m,,2022,4,Carondelet,Carondelet / De La Salle,4
+Girls,800m,,2022,5,Monte Vista,Monte Vista,2
+Girls,800m,,2022,6,Carondelet,Carondelet / De La Salle,1
+Girls,800m,,2023,1,Monte Vista,Monte Vista,10
+Girls,800m,,2023,2,Monte Vista,Monte Vista,8
+Girls,800m,,2023,3,Granada,Granada,6
+Girls,800m,,2023,4,California,California,4
+Girls,800m,,2023,5,Carondelet,Carondelet / De La Salle,2
+Girls,800m,,2023,6,Carondelet,Carondelet / De La Salle,1
+Girls,800m,,2024,1,Carondelet,Carondelet / De La Salle,10
+Girls,800m,,2024,2,Monte Vista,Monte Vista,8
+Girls,800m,,2024,3,Monte Vista,Monte Vista,6
+Girls,800m,,2024,4,Granada,Granada,4
+Girls,800m,,2024,5,Foothill,Foothill,2
+Girls,800m,,2024,6,Granada,Granada,1
+Girls,800m,,2025,1,Monte Vista,Monte Vista,10
+Girls,800m,,2025,2,Carondelet,Carondelet / De La Salle,8
+Girls,800m,,2025,3,Foothill,Foothill,6
+Girls,800m,,2025,4,Livermore,Livermore,4
+Girls,800m,,2025,5,Monte Vista,Monte Vista,2
+Girls,800m,,2025,6,Dublin,Dublin,1
+Girls,800m,,2026,1,Livermore,Livermore,10
+Girls,800m,,2026,2,Monte Vista,Monte Vista,8
+Girls,800m,,2026,3,Amador Valley,Amador Valley,6
+Girls,800m,,2026,4,Foothill,Foothill,4
+Girls,800m,,2026,5,Granada,Granada,2
+Girls,800m,,2026,6,Carondelet,Carondelet / De La Salle,1
+Girls,1600m,,2022,1,Monte Vista,Monte Vista,10
+Girls,1600m,,2022,2,Monte Vista,Monte Vista,8
+Girls,1600m,,2022,3,Granada,Granada,6
+Girls,1600m,,2022,4,Granada,Granada,4
+Girls,1600m,,2022,5,California,California,2
+Girls,1600m,,2022,6,San Ramon Valley,San Ramon Valley,1
+Girls,1600m,,2023,1,Monte Vista,Monte Vista,10
+Girls,1600m,,2023,2,Granada,Granada,8
+Girls,1600m,,2023,3,Dougherty Valley,Dougherty Valley,6
+Girls,1600m,,2023,4,Monte Vista,Monte Vista,4
+Girls,1600m,,2023,5,San Ramon Valley,San Ramon Valley,2
+Girls,1600m,,2023,6,Monte Vista,Monte Vista,1
+Girls,1600m,,2024,1,San Ramon Valley,San Ramon Valley,10
+Girls,1600m,,2024,2,Granada,Granada,8
+Girls,1600m,,2024,3,San Ramon Valley,San Ramon Valley,6
+Girls,1600m,,2024,4,Monte Vista,Monte Vista,4
+Girls,1600m,,2024,5,Carondelet,Carondelet / De La Salle,2
+Girls,1600m,,2024,6,Granada,Granada,1
+Girls,1600m,,2025,1,Monte Vista,Monte Vista,10
+Girls,1600m,,2025,2,Carondelet,Carondelet / De La Salle,8
+Girls,1600m,,2025,3,Granada,Granada,6
+Girls,1600m,,2025,4,San Ramon Valley,San Ramon Valley,4
+Girls,1600m,,2025,5,Monte Vista,Monte Vista,2
+Girls,1600m,,2025,6,Foothill,Foothill,1
+Girls,1600m,,2026,1,Carondelet,Carondelet / De La Salle,10
+Girls,1600m,,2026,2,Monte Vista,Monte Vista,8
+Girls,1600m,,2026,3,Monte Vista,Monte Vista,6
+Girls,1600m,,2026,4,Granada,Granada,4
+Girls,1600m,,2026,5,Foothill,Foothill,2
+Girls,1600m,,2026,6,Monte Vista,Monte Vista,1
+Girls,3200m,,2022,1,Monte Vista,Monte Vista,10
+Girls,3200m,,2022,2,Monte Vista,Monte Vista,8
+Girls,3200m,,2022,3,California,California,6
+Girls,3200m,,2022,4,San Ramon Valley,San Ramon Valley,4
+Girls,3200m,,2022,5,Granada,Granada,2
+Girls,3200m,,2022,6,Monte Vista,Monte Vista,1
+Girls,3200m,,2023,1,Granada,Granada,10
+Girls,3200m,,2023,2,Monte Vista,Monte Vista,8
+Girls,3200m,,2023,3,Dougherty Valley,Dougherty Valley,6
+Girls,3200m,,2023,4,Amador Valley,Amador Valley,4
+Girls,3200m,,2023,5,Monte Vista,Monte Vista,2
+Girls,3200m,,2023,6,Monte Vista,Monte Vista,1
+Girls,3200m,,2024,1,Granada,Granada,10
+Girls,3200m,,2024,2,Monte Vista,Monte Vista,8
+Girls,3200m,,2024,3,San Ramon Valley,San Ramon Valley,6
+Girls,3200m,,2024,4,Granada,Granada,4
+Girls,3200m,,2024,5,Amador Valley,Amador Valley,2
+Girls,3200m,,2024,6,Dougherty Valley,Dougherty Valley,1
+Girls,3200m,,2025,1,Monte Vista,Monte Vista,10
+Girls,3200m,,2025,2,Granada,Granada,8
+Girls,3200m,,2025,3,San Ramon Valley,San Ramon Valley,6
+Girls,3200m,,2025,4,Monte Vista,Monte Vista,4
+Girls,3200m,,2025,5,Amador Valley,Amador Valley,2
+Girls,3200m,,2025,6,Dublin,Dublin,1
+Girls,3200m,,2026,1,Carondelet,Carondelet / De La Salle,10
+Girls,3200m,,2026,2,Monte Vista,Monte Vista,8
+Girls,3200m,,2026,3,Monte Vista,Monte Vista,6
+Girls,3200m,,2026,4,Granada,Granada,4
+Girls,3200m,,2026,5,Foothill,Foothill,2
+Girls,3200m,,2026,6,California,California,1
+Girls,4x800,yes,2023,1,Monte Vista,Monte Vista,10
+Girls,4x800,yes,2023,2,Granada,Granada,8
+Girls,4x800,yes,2023,3,Carondelet,Carondelet / De La Salle,6
+Girls,4x800,yes,2023,4,San Ramon Valley,San Ramon Valley,4
+Girls,4x800,yes,2023,5,Amador Valley,Amador Valley,2
+Girls,4x800,yes,2024,1,Monte Vista,Monte Vista,10
+Girls,4x800,yes,2024,2,California,California,8
+Girls,4x800,yes,2024,3,San Ramon Valley,San Ramon Valley,6
+Girls,4x800,yes,2024,4,Foothill,Foothill,4
+Girls,4x800,yes,2024,5,Dublin,Dublin,2
+Girls,4x800,yes,2025,1,Dublin,Dublin,10
+Girls,4x800,yes,2025,2,San Ramon Valley,San Ramon Valley,8
+Girls,4x800,yes,2025,3,Dougherty Valley,Dougherty Valley,6
+Girls,4x800,yes,2025,4,Monte Vista,Monte Vista,4
+Girls,4x800,yes,2025,5,Foothill,Foothill,2
+Girls,4x800,yes,2025,6,California,California,1
+Girls,4x800,yes,2026,1,San Ramon Valley,San Ramon Valley,10
+Girls,4x800,yes,2026,2,Monte Vista,Monte Vista,8
+Girls,4x800,yes,2026,3,Dougherty Valley,Dougherty Valley,6
+Girls,4x800,yes,2026,4,California,California,4
+Girls,4x800,yes,2026,5,Dublin,Dublin,2
+Girls,4x800,yes,2026,6,Amador Valley,Amador Valley,1
+Boys,800m,,2022,1,Dougherty Valley,Dougherty Valley,10
+Boys,800m,,2022,2,Amador Valley,Amador Valley,8
+Boys,800m,,2022,3,Dublin,Dublin,6
+Boys,800m,,2022,4,Dougherty Valley,Dougherty Valley,4
+Boys,800m,,2022,5,Dublin,Dublin,2
+Boys,800m,,2022,6,Monte Vista,Monte Vista,1
+Boys,800m,,2023,1,Dougherty Valley,Dougherty Valley,10
+Boys,800m,,2023,2,Granada,Granada,8
+Boys,800m,,2023,3,Dougherty Valley,Dougherty Valley,6
+Boys,800m,,2023,4,Granada,Granada,4
+Boys,800m,,2023,5,Amador Valley,Amador Valley,2
+Boys,800m,,2023,6,Foothill,Foothill,1
+Boys,800m,,2024,1,Dougherty Valley,Dougherty Valley,10
+Boys,800m,,2024,2,Foothill,Foothill,8
+Boys,800m,,2024,3,Amador Valley,Amador Valley,6
+Boys,800m,,2024,4,Dougherty Valley,Dougherty Valley,4
+Boys,800m,,2024,5,Foothill,Foothill,2
+Boys,800m,,2024,6,Dublin,Dublin,1
+Boys,800m,,2025,1,Dougherty Valley,Dougherty Valley,10
+Boys,800m,,2025,2,Amador Valley,Amador Valley,8
+Boys,800m,,2025,3,California,California,6
+Boys,800m,,2025,4,Granada,Granada,4
+Boys,800m,,2025,5,Foothill,Foothill,2
+Boys,800m,,2025,6,Dublin,Dublin,1
+Boys,800m,,2026,1,Amador Valley,Amador Valley,10
+Boys,800m,,2026,2,Granada,Granada,8
+Boys,800m,,2026,3,Granada,Granada,6
+Boys,800m,,2026,4,Dublin,Dublin,4
+Boys,800m,,2026,5,Dublin,Dublin,2
+Boys,800m,,2026,6,De La Salle,Carondelet / De La Salle,1
+Boys,1600m,,2022,1,Granada,Granada,10
+Boys,1600m,,2022,2,De La Salle,Carondelet / De La Salle,8
+Boys,1600m,,2022,3,Monte Vista,Monte Vista,6
+Boys,1600m,,2022,4,Granada,Granada,4
+Boys,1600m,,2022,5,Monte Vista,Monte Vista,2
+Boys,1600m,,2022,6,Dougherty Valley,Dougherty Valley,1
+Boys,1600m,,2023,1,Monte Vista,Monte Vista,10
+Boys,1600m,,2023,2,Granada,Granada,8
+Boys,1600m,,2023,3,Granada,Granada,6
+Boys,1600m,,2023,4,Granada,Granada,4
+Boys,1600m,,2023,5,Dougherty Valley,Dougherty Valley,2
+Boys,1600m,,2023,6,Foothill,Foothill,1
+Boys,1600m,,2024,1,Dougherty Valley,Dougherty Valley,10
+Boys,1600m,,2024,2,Granada,Granada,8
+Boys,1600m,,2024,3,Foothill,Foothill,6
+Boys,1600m,,2024,4,Granada,Granada,4
+Boys,1600m,,2024,5,Dublin,Dublin,2
+Boys,1600m,,2024,6,De La Salle,Carondelet / De La Salle,1
+Boys,1600m,,2025,1,Dougherty Valley,Dougherty Valley,10
+Boys,1600m,,2025,2,Granada,Granada,8
+Boys,1600m,,2025,3,De La Salle,Carondelet / De La Salle,6
+Boys,1600m,,2025,4,De La Salle,Carondelet / De La Salle,4
+Boys,1600m,,2025,5,Amador Valley,Amador Valley,2
+Boys,1600m,,2025,6,Granada,Granada,1
+Boys,1600m,,2026,1,Amador Valley,Amador Valley,10
+Boys,1600m,,2026,2,Granada,Granada,8
+Boys,1600m,,2026,3,Dublin,Dublin,6
+Boys,1600m,,2026,4,Granada,Granada,4
+Boys,1600m,,2026,5,Monte Vista,Monte Vista,2
+Boys,1600m,,2026,6,Amador Valley,Amador Valley,1
+Boys,3200m,,2022,1,De La Salle,Carondelet / De La Salle,10
+Boys,3200m,,2022,2,Dublin,Dublin,8
+Boys,3200m,,2022,3,Granada,Granada,6
+Boys,3200m,,2022,4,Monte Vista,Monte Vista,4
+Boys,3200m,,2022,5,Granada,Granada,2
+Boys,3200m,,2022,6,Dougherty Valley,Dougherty Valley,1
+Boys,3200m,,2023,1,Monte Vista,Monte Vista,10
+Boys,3200m,,2023,2,Granada,Granada,8
+Boys,3200m,,2023,3,De La Salle,Carondelet / De La Salle,6
+Boys,3200m,,2023,4,Granada,Granada,4
+Boys,3200m,,2023,5,Granada,Granada,2
+Boys,3200m,,2023,6,Amador Valley,Amador Valley,1
+Boys,3200m,,2024,1,De La Salle,Carondelet / De La Salle,10
+Boys,3200m,,2024,2,Dougherty Valley,Dougherty Valley,8
+Boys,3200m,,2024,3,San Ramon Valley,San Ramon Valley,6
+Boys,3200m,,2024,4,Granada,Granada,4
+Boys,3200m,,2024,5,Monte Vista,Monte Vista,2
+Boys,3200m,,2024,6,Amador Valley,Amador Valley,1
+Boys,3200m,,2025,1,De La Salle,Carondelet / De La Salle,10
+Boys,3200m,,2025,2,De La Salle,Carondelet / De La Salle,8
+Boys,3200m,,2025,3,Amador Valley,Amador Valley,6
+Boys,3200m,,2025,4,Granada,Granada,4
+Boys,3200m,,2025,5,Dublin,Dublin,2
+Boys,3200m,,2025,6,Granada,Granada,1
+Boys,3200m,,2026,1,Amador Valley,Amador Valley,10
+Boys,3200m,,2026,2,Monte Vista,Monte Vista,8
+Boys,3200m,,2026,3,Granada,Granada,6
+Boys,3200m,,2026,4,Monte Vista,Monte Vista,4
+Boys,3200m,,2026,5,California,California,2
+Boys,3200m,,2026,6,Granada,Granada,1
+Boys,4x800,yes,2023,1,Dougherty Valley,Dougherty Valley,10
+Boys,4x800,yes,2023,2,Granada,Granada,8
+Boys,4x800,yes,2023,3,Monte Vista,Monte Vista,6
+Boys,4x800,yes,2023,4,Foothill,Foothill,4
+Boys,4x800,yes,2023,5,Amador Valley,Amador Valley,2
+Boys,4x800,yes,2023,6,Dublin,Dublin,1
+Boys,4x800,yes,2024,1,Foothill,Foothill,10
+Boys,4x800,yes,2024,2,Dublin,Dublin,8
+Boys,4x800,yes,2024,3,Amador Valley,Amador Valley,6
+Boys,4x800,yes,2024,4,Monte Vista,Monte Vista,4
+Boys,4x800,yes,2024,5,Granada,Granada,2
+Boys,4x800,yes,2024,6,San Ramon Valley,San Ramon Valley,1
+Boys,4x800,yes,2025,1,San Ramon Valley,San Ramon Valley,10
+Boys,4x800,yes,2025,2,De La Salle,Carondelet / De La Salle,8
+Boys,4x800,yes,2025,3,California,California,6
+Boys,4x800,yes,2025,4,Amador Valley,Amador Valley,4
+Boys,4x800,yes,2025,5,Foothill,Foothill,2
+Boys,4x800,yes,2025,6,Dublin,Dublin,1
+Boys,4x800,yes,2026,1,Granada,Granada,10
+Boys,4x800,yes,2026,2,De La Salle,Carondelet / De La Salle,8
+Boys,4x800,yes,2026,3,Dougherty Valley,Dougherty Valley,6
+Boys,4x800,yes,2026,4,Dublin,Dublin,4
+Boys,4x800,yes,2026,5,San Ramon Valley,San Ramon Valley,2
+Boys,4x800,yes,2026,6,California,California,1

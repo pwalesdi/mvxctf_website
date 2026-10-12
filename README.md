@@ -19,6 +19,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
 | `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
+| `assets/js/ebal-distance.js` | Renders the EBAL distance points table on `track-field-records.html#ebal-distance` from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
@@ -121,6 +122,13 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 **`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
 - Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
 - A non-empty `honor` shows as a red pill after the name.
+
+**`assets/data/ebal-distance.csv`**: `gender, event, relay, year, place, school, program, points`
+- One row per scoring place at the EBAL Championships (800m, 1600m, 3200m, 4x800), 2022 on. `points` is the score for that place (10-8-6-4-2-1). The page adds up `points` and never assumes the weights, so a change in scoring is a data change.
+- `program` is the row the points count toward. Carondelet (girls) and De La Salle (boys) share "Carondelet / De La Salle"; every other school's `program` is its own name.
+- Relays score once per team. Leave unfilled places out (there was no 4x800 in 2022). The page notes event-years with no rows automatically.
+- Page interactions: sort by girls, boys or combined total; show girls' or boys' points in the year columns; select a school to expand its points by event and year.
+- Monte Vista boys' 2026 EBAL total is 14. (24 is the NCS Tri-Valley figure; don't label it EBAL.)
 
 **`assets/data/ncs-championships.csv`**: `gender, year, place, place_num, division, note`
 - One row per team per year. The Cross Country Records page shows one row per year, newest first: Year, Division (shared by both teams), Girls, Boys. `place` is printed as-is (`1st`, `15th`); `place_num` of 1 gets the red tint.
