@@ -93,22 +93,46 @@ These rows link to **2025** results pages even though the meets are 2026. They a
 
 Picture Day has no date yet.
 
-## Every season
+## Post-season checklist
 
-The Athletic.net links have the year in the path. Bump `2026` in both of them each season:
+Several parts of the site go stale on a fixed yearly cycle. Work through the relevant list after each season. Every change below is to a file in this repo. Afterwards, run the site locally (see the top of this file), click through the pages you touched, and check nothing says "couldn't load".
 
-- `https://www.athletic.net/team/1027/cross-country/2026`
-- `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`
+To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (use whichever year just ended).
 
-They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of every page, in the home page's schedule panel, and in the `<noscript>` line on `schedule.html`. To find them all: `grep -rn "athletic.net/team" .`
+### After each cross country season (late November / December)
 
-### Cross Country page (`cross-country.html`)
+1. **State results (Cross Country Records page)**: `cross-country-records.html`
+   - Add the new State results to the source CSVs in `source/data/` (`mv_cif_state_xc_individuals_1987_2025.csv`, `mv_woodward_park_all_marks.csv`), then regenerate the page's `<script>` data block (`DATA`, `WP`, the team-times list `T` and the multi-year list `M`). See "Cross Country Records" below; the generator script isn't in the repo yet.
+   - **Years at State strip: three places, change them together.** In the page's script, both `for (let y = 1987; y <= 2025; y++)` lines: bump `2025` to the new year. In the page's `<style>` block, `.strip{grid-template-columns:56px repeat(39, …)}`: add 1 to `39` for each year added. If they disagree, the strip misaligns.
+   - **Headline numbers** at the top of "Monte Vista at State" are typed in: straight girls team trips ("2013 through 2025"), best finishes, team appearances ("18 girls, 7 boys"), State qualifiers ("75 girls, 45 boys · 7 went all four years"). Recount and edit.
+   - **"Active" pills** on the multi-year qualifiers come from `active: true/false` in the `M` list in the page's script. Turn off graduates; turn on returning athletes.
+   - **Footnotes** at the bottom of the page name year ranges ("Places marked * (2022–2025)", the Sources line, the Clovis years). Extend them.
+   - **Woodward Park marks** (Clovis, State, Rough Rider) go into `WP` with the rest of the regenerated data.
+2. **NCS championships**: `assets/data/ncs-championships.csv`. Add one Girls and one Boys row for the new year (`place`, `place_num`, `division`). If the division changed, rewrite the hand-written sentence under the NCS table in `cross-country-records.html`.
+3. **Cross Country page**: `cross-country.html`
+   - Top-line band: "14" NCS titles ("Girls 12, boys 2"), "22 of 37" girls top-three years, "25" State team trips ("18 girls, 7 boys"), "120" State qualifiers.
+   - "Why Monte Vista": "1984 through 2025", "2022, 2024 and 2025", "since 2019" counts, "12 straight … 2013 through 2025", "5th" best State finish, boys "7" State trips.
+   - **These go stale after every season. Replace them:** girls `1-5-6` ("…Padilla sixth. **All three return.**") and boys `4th` ("**Kotamraju returns** after placing fourth…").
+   - Don't name years for the boys' two NCS team titles in prose (the source records conflict). The NCS table shows them as the CSV has them, 2007 and 2015, by decision.
+4. **Home page accomplishments band**: `index.html`. "14" NCS team titles, "3" titles in four years ("2022, 2024 and 2025"), "21" section titles since 2019, "77" All-NCS honors ("31 different athletes"), and the four highlight lines with their year labels ("2025 · Cross country", "2019–2025 · Depth" and so on).
+5. **Head coach bio**: `coaches.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
+6. **Roster highlights on the records board**: `assets/data/records.csv`, column `active`. Set `yes` for athletes now on the roster (relays: if any leg is current), clear graduates. Set it by hand. The page never matches names, because the board uses initials and has same-surname athletes.
 
-- **These go stale after the 2026 season.** Update or replace them:
-  - Girls, `1-5-6`: "…Makarova fifth, Padilla sixth. **All three return.**"
-  - Boys, `4th`: "**Kotamraju returns** after placing fourth in the section as a junior."
-- The other figures are tied to seasons ("since 2019", "2013 through 2025", "1984 through 2025", "22 of 37", the State counts) and should be checked each season too. Both the top-line band and "Why Monte Vista" are cross country only.
-- **Don't name years for the boys' two NCS team titles in prose.** The source records conflict on the year. (The NCS Championships table on Cross Country Records shows them as the CSV has them, 2007 and 2015; that was a deliberate decision.)
+### After each track season (late May / June)
+
+1. **Varsity letter winners**: `assets/data/letter-winners.csv`. Add a row per athlete for the new year (`gender, year, athlete, honor`), in the order you want them listed. The page counts the rows itself.
+2. **Athlete of the year honors**: same file, `honor` column ("Track Athlete of the Year", "Field Athlete of the Year"). They show as red pills.
+3. **School records**: `assets/data/records.csv`. Insert new marks, re-number `rank` within each event, and keep `event_order` as is. Flags go in `flag` (`w` wind-aided, `c` converted), never in `mark`. Set `active` as above.
+4. **EBAL distance points**: `assets/data/ebal-distance.csv`. Add one row per scoring place (top six) for the 800m, 1600m, 3200m and 4x800, girls and boys, with `points` 10-8-6-4-2-1. Use `program` "Carondelet / De La Salle" for those two schools, otherwise the school name. The page's year range and totals update themselves.
+5. **Varsity standards for next year**: `assets/data/varsity-standards.csv`, plus the eyebrow "Track & Field · 2026" in `varsity-standards.html`. Once EBAL publishes the new qualifying marks: standard = (3 × average of the last three years' EBAL 7th-place marks + EBAL qualifying standard) / 4. That's the 3:1 weighting, used from the 2027 standards on; the published 2026 standards used 2:1 and stay as published. Field marks are rounded to the nearest half inch (`28' 6"`, `15' 6.5"`). Working files: `source/data/MV_Varsity_Standards.*`, `ebal-2026-seventh-place.csv`, `varsity-standards-2027-DRAFT.csv`. These are git-ignored and not published until final.
+6. **Head coach bio, track section**: `coaches.html`. Meet of Champions and Tri-Valley titles and counts ("19 … titles", the two title lists), EBAL and NCS team results, "77 All-NCS honors … 31 different athletes".
+
+### Every year, before the new season
+
+1. **Athletic.net links**: the year is in the path of both: `https://www.athletic.net/team/1027/cross-country/2026` and `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`. They're in the footer of **every page** (change all pages in one commit, as with any header or footer change), the home page's schedule panel, the `<noscript>` line on `schedule.html`, and `assets/js/schedule.js` (`SPORTS`). Find them all with `grep -rn "athletic.net/team" .`
+2. **Schedule**: replace `assets/data/schedule.csv` with the new season (same columns), or point `SHEET_CSV_URL` in `assets/js/schedule.js` at the published Google Sheet. Check that every `results_url` points at the new season's results.
+3. **Home page season text**: `index.html`. The hero "2026 Cross Country", the "2026 pre-season" practice line, "2026 cross country schedule & results", the "Printable season schedule" Google Doc link, and the "Past seasons & results archive 2020–2025" label.
+4. **Coach bio year counts**: `coaches.html`. Head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". Add 1 to each.
 
 ## Records and letters
 
