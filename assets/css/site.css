@@ -412,10 +412,25 @@ section.panel.letters{padding-block:0}
 
 /* Coaches page */
 .coach-lead{display:flex;flex-direction:column;gap:8px;padding-bottom:clamp(28px,4vw,40px);margin-bottom:clamp(28px,4vw,40px);border-bottom:1px solid var(--line)}
-div.card:hover{transform:none;border-color:var(--line)} /* staff cards aren't links: no hover lift */
 .coach-bio{margin-top:16px}
+/* Coach bios: native <details>/<summary>, no JS. All share name="coach",
+   so opening one closes the others where supported. Coaches without a bio
+   are plain text (.coach.plain): no chevron, pointer or hover. */
+.coach > summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.coach > summary::-webkit-details-marker{display:none}
+.coach > summary::after{content:"";flex-shrink:0;margin-top:.55em;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--ink-2);transition:transform .15s ease}
+.coach[open] > summary::after{transform:rotate(180deg)}
+.coach-id{display:flex;flex-direction:column;gap:4px;min-width:0}
+.coach-id .lede{display:block}
+.coach-head > summary{border-radius:6px;justify-content:flex-start} /* chevron sits beside the name, not at the far edge */
+.coach-head > summary:hover h2{color:var(--red-ink)}
+.staff-list{background:var(--ground);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.staff-list > .coach + .coach{border-top:1px solid var(--line)}
+.staff-list > details > summary,.staff-list > .plain{padding:16px 20px}
+.staff-list > details > summary:hover,.staff-list > details[open] > summary{background:var(--surface)}
+.staff-list > details > summary:focus-visible{outline-offset:-3px}
+.staff-list .t{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:1rem;letter-spacing:.005em}
+.staff-list .d{font-size:.875rem;color:var(--ink-2);line-height:1.5}
+.coach-body{padding:14px 20px 20px}
 .coach-bio h3{margin-top:14px;color:var(--ink)}
 .prose ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:6px;color:var(--ink-2)}
-.grid.staff{align-items:start} /* cards size to their content; some have bios, some don't */
-.card .bio{display:flex;flex-direction:column;gap:10px;margin-top:6px}
-.card .bio p{font-size:.875rem;line-height:1.55;color:var(--ink-2)}
