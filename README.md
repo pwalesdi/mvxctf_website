@@ -20,7 +20,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
 | `assets/img/` | Logo and hero photo (downloaded from Wix). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
-| `source/montevistaxc-mockup.html` | The approved single-page design. Reference only; nothing links to it. Note that GitHub Pages serves everything in the repo, so it is publicly reachable at `/source/montevistaxc-mockup.html`. |
+| `source/data/` | The CSVs that `state-history.html` is regenerated from (see "State history"). Served publicly like everything else in the repo. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
 
 Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space Mono (numbers and times, as `var(--mono)` / `.mono`).
@@ -104,6 +104,10 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 ## State history
 
-`state-history.html` is the "Monte Vista at State" record book (originally `mv-state-history.html`). Its data and table logic are the original `<script>` block, unchanged. Edit data there, not in the markup. The page is light-only (`<html data-theme="light">`).
+`state-history.html` is the "Monte Vista at State" record book. It is **regenerated from the CSVs in `source/data/`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The data and table logic are the page's `<script>` block; the rest of the page is the shared header/footer and site styling. The page is light-only (`<html data-theme="light">`).
+
+**Not in the repo yet:** the two CSVs (`mv_cif_state_xc_individuals_1987_2025.csv`, `mv_woodward_park_all_marks.csv`), and the script that turns them into the page's `DATA` objects. Until that script is added, a rebuild means producing a new `<script>` block elsewhere and pasting it over the old one. Leave everything outside that block alone.
+
+The pre-site originals, `montevistaxc-mockup.html` (the approved home page design) and `mv-state-history.html`, are in git history: `git show 5ce55d9:montevistaxc-mockup.html`, `git show 5ce55d9:mv-state-history.html`.
 
 **Wording rule:** on this page, State and Woodward Park times are "fastest in school history," never "school record." A 5K course time isn't a ratified school record. The rule doesn't apply to the Records page, which is the school's actual record board, so "School records" in the nav and footer is correct.
