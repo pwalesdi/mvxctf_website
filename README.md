@@ -16,8 +16,12 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | Path | What it is |
 | --- | --- |
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
-| `assets/js/schedule.js` | Loads the meet schedule CSV and renders `schedule.html` and the "Next" row on the home page. One parser, used by both. |
+| `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. |
+| `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
+| `assets/js/records.js` | Renders `records.html` from `assets/data/records.csv`. |
+| `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
+| `assets/data/records.csv`, `assets/data/letter-winners.csv` | School records and varsity letter winners (see "Records and letters"). |
 | `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
 | `assets/docs/clearance-guide.pdf` | Home Campus step-by-step guide (downloaded from the old Wix site). |
 | `source/data/` | The CSVs that `state-history.html` is regenerated from (see "State history"). Served publicly like everything else in the repo. |
@@ -31,7 +35,7 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav link has `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, state-history, cross-country, track-field, coaches, records, donate and summer-run. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That covers: index, schedule, state-history, cross-country, track-field, coaches, records, varsity-letters, donate and summer-run. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html      # every page should report 1
@@ -98,6 +102,30 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
   - Boys, `4th`: "**Kotamraju returns** after placing fourth in the section as a junior."
 - The other "Why Monte Vista" figures are tied to dates ("since 2019", "2022–26", "in 2026") and should be checked each season too.
 
+## Records and letters
+
+Both pages render from CSVs, so updating them means editing a CSV. Neither page has a hand-written count or list.
+
+**`assets/data/records.csv`**: `gender, event_group, event, rank, athlete, mark, year, flag`
+- `event_group` is shown in the order Sprints, Hurdles, Distance, Relays, Field. Events within a group appear in the order the file lists them.
+- `flag` is `w` (wind-aided), `c` (converted mark) or empty, and is shown as a small badge after the mark. The source marks already end in that letter (`10.90c`), so the page hides the trailing letter for display; the CSV keeps it.
+- Rank 1 in each event is tinted.
+
+**`assets/data/letter-winners.csv`**: `gender, year, athlete, honor`
+- Years newest first. Names in file order. Each year's "N athletes" is counted from the rows. Patrick's 2022 girls source is headed "(17)" but lists 19 names, so the page says 19. That's intended.
+- A non-empty `honor` shows as a red pill after the name.
+
+### Open questions for Patrick
+
+The data is rendered exactly as the CSVs have it. None of this has been changed:
+
+- Girls pole vault "Synder" and boys 1987 4x100 "Martidale". Probably Snyder and Martindale.
+- Girls 2006 4x400: "Randall, Zorich Anderson, Stringer". Three names for four runners; a comma is missing.
+- 2025 girls letters: "Powell, Arthur", where 2024 has "Powell, Alexandra".
+- 2025 boys letters: the file still has **"Mania, Grant"**. It was meant to be normalised to Maina like 2026, but wasn't, so the page shows "Mania".
+- The `c` flag is assumed to mean "converted mark". Unconfirmed.
+- Also spotted while building (not changed): "Giren" (boys 1999 4x400) vs "Giron" elsewhere; "Wily" (boys 300H 2005) vs "Wiley" (110H 2005); "Gebhardt" (girls 2015 DMR) vs "Gebhart"; "De Maio" (boys 2014 4x100) vs "DeMaio"; girls 2016 DMR "Fuhriman, Cervantes, Coney, A, Coney, M" mixes the two name formats.
+
 ## Photos
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
@@ -134,7 +162,6 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
 | `coaches.html` | Coach names, bios, emails (currently points at the team parent) |
-| `records.html` | School records and the varsity letter winners list (the old site had a separate `/varsity-letter-winners` page; links to it now go here) |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |

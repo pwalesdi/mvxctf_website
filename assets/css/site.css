@@ -314,8 +314,8 @@ th.num{text-align:right}
 .ledger .calc{color:var(--ink-2)}
 .ledger .meet{white-space:nowrap}
 .ledger .meet.st{color:var(--red-ink);font-weight:700}
-.ledger .top10 td{background:var(--red-soft)}
-.ledger .top10 td.rank{color:var(--red-ink);font-weight:700}
+.ledger .top10 td,.ledger tr.hl td{background:var(--red-soft)}
+.ledger .top10 td.rank,.ledger tr.hl td.rank{color:var(--red-ink);font-weight:700}
 
 /* ---------- cross country page ---------- */
 /* Layout modifiers on existing components; no new visual treatment. */
@@ -344,3 +344,27 @@ tr.ours td:nth-child(2){font-weight:600}
 .table-label{margin-bottom:12px}
 table.results td:nth-child(2){white-space:nowrap}
 @media (max-width:600px){table.results th,table.results td{padding-inline:12px}}
+
+/* ---------- data pages: school records, varsity letters ---------- */
+.rec-legend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:.875rem;color:var(--ink-2);margin:0}
+.flag{font-family:var(--mono);font-size:.625rem;line-height:1;font-weight:400;color:var(--red-ink);border:1px solid currentColor;border-radius:3px;padding:1px 3px;margin-left:3px;vertical-align:super}
+section.data-group{padding-block:0;margin-top:clamp(28px,4vw,44px)}
+section.data-group h2{margin-bottom:16px}
+.panel-head{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:1.0625rem;letter-spacing:.005em;text-transform:none;line-height:1.25;margin:0;padding:14px 16px;border-bottom:1px solid var(--line)}
+/* Event panels: 3-up (relays 2-up, for the long name strings), 1-up on phones.
+   align-items:start keeps one-row panels from stretching to their neighbours. */
+.rec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.rec-grid.wide{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:920px){.rec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.rec-grid,.rec-grid.wide{grid-template-columns:1fr}}
+.rec-table{font-size:.875rem}
+/* Number columns shrink to fit; the athlete column gets the rest, and relay names wrap there. */
+.rec-table th.num,.rec-table td.num{width:1%}
+@media (max-width:640px){.rec-table th,.rec-table td{padding-inline:8px}.rec-table th:first-child,.rec-table td:first-child{padding-left:14px}.rec-table th:last-child,.rec-table td:last-child{padding-right:14px}}
+section.panel.letters{padding-block:0}
+.panel.letters + .panel.letters{margin-top:16px}
+.panel-head .count{font-family:var(--display);font-weight:600;font-size:.875rem}
+.name-list{list-style:none;margin:0;padding:12px 16px 16px;columns:3 210px;column-gap:28px}
+.name-list li{break-inside:avoid;padding:5px 0;font-size:.9375rem;line-height:1.45}
+.name-list .pill{margin-left:4px;vertical-align:1px}
+.controls + #letters-body{margin-top:20px}

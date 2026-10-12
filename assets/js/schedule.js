@@ -1,7 +1,7 @@
 /* Monte Vista schedule.
    Reads the published Google Sheet CSV and renders it into
    #schedule-app (schedule.html) and #next-meet (index.html).
-   No dependencies — plain browser JavaScript. */
+   Needs assets/js/csv.js loaded first. */
 (function () {
   "use strict";
 
@@ -23,59 +23,17 @@
   // Aug–Dec is cross country season; the rest of the year is track.
   function seasonSport() { return new Date().getMonth() >= 7 ? "XC" : "TF"; }
 
-  /* ---------- CSV ---------- */
-
-  // RFC 4180: quoted fields may contain commas, newlines and "" for a quote.
-  function parseCSV(text) {
-    var rows = [], row = [], field = "", i = 0, inQuotes = false, c;
-    if (text.charCodeAt(0) === 0xfeff) i = 1; // BOM
-    for (; i < text.length; i++) {
-      c = text[i];
-      if (inQuotes) {
-        if (c === '"') {
-          if (text[i + 1] === '"') { field += '"'; i++; }
-          else inQuotes = false;
-        } else field += c;
-      } else if (c === '"') {
-        inQuotes = true;
-      } else if (c === ",") {
-        row.push(field); field = "";
-      } else if (c === "\n" || c === "\r") {
-        if (c === "\r" && text[i + 1] === "\n") i++;
-        row.push(field); rows.push(row); row = []; field = "";
-      } else field += c;
-    }
-    if (field !== "" || row.length) { row.push(field); rows.push(row); }
-    return rows;
+  // csv.js missing: show the fallback rather than a stuck "Loading…".
+  if (!window.MVCSV) {
+    var a0 = document.getElementById("schedule-app"), n0 = document.getElementById("next-meet");
+    if (a0) a0.innerHTML = '<p class="sched-status">The schedule couldn\u2019t load. See the full schedule on <a href="' +
+      SPORTS.filter(function (s) { return s.key === seasonSport(); })[0].results + '">Athletic.net</a>.</p>';
+    if (n0) n0.parentNode.removeChild(n0);
+    return;
   }
-
-  // Rows → objects keyed by lower-case header name, so column order
-  // in the sheet doesn't matter.
-  function toRecords(rows) {
-    if (!rows.length) throw new Error("empty CSV");
-    var head = rows[0].map(function (h) { return h.trim().toLowerCase(); });
-    if (head.indexOf("date") < 0 || head.indexOf("meet") < 0) {
-      throw new Error("CSV is missing date/meet columns");
-    }
-    var out = [];
-    for (var r = 1; r < rows.length; r++) {
-      var rec = {}, blank = true;
-      for (var k = 0; k < head.length; k++) {
-        rec[head[k]] = (rows[r][k] || "").trim();
-        if (rec[head[k]]) blank = false;
-      }
-      if (!blank && rec.meet) out.push(rec);
-    }
-    return out;
-  }
+  var esc = window.MVCSV.esc;
 
   /* ---------- values ---------- */
-
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-  }
 
   // Only http(s) links from the sheet are rendered; anything else is dropped.
   function safeUrl(u) {
@@ -135,17 +93,9 @@
   }
 
   function loadMeets() {
-    var ctrl = "AbortController" in window ? new AbortController() : null;
-    var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 15000);
-    return fetch(SHEET_CSV_URL, { cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.text();
-      })
-      .then(function (text) {
-        if (timer) clearTimeout(timer);
-        return prepare(toRecords(parseCSV(text)));
-      });
+    return window.MVCSV.load(SHEET_CSV_URL, ["date", "meet"]).then(function (records) {
+      return prepare(records.filter(function (r) { return r.meet; }));
+    });
   }
 
   /* ---------- schedule.html ---------- */

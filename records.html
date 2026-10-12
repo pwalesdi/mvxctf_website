@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Records · Monte Vista Mustangs Distance</title>
-<meta name="description" content="Records — Monte Vista High School cross country and track &amp; field.">
+<title>School records · Monte Vista Mustangs Distance</title>
+<meta name="description" content="Monte Vista track and field school records by event.">
 <link rel="icon" type="image/png" href="assets/img/mustang-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,13 +41,22 @@
   <section>
     <div class="wrap">
       <div class="sec-head">
-        <p class="eyebrow">The program</p>
-        <h1>Records</h1>
+        <h1>School records</h1>
+        <p class="lede">The fastest and furthest marks in Monte Vista history, by event.</p>
+        <p class="rec-legend"><span><sup class="flag">w</sup> &mdash; wind-aided</span><span><sup class="flag">c</sup> &mdash; converted mark</span></p>
       </div>
-      <div class="prose">
-        <p class="placeholder">Placeholder &mdash; content coming</p>
-        <p>School records and the varsity letter winners list will go here. Neither has been added yet.</p>
-        <p><a href="state-history.html">Monte Vista at State</a> &mdash; CIF State and Woodward Park results.</p>
+      <div id="records-app">
+        <p class="sched-status">Loading records&hellip;</p>
+      </div>
+      <noscript><p class="sched-status">The records need JavaScript to display.</p></noscript>
+    </div>
+  </section>
+
+  <section class="tint" aria-label="Related pages">
+    <div class="wrap">
+      <div class="grid">
+        <a class="card" href="varsity-letters.html"><span class="t">Varsity letter winners</span><span class="m"></span></a>
+        <a class="card" href="state-history.html"><span class="t">Monte Vista at State</span><span class="m"></span></a>
       </div>
     </div>
   </section>
@@ -67,7 +76,7 @@
         <a href="cross-country.html">Cross Country</a>
         <a href="track-field.html">Track &amp; Field</a>
         <a href="records.html">School records</a>
-        <a href="records.html">Varsity letter winners</a>
+        <a href="varsity-letters.html">Varsity letter winners</a>
       </div>
       <div class="foot-col">
         <h4>Get involved</h4>
@@ -87,6 +96,8 @@
     </div>
   </div>
 </footer>
+<script src="assets/js/csv.js"></script>
+<script src="assets/js/records.js"></script>
 
 </body>
 </html>
