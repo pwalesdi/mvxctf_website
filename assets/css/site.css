@@ -236,11 +236,6 @@ th.num{text-align:right}
 
 /* ---------- schedule ---------- */
 /* Sport toggle: same treatment as the nav links and their current-page dot. */
-.toggle{display:flex;flex-wrap:wrap;gap:2px;margin-bottom:24px}
-.toggle button{font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
-.toggle button:hover{color:var(--ink);background:var(--surface)}
-.toggle button[aria-pressed="true"]{color:var(--ink);background:var(--surface)}
-.toggle button[aria-pressed="true"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
 .sched-block + .sched-block{margin-top:clamp(28px,4vw,44px)}
 .sched-block h2{margin-bottom:14px}
 .sched-status{color:var(--ink-2)}
@@ -502,3 +497,10 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .bio-photo img{display:block;width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
 .bio-photo figcaption{margin-top:7px;font-size:.875rem;line-height:1.45;color:var(--ink-3)}
 .bio-photo.wide{margin:26px 0}
+/* Schedule season selector (schedule.js). */
+.season-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.season-pick label{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.season-pick select{font:inherit;font-family:var(--display);font-stretch:92%;font-weight:600;font-size:1rem;color:var(--ink);background:var(--ground);border:1px solid var(--line-strong);border-radius:6px;padding:9px 36px 9px 12px;max-width:100%;
+  appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink-2) 50%),linear-gradient(135deg,var(--ink-2) 50%,transparent 50%);background-position:calc(100% - 17px) 55%,calc(100% - 12px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+.season-pick select:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.season-note{margin:-6px 0 22px;color:var(--ink-2);font-size:.9375rem;max-width:68ch}

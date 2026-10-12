@@ -21,7 +21,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | --- | --- |
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. A row whose first cell starts with `#` is a comment and is skipped, in every CSV. |
-| `assets/js/schedule.js` | Renders `schedule.html` and the "Next" row on the home page from the schedule CSV. |
+| `assets/js/schedule.js` | Renders `schedule.html` (Season selector, one season at a time) and the "Next" row on the home page from the current season. |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
 | `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
@@ -30,7 +30,8 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
 | `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `coaches.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
-| `assets/data/schedule.csv` | The 2026 schedule while it lives in the repo (see below). |
+| `assets/data/seasons.csv` | The season index for the schedule's Season selector (see "The schedule"). |
+| `assets/data/schedule-<season>.csv` | One schedule per season, e.g. `schedule-2026-xc.csv`. Only the current season's file changes; past seasons are frozen. |
 | `assets/data/news.csv` | The home page's "Latest" item. Headers only means no item. |
 | `assets/data/results-archive.csv` | One row per archived results file (see "Results archive"). |
 | `archive/results/` | The archived results files themselves, one folder per season. |
@@ -66,13 +67,21 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 
 ## The schedule
 
-`schedule.js` fetches one CSV from the URL in the constant at the top of the file:
+`schedule.html` shows one season at a time, picked from a **Season** selector. The current season loads by default; any other is `schedule.html?season=<id>` (e.g. `?season=2024-xc`), so Back works and a season can be shared. An unknown id falls back to the current season. The current season is split into Upcoming, Completed and (if any) Date to be announced; a past season is one list, since every meet in it is done.
+
+The **current season** is the constant at the top of `assets/js/schedule.js`:
 
 ```js
-var SHEET_CSV_URL = "assets/data/schedule.csv";
+var CURRENT_SEASON = "2026-xc";
 ```
 
-To move to Google Sheets, publish the sheet (File → Share → Publish to web → the tab → Comma-separated values) and replace that one string with the published URL, which looks like `https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv`. Nothing else changes. Google caches published CSVs, so edits can take a few minutes to show up. Anyone with the link can read a published sheet, so keep phone numbers and addresses out of it.
+Change it at each season rollover, and mark the same season `yes` in the `current` column of `assets/data/seasons.csv` (the constant wins if they disagree).
+
+**`assets/data/seasons.csv`** lists the seasons: `id, label, sport, year, sort, current, note`. `id` names the file (`schedule-<id>.csv`), `label` is what the selector shows, `sort` orders the selector (1 = top), and `note` is one line shown under the selector for that season (COVID, a partial season…). Season ids are `<year>-xc`, `<year>-track`, and `2021-xc-spring` for the COVID-displaced spring 2021 season.
+
+**One file per season**, `assets/data/schedule-<id>.csv`, all with the columns below. Only the current season's file changes. Past seasons are frozen: they were rebuilt from the old site's season pages and the archive, keeping only results links (our archived copy where we hold one, with the original in `results_source_url`) and never the other links on those pages (Google Doc itineraries, race assignments, entries, tickets). Where a meet has no results, the Links cell is simply empty.
+
+To run the current season from a Google Sheet instead of its file, publish the sheet (File → Share → Publish to web → the tab → Comma-separated values) and set `CURRENT_SHEET_URL` near the top of `schedule.js` to the published URL (`https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv`). Google caches published CSVs, so edits can take a few minutes to show up. Anyone with the link can read a published sheet, so keep phone numbers and addresses out of it.
 
 **Sheet URL:** not published yet.
 
@@ -84,7 +93,7 @@ Columns are matched by header name, so their order doesn't matter. Header names 
 | --- | --- |
 | `date` | `YYYY-MM-DD` (`M/D/YYYY` also accepted). Leave empty if not set: the row goes under "Date to be announced." |
 | `meet` | Event name. Rows without one are skipped. Commas are fine. |
-| `sport` | `XC` or `TF` (drives the sport toggle) |
+| `sport` | `XC` or `TF` |
 | `level` | All Athletes, Select Athletes, Varsity Athletes, All Parents, All Athletes & Family |
 | `location` | Plain text |
 | `map_url` | Optional. Makes the location a link. |
@@ -94,7 +103,7 @@ Columns are matched by header name, so their order doesn't matter. Header names 
 | `extra_label` / `extra_url` | Optional second link (Tickets, Live video, Race video…). Shown only when both are filled. Keep a `&t=` timestamp on a race video so it opens at the race. |
 | `notes` | Optional small text under the meet name |
 
-A row whose `date` cell starts with `#` is a comment (the file ends with one, showing an undated row). Only `http`/`https` links are rendered, and every value is HTML-escaped. If the CSV can't be loaded, the page says so and links to Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
+A row whose `date` cell starts with `#` is a comment (the file ends with one, showing an undated row). Only `http`/`https` links are rendered, and every value is HTML-escaped. If a season's file can't be loaded, the page says so and links to the results archive and Athletic.net. Below 640px the table becomes one card per meet (meet name as the heading, empty fields hidden, short dates).
 
 ### Data to fix
 
@@ -138,7 +147,7 @@ Several parts of the site go stale on a fixed yearly cycle. Work through the rel
 3. Screen it: results only. No rosters, contact details, forms, or social events (see "Results archive").
 4. Save it as `archive/results/<season>/<YYYY>-<track|xc>-<MM>-<DD>-<meet-slug>-results.pdf`. A meet published as many per-event pages gets a folder of that name, with the original filenames.
 5. Add one row per file to `assets/data/results-archive.csv`. **Relative paths only**, no leading `/`.
-6. In `schedule.csv`, point `results_url` at the copy (the file, or `results-archive.html#m-<date>-<meet-slug>` for multi-file meets) and keep the original URL in `results_source_url`.
+6. In the season's `schedule-<id>.csv`, point `results_url` at the copy (the file, or `results-archive.html#m-<date>-<meet-slug>` for multi-file meets) and keep the original URL in `results_source_url`.
 7. At season end, open `results-archive.html` and click every link for the season.
 
 To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (use whichever year just ended).
@@ -174,7 +183,7 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
 ### Every year, before the new season
 
 1. **Athletic.net links**: the year is in the path of both: `https://www.athletic.net/team/1027/cross-country/2026` and `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`. They're in the footer of **every page** (change all pages in one commit, as with any header or footer change), the home page's schedule panel, the `<noscript>` line on `schedule.html`, and `assets/js/schedule.js` (`SPORTS`). Find them all with `grep -rn "athletic.net/team" .`
-2. **Schedule**: replace `assets/data/schedule.csv` with the new season (same columns), or point `SHEET_CSV_URL` in `assets/js/schedule.js` at the published Google Sheet. Check that every `results_url` points at the new season's results.
+2. **Schedule**: add the new season to `assets/data/seasons.csv` (top of the `sort` order, `current` = `yes`, and clear `current` on last season), create `assets/data/schedule-<id>.csv` with the same columns, and set `CURRENT_SEASON` in `assets/js/schedule.js`. The finished season's file is then frozen: point its `results_url`s at archived copies first (see the results archive steps above). Check that every `results_url` is this season's, not last year's.
 3. **Home page season text**: `index.html`. The hero "2026 Cross Country", the "2026 pre-season" practice line, "2026 cross country schedule & results", the "Printable season schedule" Google Doc link, and the "Past seasons & results archive 2020–2025" label.
 4. **Coach bio year counts**: head coach "ninth season" (`coach-wales-dinan.html`), Spilker "8th year" (`coach-spilker.html`), Graham "40th year" (`coach-graham.html`), Williams "4th season" (`coach-williams-brittany.html`). Add 1 to each.
 
@@ -300,7 +309,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 
 `results-archive.html` lists every archived file by season, from `assets/data/results-archive.csv` (`season, date, meet, group, label, path, source_url`, one row per file). The files live in `archive/results/<season>/` (seasons like `2024-track`, `2021-xc`, `2021-xc-spring`). Rows with a `group` (`events`, `races`) are a multi-file meet, listed under a collapsible "Event results" or "Race results"; those files keep their original names in the meet's own folder. Each meet has an id, `m-<date>-<meet-slug>`, that the schedule can link to. Every path is relative: the site moves from `pwalesdi.github.io/mvxctf_website/` to a domain root, and a leading `/` would break on one or the other.
 
-**Not in the repo** (kept in `~/Developer/mvxctf_archive/`): Diablo Timing's MeetPro cross country pages (2019 Monte Vista Invitational, 2024 and 2025 XC meets including EBAL and NCS 2025) and its newer results viewer (2026 Dublin Last Chance PR), because they need Diablo's own stylesheet and scripts; saved third-party web pages (MileSplit, CIF State, Sacramento MoC, TimerHub, xcstats); and Wayback captures. Those meets keep their external links. The two EBAL 2022 track files from Wix are left out as duplicates of Diablo's compiled copy, and the misnamed Wix "Sacramento Meet of Champions" file is published under its real name, the Northern California Frosh/Soph Championships.
+**Rendered captures.** Some meets were published only as a web page, with no compiled file: Diablo Timing's MeetPro cross country pages (2019 Monte Vista Invitational; De La Salle, Scott Bauhs, EBAL and NCS 2024; De La Salle, EBAL and NCS 2025) and MileSplit's Monte Vista Invitational results (2008–2012 and 2014–2016; 2013 isn't on MileSplit). These were printed to PDF with headless Chrome from the live pages, so they keep the original formatting, then put through Ghostscript `/ebook` (the extracted text is identical). MileSplit pages were printed from their server-rendered HTML with scripts removed, which drops the ads and the cookie banner that would otherwise print over the results; each race is its own page there, so each year's races are merged into one PDF. The manifest marks all of these as rendered captures, not source files. Clovis 2026 is Finished Results' two "merge" files (every runner from every race, ranked together, with team scores); its 30 per-race PDFs weren't fetched.
+
+**Not in the repo** (kept in `~/Developer/mvxctf_archive/`): Diablo Timing's newer results viewer (2026 Dublin Last Chance PR), which is their own app; other saved third-party web pages (CIF State, Sacramento MoC, TimerHub, xcstats, a MileSplit team page); and Wayback captures. Those meets keep their external links. The two EBAL 2022 track files from Wix are left out as duplicates of Diablo's compiled copy, and the misnamed Wix "Sacramento Meet of Champions" file is published under its real name, the Northern California Frosh/Soph Championships.
 
 Archived results files are kept outside the repo, in `~/Developer/mvxctf_archive/`, until they're published. **The alumni-run spreadsheets (2006–2016) are never published.** They are a social event, not meet results, and they name children who were never on the team ("youth" and "sibling" divisions) and parents next to same-surname athletes. They stay in the archive only; `publication-manifest.csv` there records every file's publish decision and why.
 

@@ -1,0 +1,15 @@
+id,label,sport,year,sort,current,note
+2026-xc,2026 Cross Country,XC,2026,1,yes,
+2026-track,2026 Track & Field,TF,2026,2,,
+2025-xc,2025 Cross Country,XC,2025,3,,Only the meets with archived results are listed: the full 2025 schedule wasn’t saved when the old site moved on to 2026.
+2025-track,2025 Track & Field,TF,2025,4,,
+2024-xc,2024 Cross Country,XC,2024,5,,
+2024-track,2024 Track & Field,TF,2024,6,,
+2023-xc,2023 Cross Country,XC,2023,7,,
+2023-track,2023 Track & Field,TF,2023,8,,
+2022-xc,2022 Cross Country,XC,2022,9,,
+2022-track,2022 Track & Field,TF,2022,10,,
+2021-xc,2021 Cross Country (fall),XC,2021,11,,"The usual fall season. The spring 2021 season, moved by COVID, is listed separately."
+2021-track,2021 Track & Field,TF,2021,12,,
+2021-xc-spring,"2021 Cross Country (spring, COVID season)",XC,2021,13,,"The 2020 fall season, moved to February and March 2021 by COVID."
+2020-track,2020 Track & Field,TF,2020,14,,The season ended in March 2020 with COVID. Only the meets that were run are listed.

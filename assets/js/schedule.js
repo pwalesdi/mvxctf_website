@@ -1,41 +1,47 @@
-/* Monte Vista schedule.
-   Reads the published Google Sheet CSV and renders it into
-   #schedule-app (schedule.html) and #next-meet (index.html).
+/* Monte Vista schedule, season by season.
+   schedule.html: a Season selector over assets/data/seasons.csv; each season's
+   meets come from assets/data/schedule-<season id>.csv. The page URL carries the
+   season (schedule.html?season=2024-xc), so Back works and a season can be
+   shared; no parameter means the current season.
+   index.html: the "Next" row (#next-meet), from the current season.
    Needs assets/js/csv.js loaded first. */
 (function () {
   "use strict";
 
   /* ===================================================================
-     SCHEDULE SOURCE — the one line to change.
-     Now: the local file in the repo.
-     Later: the published Google Sheet CSV URL
-     (File → Share → Publish to web → tab → Comma-separated values),
-     e.g. "https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?gid=0&single=true&output=csv"
+     CURRENT SEASON — the one line to change each season.
+     Its file is the only schedule that changes; past seasons are frozen.
+     Also mark it "yes" in the current column of assets/data/seasons.csv.
      =================================================================== */
-  var SHEET_CSV_URL = "assets/data/schedule.csv";
+  var CURRENT_SEASON = "2026-xc";
 
-  // Athletic.net team pages. The year is in the path — bump each season.
-  var SPORTS = [
-    { key: "XC", label: "Cross Country", results: "https://www.athletic.net/team/1027/cross-country/2026" },
-    { key: "TF", label: "Track & Field", results: "https://www.athletic.net/team/1027/track-and-field-outdoor/2026" }
-  ];
+  // Optional: the current season from a published Google Sheet CSV instead of
+  // its file (File → Share → Publish to web → the tab → CSV). Empty = the file.
+  var CURRENT_SHEET_URL = "";
 
-  // Aug–Dec is cross country season; the rest of the year is track.
-  function seasonSport() { return new Date().getMonth() >= 7 ? "XC" : "TF"; }
+  function seasonUrl(id) {
+    return id === CURRENT_SEASON && CURRENT_SHEET_URL ? CURRENT_SHEET_URL : "assets/data/schedule-" + id + ".csv";
+  }
+  var SEASONS_URL = "assets/data/seasons.csv";
 
-  // csv.js missing: show the fallback rather than a stuck "Loading…".
+  // Athletic.net team pages, used only as the fallback when a file can't load.
+  var ATHLETIC = {
+    XC: "https://www.athletic.net/team/1027/cross-country/2026",
+    TF: "https://www.athletic.net/team/1027/track-and-field-outdoor/2026"
+  };
+
+  var app0 = document.getElementById("schedule-app"), next0 = document.getElementById("next-meet");
   if (!window.MVCSV) {
-    var a0 = document.getElementById("schedule-app"), n0 = document.getElementById("next-meet");
-    if (a0) a0.innerHTML = '<p class="sched-status">The schedule couldn\u2019t load. See the full schedule on <a href="' +
-      SPORTS.filter(function (s) { return s.key === seasonSport(); })[0].results + '">Athletic.net</a>.</p>';
-    if (n0) n0.parentNode.removeChild(n0);
+    if (app0) app0.innerHTML = '<p class="sched-status">The schedule couldn’t load. See the full schedule on <a href="' + ATHLETIC.XC + '">Athletic.net</a>.</p>';
+    if (next0) next0.parentNode.removeChild(next0);
     return;
   }
   var esc = window.MVCSV.esc;
 
   /* ---------- values ---------- */
 
-  // Only http(s) links from the sheet are rendered; anything else is dropped.
+  // Only http(s) links from the files are rendered (relative paths resolve
+  // against the page, so archived copies work at any base path).
   function safeUrl(u) {
     if (!u) return null;
     try {
@@ -71,17 +77,10 @@
       .toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   }
 
-  function sportKey(s) {
-    s = (s || "").toUpperCase().replace(/[^A-Z]/g, "");
-    if (s === "XC" || s.indexOf("CROSS") === 0) return "XC";
-    if (s === "TF" || s.indexOf("TRACK") === 0) return "TF";
-    return s;
-  }
-
   // Sorted ascending by date; undated rows go last.
   function prepare(records) {
-    var meets = records.map(function (r) {
-      return { r: r, key: dateKey(r.date), sport: sportKey(r.sport) };
+    var meets = records.filter(function (r) { return r.meet; }).map(function (r) {
+      return { r: r, key: dateKey(r.date) };
     });
     meets.sort(function (a, b) {
       if (a.key === b.key) return 0;
@@ -92,10 +91,8 @@
     return meets;
   }
 
-  function loadMeets() {
-    return window.MVCSV.load(SHEET_CSV_URL, ["date", "meet"]).then(function (records) {
-      return prepare(records.filter(function (r) { return r.meet; }));
-    });
+  function loadMeets(id) {
+    return window.MVCSV.load(seasonUrl(id), ["date", "meet"]).then(prepare);
   }
 
   /* ---------- schedule.html ---------- */
@@ -117,48 +114,82 @@
       "</tr>";
   }
 
-  function blockHTML(title, list, sportLabel) {
+  function blockHTML(title, list, empty) {
     var body = list.length
       ? '<div class="panel sched-panel"><div class="table-scroll"><table class="sched">' +
         '<thead><tr><th scope="col">Date</th><th scope="col">Meet</th><th scope="col">Location</th>' +
         '<th scope="col">Level</th><th scope="col">Time</th><th scope="col">Links</th></tr></thead>' +
         "<tbody>" + list.map(rowHTML).join("") + "</tbody></table></div></div>"
-      : '<p class="sched-status">No ' + esc(title.toLowerCase()) + " " + esc(sportLabel.toLowerCase()) + " meets.</p>";
-    return '<div class="sched-block"><h2>' + esc(title) + "</h2>" + body + "</div>";
+      : '<p class="sched-status">' + esc(empty) + "</p>";
+    return '<div class="sched-block">' + (title ? "<h2>" + esc(title) + "</h2>" : "") + body + "</div>";
   }
 
-  function renderSchedule(app, meets) {
-    var current = seasonSport();
-    var today = todayKey();
+  function seasonParam() {
+    try { return new URL(window.location.href).searchParams.get("season") || ""; } catch (e) { return ""; }
+  }
 
-    function draw() {
-      var sport = SPORTS.filter(function (s) { return s.key === current; })[0];
-      var mine = meets.filter(function (m) { return m.sport === current; });
-      var upcoming = mine.filter(function (m) { return m.key && m.key >= today; });
-      var completed = mine.filter(function (m) { return m.key && m.key < today; });
-      var undated = mine.filter(function (m) { return !m.key; });
-      var seg = '<div class="toggle" role="group" aria-label="Sport">' + SPORTS.map(function (s) {
-        return '<button type="button" data-sport="' + s.key + '" aria-pressed="' + (s.key === current) + '">' + esc(s.label) + "</button>";
-      }).join("") + "</div>";
-      app.innerHTML = seg + blockHTML("Upcoming", upcoming, sport.label) + blockHTML("Completed", completed, sport.label) +
-        (undated.length ? blockHTML("Date to be announced", undated, sport.label) : "");
-    }
+  function startSchedule(app) {
+    window.MVCSV.load(SEASONS_URL, ["id", "label"]).then(function (seasons) {
+      seasons.sort(function (a, b) { return (+a.sort || 0) - (+b.sort || 0); });
+      var byId = {};
+      seasons.forEach(function (s) { byId[s.id] = s; });
+      if (!byId[CURRENT_SEASON]) throw new Error("current season missing from seasons.csv");
 
-    app.addEventListener("click", function (e) {
-      var b = e.target.closest("button[data-sport]");
-      if (!b || b.getAttribute("data-sport") === current) return;
-      current = b.getAttribute("data-sport");
-      draw();
-      var nb = app.querySelector('button[data-sport="' + current + '"]');
-      if (nb) nb.focus();
+      app.innerHTML =
+        '<div class="season-pick"><label for="season-select">Season</label>' +
+        '<select id="season-select">' + seasons.map(function (s) {
+          return '<option value="' + esc(s.id) + '">' + esc(s.label) + "</option>";
+        }).join("") + "</select></div>" +
+        '<p class="season-note" id="season-note" hidden></p><div id="season-body"></div>';
+      var select = document.getElementById("season-select");
+      var note = document.getElementById("season-note");
+      var body = document.getElementById("season-body");
+      var eyebrow = document.querySelector(".sec-head .eyebrow");
+      var shown = null;
+
+      function wanted() { var p = seasonParam(); return byId[p] ? p : CURRENT_SEASON; }
+
+      function show(id) {
+        shown = id;
+        var s = byId[id];
+        select.value = id;
+        if (eyebrow) eyebrow.textContent = id === CURRENT_SEASON ? "This season" : "Past season";
+        note.textContent = s.note || "";
+        note.hidden = !s.note;
+        body.innerHTML = '<p class="sched-status">Loading schedule…</p>';
+        loadMeets(id).then(function (meets) {
+          if (shown !== id) return; // a later choice won the race
+          if (id === CURRENT_SEASON) {
+            var today = todayKey();
+            var upcoming = meets.filter(function (m) { return m.key && m.key >= today; });
+            var completed = meets.filter(function (m) { return m.key && m.key < today; });
+            var undated = meets.filter(function (m) { return !m.key; });
+            body.innerHTML = blockHTML("Upcoming", upcoming, "No upcoming meets.") +
+              blockHTML("Completed", completed, "No completed meets yet.") +
+              (undated.length ? blockHTML("Date to be announced", undated, "") : "");
+          } else {
+            // A past season is complete: one list, no Upcoming/Completed split.
+            body.innerHTML = blockHTML("", meets, "No meets listed for this season.");
+          }
+        }).catch(function () {
+          if (shown !== id) return;
+          body.innerHTML = '<p class="sched-status">This season couldn’t load. See the <a href="results-archive.html">results archive</a> or <a href="' +
+            esc(ATHLETIC[s.sport] || ATHLETIC.XC) + '">Athletic.net</a>.</p>';
+        });
+      }
+
+      select.addEventListener("change", function () {
+        var id = select.value;
+        var url = new URL(window.location.href);
+        if (id === CURRENT_SEASON) url.searchParams.delete("season"); else url.searchParams.set("season", id);
+        history.pushState({ season: id }, "", url.pathname + url.search + url.hash);
+        show(id);
+      });
+      window.addEventListener("popstate", function () { show(wanted()); });
+      show(wanted());
+    }).catch(function () {
+      app.innerHTML = '<p class="sched-status">The schedule couldn’t load. See the full schedule on <a href="' + ATHLETIC.XC + '">Athletic.net</a>.</p>';
     });
-    draw();
-  }
-
-  function renderError(app) {
-    var sport = SPORTS.filter(function (s) { return s.key === seasonSport(); })[0];
-    app.innerHTML = '<p class="sched-status">The schedule couldn’t load. See the full schedule on <a href="' +
-      esc(sport.results) + '">Athletic.net</a>.</p>';
   }
 
   /* ---------- index.html ---------- */
@@ -173,15 +204,9 @@
 
   /* ---------- boot ---------- */
 
-  var app = document.getElementById("schedule-app");
-  var nextLi = document.getElementById("next-meet");
-  if (!app && !nextLi) return;
-
-  loadMeets().then(function (meets) {
-    if (app) renderSchedule(app, meets);
-    if (nextLi) renderNextMeet(nextLi, meets);
-  }).catch(function () {
-    if (app) renderError(app);
-    if (nextLi && nextLi.parentNode) nextLi.parentNode.removeChild(nextLi);
-  });
+  if (app0) startSchedule(app0);
+  if (next0) {
+    loadMeets(CURRENT_SEASON).then(function (meets) { renderNextMeet(next0, meets); })
+      .catch(function () { if (next0.parentNode) next0.parentNode.removeChild(next0); });
+  }
 })();
