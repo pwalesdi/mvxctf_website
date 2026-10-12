@@ -1,12 +1,12 @@
 /* Varsity letter standards (varsity-standards.html).
    Reads assets/data/varsity-standards.csv and renders one table per event
-   group, with a Girls/Boys toggle. Needs assets/js/csv.js first. */
+   group (Track, Field), rows in event_order, with a Girls/Boys toggle. Needs assets/js/csv.js first. */
 (function () {
   "use strict";
 
   var DATA_URL = "assets/data/varsity-standards.csv";
   var GENDERS = ["Girls", "Boys"];
-  var GROUP_ORDER = ["Sprints", "Hurdles", "Distance", "Field"];
+  var GROUP_ORDER = ["Track", "Field"];
 
   var app = document.getElementById("standards-app");
   if (!app) return;

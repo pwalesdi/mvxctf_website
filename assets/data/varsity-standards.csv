@@ -1,29 +1,29 @@
 gender,event_group,event_order,event,standard
-Boys,Sprints,1,100m,11.26
-Boys,Sprints,2,200m,22.78
-Boys,Sprints,3,400m,52.24
-Boys,Hurdles,7,110m Hurdles,16.57
-Boys,Hurdles,8,300m Hurdles,43.23
-Boys,Distance,4,800m,2:01.36
-Boys,Distance,5,1600m,4:27.78
-Boys,Distance,6,3200m,9:45.22
-Boys,Field,9,Shot Put,"40' 9.70"""
-Boys,Field,10,Discus,"120' 2.33"""
-Boys,Field,11,High Jump,"5' 6.45"""
-Boys,Field,12,Pole Vault,"11' 6.11"""
-Boys,Field,13,Long Jump,"19' 8.78"""
-Boys,Field,14,Triple Jump,"39' 6.14"""
-Girls,Sprints,1,100m,13.00
-Girls,Sprints,2,200m,26.67
-Girls,Sprints,3,400m,1:02.00
-Girls,Hurdles,7,100m Hurdles,17.64
-Girls,Hurdles,8,300m Hurdles,50.83
-Girls,Distance,4,800m,2:26.46
-Girls,Distance,5,1600m,5:25.20
-Girls,Distance,6,3200m,12:04.79
-Girls,Field,9,Shot Put,"28' 6.20"""
-Girls,Field,10,Discus,"84' 11.78"""
-Girls,Field,11,High Jump,"4' 7.00"""
-Girls,Field,12,Pole Vault,"8' 0.00"""
-Girls,Field,13,Long Jump,"15' 6.47"""
-Girls,Field,14,Triple Jump,"31' 3.61"""
+Boys,Track,1,100m,11.26
+Boys,Track,2,200m,22.78
+Boys,Track,3,400m,52.24
+Boys,Track,4,800m,2:01.36
+Boys,Track,5,1600m,4:27.78
+Boys,Track,6,3200m,9:45.22
+Boys,Track,7,110m Hurdles,16.57
+Boys,Track,8,300m Hurdles,43.23
+Boys,Field,1,Shot Put,"40' 9.5"""
+Boys,Field,2,Discus,"120' 2.5"""
+Boys,Field,3,High Jump,"5' 6.5"""
+Boys,Field,4,Pole Vault,"11' 6"""
+Boys,Field,5,Long Jump,"19' 9"""
+Boys,Field,6,Triple Jump,"39' 6"""
+Girls,Track,1,100m,13.00
+Girls,Track,2,200m,26.67
+Girls,Track,3,400m,1:02.00
+Girls,Track,4,800m,2:26.46
+Girls,Track,5,1600m,5:25.20
+Girls,Track,6,3200m,12:04.79
+Girls,Track,7,100m Hurdles,17.64
+Girls,Track,8,300m Hurdles,50.83
+Girls,Field,1,Shot Put,"28' 6"""
+Girls,Field,2,Discus,"85' 0"""
+Girls,Field,3,High Jump,"4' 7"""
+Girls,Field,4,Pole Vault,"8' 0"""
+Girls,Field,5,Long Jump,"15' 6.5"""
+Girls,Field,6,Triple Jump,"31' 3.5"""
