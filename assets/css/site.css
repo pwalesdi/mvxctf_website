@@ -444,8 +444,8 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .ebal-detail .ebal-total > *{border-top:1px solid var(--line-strong);font-weight:700}
 .ebal-detail tr:last-child > *{padding-bottom:14px}
 /* Coaching resume (head coach page): denser, scannable lists ahead of the narrative.
+   Sits between the two .coach-bio blocks so it runs the full column, not the prose measure.
    Group labels are h4s styled as small labels. */
-.resume{display:flex;flex-direction:column;gap:8px;margin:12px 0 10px;padding:22px 0 24px;border-block:1px solid var(--line)}
-.resume h2{margin-bottom:4px}
-.resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-top:12px}
-.resume ul{gap:2px;font-size:.9375rem;line-height:1.45}
+.resume{display:flex;flex-direction:column;margin:26px 0 24px;padding:22px 0 24px;border-block:1px solid var(--line)}
+.resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:28px 0 6px}
+.resume ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:2px;color:var(--ink-2);font-size:.9375rem;line-height:1.45}
