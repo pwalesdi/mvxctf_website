@@ -1,0 +1,200 @@
+year,gender,division,place_div,place_all,name,grade,time,time_seconds,source
+1987,Boys,1.0,39.0,,Jordan Carroll,12,16:06,966.0,MV historical xls
+1991,Boys,2.0,40.0,,Ryan Roskoversky,12,16:31,991.0,MV historical xls
+1991,Boys,2.0,122.0,,Brock Tessman,10,17:59,1079.0,MV historical xls
+1993,Boys,2.0,29.0,,Brock Tessman,12,16:07,967.0,MV historical xls
+1994,Boys,2.0,36.0,,Martin Geggs,12,16:21,981.0,MV historical xls
+1999,Boys,2.0,33.0,,Mike Daly,12,16:28,988.0,MV historical xls
+2004,Boys,1.0,112.0,,Chris Simpson,11,17:00,1020.0,MV historical xls
+2005,Boys,1.0,51.0,,Chris Simpson,12,16:28,988.0,MV historical xls
+2007,Boys,1.0,43.0,,Bhavik Kanzaria,12,16:01,961.0,MV historical xls
+2007,Boys,1.0,78.0,,Dustin Harris,12,16:21,981.0,MV historical xls
+2007,Boys,1.0,81.0,,Mike Roderick,11,16:22,982.0,MV historical xls
+2007,Boys,1.0,99.0,,Harry Nunns,12,16:31,991.0,MV historical xls
+2007,Boys,1.0,105.0,,Clinton McAdams,12,16:33,993.0,MV historical xls
+2007,Boys,1.0,150.0,,Danny Bartz,12,17:03,1023.0,MV historical xls
+2007,Boys,1.0,152.0,,Connor Donley,11,17:04,1024.0,MV historical xls
+2008,Boys,1.0,34.0,,Mike Roderick,12,15:48,948.0,MV historical xls
+2008,Boys,1.0,139.0,,Josh Smiley,10,16:50,1010.0,MV historical xls
+2010,Boys,1.0,104.0,,Zach Chambers,12,16:25,985.0,MV historical xls
+2011,Boys,1.0,72.0,,Andrew Feldman,12,16:21,981.0,MV historical xls
+2011,Boys,1.0,119.0,,Trevor Fuhriman,12,16:48,1008.0,MV historical xls
+2014,Boys,1.0,83.0,,Tim Chrisman,11,16:28,988.0,MV historical xls
+2014,Boys,1.0,98.0,,Daniel Maneloveg,10,16:35,995.0,MV historical xls
+2014,Boys,1.0,110.0,,Nick Vomund,10,16:41,1001.0,MV historical xls
+2014,Boys,1.0,130.0,,Tristan Miller,10,16:55,1015.0,MV historical xls
+2014,Boys,1.0,143.0,,Peter Davis,11,17:09,1029.0,MV historical xls
+2014,Boys,1.0,170.0,,Ben Smiley,10,17:49,1069.0,MV historical xls
+2014,Boys,1.0,187.0,,Will Jones,11,19:23,1163.0,MV historical xls
+2015,Boys,1.0,27.0,,Tim Chrisman,12,15:41.2,941.2,rtspt.com saved page
+2015,Boys,3.0,24.0,,Tyler Lopez,12,15:48.0,948.0,rtspt.com saved page
+2015,Boys,1.0,51.0,,Tristan Miller,11,15:59.4,959.4,rtspt.com saved page
+2015,Boys,1.0,68.0,,Nick Vomund,11,16:12.9,972.9,rtspt.com saved page
+2015,Boys,1.0,70.0,,Daniel Maneloveg,11,16:13.2,973.2,rtspt.com saved page
+2015,Boys,1.0,139.0,,Benjamin Smiley,11,16:47.7,1007.7,rtspt.com saved page
+2015,Boys,1.0,151.0,,Matthew Johnson,10,17:05.1,1025.1,rtspt.com saved page
+2015,Boys,1.0,155.0,,Brendan Lau,11,17:08.3,1028.3,rtspt.com saved page
+2016,Boys,2.0,15.0,,Tristan Miller,12,15:41.2,941.2,rtspt.com saved page
+2016,Boys,2.0,42.0,,Daniel Maneloveg,12,16:02.0,962.0,rtspt.com saved page
+2016,Boys,2.0,60.0,,Nicolas Vomund,12,16:10.1,970.1,rtspt.com saved page
+2016,Boys,2.0,124.0,,Matthew Johnson,11,16:42.4,1002.4,rtspt.com saved page
+2016,Boys,2.0,133.0,,Benjamin Smiley,12,16:48.7,1008.7,rtspt.com saved page
+2016,Boys,2.0,156.0,,Matthew Kim,10,16:59.9,1019.9,rtspt.com saved page
+2016,Boys,2.0,169.0,,Brendan Lau,12,17:22.3,1042.3,rtspt.com saved page
+2019,Boys,,,154.0,Aakersh Mathur,11,15:54.1,954.1,combined 2018-25 file
+2019,Boys,,,345.0,James Switzer,11,16:25.0,985.0,combined 2018-25 file
+2019,Boys,,,348.0,Yonathan Amare,12,16:26.0,986.0,combined 2018-25 file
+2019,Boys,,,448.0,Ian Bushell,11,16:40.8,1000.8,combined 2018-25 file
+2019,Boys,,,518.0,John Loughery,10,16:49.5,1009.5,combined 2018-25 file
+2019,Boys,,,667.0,Ethan Pendergraft,12,17:11.5,1031.5,combined 2018-25 file
+2019,Boys,,,735.0,Brendan Leahey,11,17:26.0,1046.0,combined 2018-25 file
+2021,Boys,,,99.0,John Loughery,12,15:49.7,949.7,combined 2018-25 file
+2021,Boys,,,100.0,Ethan Miller,11,15:50.8,950.8,combined 2018-25 file
+2021,Boys,,,346.0,Tyler Eakin,12,16:35.0,995.0,combined 2018-25 file
+2021,Boys,,,421.0,Benjamin Inocencio,11,16:44.4,1004.4,combined 2018-25 file
+2021,Boys,,,488.0,Jake Pederson,11,16:54.3,1014.3,combined 2018-25 file
+2021,Boys,,,496.0,Draven Grondona,11,16:56.0,1016.0,combined 2018-25 file
+2021,Boys,,,725.0,Tyler Inocencio,11,17:47.2,1067.2,combined 2018-25 file
+2022,Boys,2.0,6.0,17.0,Ethan Miller,12,15:15.5,915.5,combined 2018-25 file (div place computed)
+2022,Boys,2.0,89.0,353.0,Owen Brandeis,10,16:38.6,998.6,combined 2018-25 file (div place computed)
+2022,Boys,2.0,95.0,375.0,Jake Pederson,12,16:42.3,1002.3,combined 2018-25 file (div place computed)
+2022,Boys,2.0,133.0,558.0,Benjamin Inocencio,12,17:14.9,1034.9,combined 2018-25 file (div place computed)
+2022,Boys,2.0,135.0,566.0,Ty Inocencio,12,17:16.1,1036.1,combined 2018-25 file (div place computed)
+2022,Boys,2.0,162.0,702.0,Draven Grondona,12,17:41.1,1061.1,combined 2018-25 file (div place computed)
+2022,Boys,2.0,184.0,837.0,Jack Frederiksen,12,18:21.3,1101.3,combined 2018-25 file (div place computed)
+2023,Boys,2.0,45.0,188.0,Owen Brandeis,11,15:55.6,955.6,combined 2018-25 file (div place computed)
+2024,Boys,2.0,22.0,85.0,Mateo Cafaro,11,15:33.2,933.2,combined 2018-25 file (div place computed)
+2024,Boys,2.0,33.0,128.0,Owen Brandeis,12,15:44.3,944.3,combined 2018-25 file (div place computed)
+2025,Boys,2.0,25.0,74.0,Mateo Cafaro,12,15:20.8,920.8,combined 2018-25 file (div place computed)
+2025,Boys,2.0,60.0,209.0,Rohan Kotamraju,11,15:47.8,947.8,combined 2018-25 file (div place computed)
+1990,Girls,2.0,41.0,,Julie Schuster,10,20:04,1204.0,MV historical xls
+1990,Girls,2.0,49.0,,Rachelle Kintzer,10,20:27,1227.0,MV historical xls
+1990,Girls,2.0,58.0,,Lori Grant,10,20:40,1240.0,MV historical xls
+1990,Girls,2.0,70.0,,Miriam Niednagel,11,20:58,1258.0,MV historical xls
+1990,Girls,2.0,110.0,,Liesbeth Brouwer,10,22:18,1338.0,MV historical xls
+1990,Girls,2.0,121.0,,Brittany McCorduck,9,23:12,1392.0,MV historical xls
+1990,Girls,2.0,132.0,,Krista Keopke,10,24:38,1478.0,MV historical xls
+1991,Girls,2.0,45.0,,Lori Grant,12,19:55,1195.0,MV historical xls
+1991,Girls,2.0,74.0,,Rachelle Kintzer,11,20:51,1251.0,MV historical xls
+1991,Girls,2.0,90.0,,Shannon Stepper,10,21:14,1274.0,MV historical xls
+1991,Girls,2.0,92.0,,Stephanie Kilberg,10,21:21,1281.0,MV historical xls
+1991,Girls,2.0,104.0,,Prieya Pavana,11,21:44,1304.0,MV historical xls
+1991,Girls,2.0,114.0,,Sharon Scronic,10,22:20,1340.0,MV historical xls
+1991,Girls,2.0,117.0,,Liz Coombs,10,22:30,1350.0,MV historical xls
+1994,Girls,2.0,81.0,,Kristine Sawicki,11,20:52,1252.0,MV historical xls
+1995,Girls,2.0,9.0,,Elizabeth Lamore,9,18:57,1137.0,MV historical xls
+1997,Girls,1.0,22.0,,Susan Chan,9,19:10,1150.0,MV historical xls
+1998,Girls,2.0,35.0,,Susan Chan,10,19:52,1192.0,MV historical xls
+1999,Girls,2.0,13.0,,Susan Chan,11,18:59,1139.0,MV historical xls
+2000,Girls,1.0,10.0,,Susan Chan,12,18:21,1101.0,MV historical xls
+2000,Girls,1.0,87.0,,Christi Brown,10,19:49,1189.0,MV historical xls
+2000,Girls,1.0,132.0,,Chloe Eng,10,20:33,1233.0,MV historical xls
+2000,Girls,1.0,164.0,,Brittany Rezowalli,9,21:19,1279.0,MV historical xls
+2000,Girls,1.0,165.0,,Kristin Schleicher,12,21:22,1282.0,MV historical xls
+2000,Girls,1.0,173.0,,Kaelon May,10,21:43,1303.0,MV historical xls
+2000,Girls,1.0,186.0,,Linelle Schultz,9,22:45,1365.0,MV historical xls
+2002,Girls,1.0,80.0,,Christi Brown,12,19:36,1176.0,MV historical xls
+2002,Girls,1.0,81.0,,Emily McGregor,11,19:37,1177.0,MV historical xls
+2002,Girls,1.0,141.0,,Amanda Swan,10,20:42,1242.0,MV historical xls
+2002,Girls,1.0,149.0,,Daniela Gergley,9,20:49,1249.0,MV historical xls
+2002,Girls,1.0,151.0,,Brittany Rezowalli,11,20:52,1252.0,MV historical xls
+2002,Girls,1.0,165.0,,Linelle Schultz,11,21:30,1290.0,MV historical xls
+2002,Girls,1.0,172.0,,Chloe Eng,12,21:47,1307.0,MV historical xls
+2003,Girls,1.0,47.0,,Emily McGregor,12,19:15,1155.0,MV historical xls
+2003,Girls,1.0,140.0,,Amanda Swan,11,20:36,1236.0,MV historical xls
+2003,Girls,1.0,141.0,,Claire Hoppens,9,20:37,1237.0,MV historical xls
+2003,Girls,1.0,145.0,,Nicole Krampf,11,20:44,1244.0,MV historical xls
+2003,Girls,1.0,173.0,,Missy Mackell,11,21:30,1290.0,MV historical xls
+2003,Girls,1.0,181.0,,Linelle Schultz,12,22:03,1323.0,MV historical xls
+2003,Girls,1.0,192.0,,Joei Yau,12,22:42,1362.0,MV historical xls
+2004,Girls,1.0,126.0,,Daniela Gergley,11,20:17,1217.0,MV historical xls
+2008,Girls,1.0,111.0,,Kyla Aiuto,9,19:44,1184.0,MV historical xls
+2009,Girls,1.0,57.0,,Nicole Aha,12,18:57,1137.0,MV historical xls
+2009,Girls,1.0,101.0,,Mikaela Hammitt,10,19:31,1171.0,MV historical xls
+2009,Girls,1.0,125.0,,Jill Anderson,11,19:46,1186.0,MV historical xls
+2009,Girls,1.0,127.0,,Amy Ingram,9,19:47,1187.0,MV historical xls
+2009,Girls,1.0,135.0,,Kimmy Abood,12,19:56,1196.0,MV historical xls
+2009,Girls,1.0,142.0,,Kelly Peterson,12,20:11,1211.0,MV historical xls
+2009,Girls,1.0,147.0,,Anna Hoyt,12,20:16,1216.0,MV historical xls
+2012,Girls,1.0,37.0,,Brooke Starn,9,18:37,1117.0,MV historical xls
+2012,Girls,1.0,103.0,,Katharine Smiley,12,19:34,1174.0,MV historical xls
+2013,Girls,1.0,17.0,,Brooke Starn,10,17:56,1076.0,MV historical xls
+2013,Girls,1.0,120.0,,Erin Herting,12,19:35,1175.0,MV historical xls
+2013,Girls,1.0,133.0,,Catherine Kiser,9,19:50,1190.0,MV historical xls
+2013,Girls,1.0,139.0,,Madi Jeha,10,19:57,1197.0,MV historical xls
+2013,Girls,1.0,173.0,,Caroline Carey,11,20:49,1249.0,MV historical xls
+2013,Girls,1.0,174.0,,Meredith Corda,9,20:52,1252.0,MV historical xls
+2013,Girls,1.0,175.0,,Emily Gines,10,20:53,1253.0,MV historical xls
+2014,Girls,1.0,27.0,,Meredith Corda,10,18:44,1124.0,MV historical xls
+2014,Girls,1.0,82.0,,Brooke Starn,11,19:28,1168.0,MV historical xls
+2014,Girls,1.0,114.0,,Caroline Carey,12,19:57,1197.0,MV historical xls
+2014,Girls,1.0,125.0,,Audrey Coney,9,20:15,1215.0,MV historical xls
+2014,Girls,1.0,159.0,,Madi Jeha,11,20:48,1248.0,MV historical xls
+2014,Girls,1.0,161.0,,Alex Wilson,9,20:50,1250.0,MV historical xls
+2014,Girls,1.0,167.0,,Catherine Kiser,10,20:59,1259.0,MV historical xls
+2015,Girls,1.0,2.0,,Brooke Starn,12,17:22.6,1042.6,rtspt.com saved page
+2015,Girls,1.0,25.0,,Meredith Corda,11,18:22.8,1102.8,rtspt.com saved page
+2015,Girls,1.0,53.0,,Madalyne Coney,10,18:47.6,1127.6,rtspt.com saved page
+2015,Girls,1.0,75.0,,Alex Wilson,10,19:08.1,1148.1,rtspt.com saved page
+2015,Girls,1.0,98.0,,Lauren Cervantes,9,19:28.1,1168.1,rtspt.com saved page
+2015,Girls,1.0,100.0,,Elana Lim,12,19:28.4,1168.4,rtspt.com saved page
+2015,Girls,1.0,171.0,,Morgan Dowling,11,20:53.2,1253.2,rtspt.com saved page
+2016,Girls,2.0,7.0,,Meredith Corda,12,17:43.2,1063.2,rtspt.com saved page
+2016,Girls,2.0,53.0,,Kelli Wilson,9,18:58.0,1138.0,rtspt.com saved page
+2016,Girls,2.0,57.0,,Madalyne Coney,11,19:00.7,1140.7,rtspt.com saved page
+2016,Girls,2.0,61.0,,Sidney Isom,10,19:05.8,1145.8,rtspt.com saved page
+2016,Girls,2.0,64.0,,Alex Wilson,11,19:07.3,1147.3,rtspt.com saved page
+2016,Girls,2.0,100.0,,Lauren Cervantes,10,19:39.4,1179.4,rtspt.com saved page
+2016,Girls,2.0,136.0,,Audrey Coney,11,20:11.2,1211.2,rtspt.com saved page
+2017,Girls,2.0,15.0,,Kelli Wilson,10,18:25.3,1105.3,rtspt.com saved page
+2017,Girls,2.0,61.0,,Sidney Isom,11,19:23.6,1163.6,rtspt.com saved page
+2017,Girls,2.0,83.0,,Alex Wilson,12,19:39.2,1179.2,rtspt.com saved page
+2017,Girls,2.0,84.0,,Maddie Coney,12,19:39.7,1179.7,rtspt.com saved page
+2017,Girls,2.0,115.0,,Nicole Leung,10,20:16.9,1216.9,rtspt.com saved page
+2017,Girls,2.0,157.0,,Audrey Coney,12,21:04.1,1264.1,rtspt.com saved page
+2018,Girls,,,73.0,Kelli Wilson,11,18:30.8,1110.8,combined 2018-25 file
+2018,Girls,,,111.0,Sidney Isom,11,18:44.7,1124.7,combined 2018-25 file
+2018,Girls,,,449.0,Nicole Leung,11,19:57.8,1197.8,combined 2018-25 file
+2018,Girls,,,698.0,Ashley Frantz,9,21:06.2,1266.2,combined 2018-25 file
+2018,Girls,,,769.0,Kinsey Pogue,9,21:32.8,1292.8,combined 2018-25 file
+2018,Girls,,,791.0,JoJo Lee,11,21:41.2,1301.2,combined 2018-25 file
+2019,Girls,,,45.0,Kelli Wilson,12,18:05.8,1085.8,combined 2018-25 file
+2019,Girls,,,313.0,Kinsey Pogue,10,19:20.5,1160.5,combined 2018-25 file
+2019,Girls,,,388.0,Jules Kiepen,10,19:37.6,1177.6,combined 2018-25 file
+2019,Girls,,,497.0,Shelby Lew,9,19:57.5,1197.5,combined 2018-25 file
+2019,Girls,,,498.0,Abby Binder,11,19:57.6,1197.6,combined 2018-25 file
+2019,Girls,,,519.0,Nicole Leung,12,20:02.5,1202.5,combined 2018-25 file
+2019,Girls,,,596.0,Emily Hora,12,20:22.6,1222.6,combined 2018-25 file
+2021,Girls,,,130.0,Sally Binder,11,18:53.8,1133.8,combined 2018-25 file
+2021,Girls,,,135.0,Kinsey Pogue,12,18:54.8,1134.8,combined 2018-25 file
+2021,Girls,,,357.0,Alyssa Turns,9,19:51.0,1191.0,combined 2018-25 file
+2021,Girls,,,425.0,Peyton Dolan,10,20:07.5,1207.5,combined 2018-25 file
+2021,Girls,,,442.0,Abigail Moran,12,20:11.1,1211.1,combined 2018-25 file
+2021,Girls,,,447.0,Shelby Lew,11,20:11.7,1211.7,combined 2018-25 file
+2021,Girls,,,717.0,Alexa Leahey,9,21:28.9,1288.9,combined 2018-25 file
+2022,Girls,2.0,60.0,251.0,Peyton Dolan,11,19:25.9,1165.9,combined 2018-25 file (div place computed)
+2022,Girls,2.0,67.0,270.0,Alexandra Powell,10,19:31.6,1171.6,combined 2018-25 file (div place computed)
+2022,Girls,2.0,81.0,312.0,Allie Turns,10,19:41.0,1181.0,combined 2018-25 file (div place computed)
+2022,Girls,2.0,89.0,339.0,Maraki Amare,11,19:48.2,1188.2,combined 2018-25 file (div place computed)
+2022,Girls,2.0,133.0,550.0,Shelby Lew,12,20:39.3,1239.3,combined 2018-25 file (div place computed)
+2022,Girls,2.0,144.0,598.0,Alexa Leahey,10,20:50.0,1250.0,combined 2018-25 file (div place computed)
+2022,Girls,2.0,163.0,727.0,Sienna Wong,9,21:32.6,1292.6,combined 2018-25 file (div place computed)
+2023,Girls,2.0,15.0,60.0,Alexandra Powell,11,18:11.0,1091.0,combined 2018-25 file (div place computed)
+2023,Girls,2.0,49.0,194.0,Allie Turns,11,19:05.6,1145.6,combined 2018-25 file (div place computed)
+2023,Girls,2.0,130.0,514.0,Emilyn Tang,10,20:14.5,1214.5,combined 2018-25 file (div place computed)
+2023,Girls,2.0,137.0,549.0,Alexa Leahey,11,20:23.3,1223.3,combined 2018-25 file (div place computed)
+2023,Girls,2.0,154.0,608.0,Sienna Wong,10,20:38.5,1238.5,combined 2018-25 file (div place computed)
+2023,Girls,2.0,165.0,729.0,Sofia Fernandez,11,21:23.7,1283.7,combined 2018-25 file (div place computed)
+2024,Girls,2.0,25.0,104.0,Alexandra Powell,12,18:18.5,1098.5,combined 2018-25 file (div place computed)
+2024,Girls,2.0,35.0,127.0,Alyssa Turns,12,18:25.3,1105.3,combined 2018-25 file (div place computed)
+2024,Girls,2.0,46.0,160.0,Kaylie O'Connell,9,18:36.4,1116.4,combined 2018-25 file (div place computed)
+2024,Girls,2.0,98.0,384.0,Ava Padilla,9,19:28.3,1168.3,combined 2018-25 file (div place computed)
+2024,Girls,2.0,100.0,399.0,Nadya Makarova,9,19:31.0,1171.0,combined 2018-25 file (div place computed)
+2024,Girls,2.0,121.0,473.0,Emilyn Tang,11,19:45.9,1185.9,combined 2018-25 file (div place computed)
+2024,Girls,2.0,159.0,634.0,Alexa Leahey,12,20:22.1,1222.1,combined 2018-25 file (div place computed)
+2025,Girls,2.0,27.0,92.0,Nadya Makarova,10,18:04.0,1084.0,combined 2018-25 file (div place computed)
+2025,Girls,2.0,49.0,168.0,Kaylie O'Connell,10,18:27.9,1107.9,combined 2018-25 file (div place computed)
+2025,Girls,2.0,51.0,192.0,Ava Padilla,10,18:33.8,1113.8,combined 2018-25 file (div place computed)
+2025,Girls,2.0,139.0,606.0,Sohani Brah,11,20:07.3,1207.3,combined 2018-25 file (div place computed)
+2025,Girls,2.0,148.0,638.0,Emilyn Tang,12,20:14.7,1214.7,combined 2018-25 file (div place computed)
+2025,Girls,2.0,159.0,695.0,April Schulte,10,20:33.4,1233.4,combined 2018-25 file (div place computed)

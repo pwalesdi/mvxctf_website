@@ -94,7 +94,7 @@ They appear in `assets/js/schedule.js` (the `SPORTS` list), in the footer of eve
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, so it isn't safe to use on its own. The full-size originals are outside the repo, in `~/Developer/mvxctf_website_photo_originals/`.
 
-Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. Names come from the original filenames plus what's visible; nobody has been identified beyond what the original filename said. None of these are on a page yet.
+Dates in a filename come from the camera's capture time (Pacific). Files with only a year had no camera data, so their date is unreliable. Names come from the original filenames plus what's visible; nobody has been identified beyond what the original filename said. None of these are on a page yet. When one is placed, give its `<img>` `loading="lazy"` (every image except the hero and the header logo) plus `width`/`height` attributes, so the page only fetches what the visitor scrolls to.
 
 | File | What it shows |
 | --- | --- |
@@ -109,7 +109,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2022-track-ebal-finals-team.jpg` | Large track team photo in the stands area; filename says EBAL finals 2022 |
 | `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); filename says Ethan Miller at EBAL |
 | `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); filename says Jack Loughery |
-| `2022-track-honda-sprint.jpg` | Three boys sprinting; the original was `honda_22`, and its meaning is unknown |
+| `2022-track-caden-honda.jpg` | Three boys sprinting; Caden Honda |
 | `2022-04-23-track-hurdles.jpg` | Wide shot of a hurdles race with a full grandstand |
 | `2022-04-08-track-arcadia-peters.jpg` | Girl finishing a race, "Finish on…" banner; filename says Peters at Arcadia |
 | `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; filename says Rosati |
@@ -136,7 +136,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 
 `state-history.html` is the "Monte Vista at State" record book. It is **regenerated from the CSVs in `source/data/`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The data and table logic are the page's `<script>` block; the rest of the page is the shared header/footer and site styling. The page is light-only (`<html data-theme="light">`).
 
-**Not in the repo yet:** the two CSVs (`mv_cif_state_xc_individuals_1987_2025.csv`, `mv_woodward_park_all_marks.csv`), and the script that turns them into the page's `DATA` objects. Until that script is added, a rebuild means producing a new `<script>` block elsewhere and pasting it over the old one. Leave everything outside that block alone.
+The CSVs are `source/data/mv_cif_state_xc_individuals_1987_2025.csv` and `source/data/mv_woodward_park_all_marks.csv`. **Not in the repo yet:** the script that turns them into the page's `DATA` objects. Until that script is added, a rebuild means producing a new `<script>` block elsewhere and pasting it over the old one. Leave everything outside that block alone.
 
 The pre-site originals, `montevistaxc-mockup.html` (the approved home page design) and `mv-state-history.html`, are in git history: `git show 5ce55d9:montevistaxc-mockup.html`, `git show 5ce55d9:mv-state-history.html`.
 
