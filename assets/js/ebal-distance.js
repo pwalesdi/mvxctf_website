@@ -9,7 +9,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/ebal-distance.csv";
+  var DATA_URL = "/assets/data/ebal-distance.csv";
   var OURS = "Monte Vista";
 
   var app = document.getElementById("ebal-app");

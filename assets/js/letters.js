@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/letter-winners.csv";
+  var DATA_URL = "/assets/data/letter-winners.csv";
   var GENDERS = ["Girls", "Boys"];
 
   var app = document.getElementById("letters-app");

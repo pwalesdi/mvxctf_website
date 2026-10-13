@@ -12,7 +12,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/photo-credits.csv";
+  var DATA_URL = "/assets/data/photo-credits.csv";
   if (!window.MVCSV) return;
 
   // Site-relative path ("assets/img/…") of a URL, for matching against the CSV.

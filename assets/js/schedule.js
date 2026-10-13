@@ -20,9 +20,9 @@
   var CURRENT_SHEET_URL = "";
 
   function seasonUrl(id) {
-    return id === CURRENT_SEASON && CURRENT_SHEET_URL ? CURRENT_SHEET_URL : "assets/data/schedule-" + id + ".csv";
+    return id === CURRENT_SEASON && CURRENT_SHEET_URL ? CURRENT_SHEET_URL : "/assets/data/schedule-" + id + ".csv";
   }
-  var SEASONS_URL = "assets/data/seasons.csv";
+  var SEASONS_URL = "/assets/data/seasons.csv";
   var CANONICAL_BASE = "https://montevistaxc.com/schedule.html";
 
   // Athletic.net team pages, used only as the fallback when a file can't load.
@@ -185,7 +185,7 @@
           }
         }).catch(function () {
           if (shown !== id) return;
-          body.innerHTML = '<p class="sched-status">This season couldn’t load. See the <a href="results-archive.html">results archive</a> or <a href="' +
+          body.innerHTML = '<p class="sched-status">This season couldn’t load. See the <a href="/results-archive.html">results archive</a> or <a href="' +
             esc(ATHLETIC[s.sport] || ATHLETIC.XC) + '">Athletic.net</a>.</p>';
         });
       }

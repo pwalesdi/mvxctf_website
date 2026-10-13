@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/ncs-championships.csv";
+  var DATA_URL = "/assets/data/ncs-championships.csv";
 
   var app = document.getElementById("ncs-app");
   if (!app) return;

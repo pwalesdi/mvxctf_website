@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/varsity-standards.csv";
+  var DATA_URL = "/assets/data/varsity-standards.csv";
   var GENDERS = ["Girls", "Boys"];
   var GROUP_ORDER = ["Track", "Field"];
 

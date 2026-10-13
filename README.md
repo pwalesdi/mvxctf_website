@@ -28,7 +28,7 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/news.js` | Renders the home page's "Latest" item from `assets/data/news.csv` (see "Home page"). |
 | `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
-| `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `coaches.html` and every coach page. |
+| `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `team/index.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/seasons.csv` | The season index for the schedule's Season selector (see "The schedule"). |
 | `assets/data/schedule-<season>.csv` | One schedule per season, e.g. `schedule-2026-xc.csv`. Only the current season's file changes; past seasons are frozen. |
@@ -55,15 +55,15 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **19 pages**: index, schedule, cross-country, track-field, coaches, coach-wales-dinan, coach-spilker, coach-graham, coach-williams-brittany, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **19 pages**: in the repo root index, schedule, cross-country, track-field, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance; under `team/` the coaches index (`team/index.html`) and the four coach pages (`team/<first>-<last>/index.html`). Every path in them is root-absolute (`/assets/css/site.css`, `/schedule.html`, `/team/`), so the header and footer are the same at every depth. Afterwards, check with:
 
 ```sh
-grep -c 'class="nav"' *.html      # every page should report 1
+grep -c 'class="nav"' *.html team/index.html team/*/index.html   # every page reports 1, except the five redirect stubs (0)
 ```
 
 The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current. `clearance.html` isn't in the nav either and marks nothing current; the home page hero's "XC / T&F clearance" button links to it.
 
-`404.html` (not in the nav, nothing current) is what GitHub Pages serves for any unmatched URL, including every old Wix link (`/24xc`, `/tf24`, `/2025-cross-country`…). Because it's served at the bad URL's own path, its `<head>` starts with a small script that writes a `<base>` tag pinning relative paths to the site root: the first path segment on `*.github.io` (the project path), `/` everywhere else (the custom domain). Keep that script above every stylesheet and script, and keep the page's links relative like every other page. On a nested bad URL the browser may first fetch a few assets relative to that URL before the base applies; those extra 404s are harmless and the page renders normally. It is `noindex`. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+`404.html` (not in the nav, nothing current) is what GitHub Pages serves for any unmatched URL, including every old Wix link (`/24xc`, `/tf24`, `/2025-cross-country`…). It's served at the bad URL's own path, which is why its paths, like every page's, are root-absolute. It is `noindex`. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
 ## The schedule
 
@@ -107,14 +107,7 @@ A row whose `date` cell starts with `#` is a comment (the file ends with one, sh
 
 ### Data to fix
 
-These rows link to **2025** results pages even though the meets are 2026. They are rendered as given; update `results_url` when the 2026 pages exist:
-
-- 2026-09-19 Nike De La Salle Invitational: `diablotiming.com/results/2025-09-20/`
-- 2026-11-07 EBAL Championships: `diablotiming.com/results/2025-11-08/`
-- 2026-11-21 NCS Championships: `diablotiming.com/results/2025-11-22/`
-- 2026-11-28 CIF State Championships: `rtspt.com/events/cif/xc2025/`
-
-
+`schedule.js` shows a Results link only for a meet dated today or earlier, whatever the file says; still leave `results_url` blank until the meet happens. Before adding a link, open it and check the meet name and date inside: Diablo Timing's addresses are date-based, so last year's page is one digit away.
 
 The 2026-10-10 Wildcat Invitational (Dougherty Valley High School) has no `results_url` yet.
 
@@ -168,7 +161,7 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
    - **These go stale after every season. Replace them:** girls `1-5-6` ("…Padilla sixth. **All three return.**") and boys `4th` ("**Kotamraju returns** after placing fourth…").
    - Don't name years for the boys' two NCS team titles in prose (the source records conflict). The NCS table shows them as the CSV has them, 2007 and 2015, by decision.
 4. **Home page accomplishments band**: `index.html`. "14" NCS team titles, "3" titles in four years ("2022, 2024 and 2025"), "21" section titles since 2019, "77" All-NCS honors ("31 different athletes"), and the four highlight lines with their year labels ("2025 · Cross country", "2019–2025 · Depth" and so on).
-5. **Head coach bio**: `coach-wales-dinan.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
+5. **Head coach bio**: `team/patrick-wales-dinan/index.html`. Running cross country totals: "42 different athletes … 72 State races", NCS and State results, Clovis marks.
 6. **Roster highlights on the records board**: `assets/data/records.csv`, column `active`. Set `yes` for athletes now on the roster (relays: if any leg is current), clear graduates. Set it by hand.
 
 ### After each track season (late May / June)
@@ -178,14 +171,14 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
 3. **School records**: `assets/data/records.csv`. Insert new marks, re-number `rank` within each event, and keep `event_order` as is. Flags go in `flag` (`w` wind-aided, `c` converted), never in `mark`. Set `active` as above.
 4. **EBAL distance points**: `assets/data/ebal-distance.csv`. Add one row per scoring place (top six) for the 800m, 1600m, 3200m and 4x800, girls and boys, with `points` 10-8-6-4-2-1. Use `program` "Carondelet / De La Salle" for those two schools, otherwise the school name. The page's year range and totals update themselves.
 5. **Varsity standards for next year**: `assets/data/varsity-standards.csv`, plus the eyebrow "Track & Field · 2026" in `varsity-standards.html`. Once EBAL publishes the new qualifying marks: standard = (3 × average of the last three years' EBAL 7th-place marks + EBAL qualifying standard) / 4. That's the 3:1 weighting, used from the 2027 standards on; the published 2026 standards used 2:1 and stay as published. Field marks are rounded to the nearest half inch (`28' 6"`, `15' 6.5"`). Working files: `source/data/MV_Varsity_Standards.*`, `ebal-2026-seventh-place.csv`, `varsity-standards-2027-DRAFT.csv`. These are git-ignored and not published until final.
-6. **Head coach bio, track section**: `coach-wales-dinan.html`. Meet of Champions and Tri-Valley titles and counts ("19 … titles", the two title lists), EBAL and NCS team results, "77 All-NCS honors … 31 different athletes".
+6. **Head coach bio, track section**: `team/patrick-wales-dinan/index.html`. Meet of Champions and Tri-Valley titles and counts ("19 … titles", the two title lists), EBAL and NCS team results, "77 All-NCS honors … 31 different athletes".
 
 ### Every year, before the new season
 
 1. **Athletic.net links**: the year is in the path of both: `https://www.athletic.net/team/1027/cross-country/2026` and `https://www.athletic.net/team/1027/track-and-field-outdoor/2026`. They're in the footer of **every page** (change all pages in one commit, as with any header or footer change), the home page's schedule panel, the `<noscript>` line on `schedule.html`, and `assets/js/schedule.js` (`SPORTS`). Find them all with `grep -rn "athletic.net/team" .`
 2. **Schedule**: add the new season to `assets/data/seasons.csv` (top of the `sort` order, `current` = `yes`, and clear `current` on last season), create `assets/data/schedule-<id>.csv` with the same columns, and set `CURRENT_SEASON` in `assets/js/schedule.js`. The finished season's file is then frozen: point its `results_url`s at archived copies first (see the results archive steps above). Check that every `results_url` is this season's, not last year's.
 3. **Home page season text**: `index.html`. The hero "2026 Cross Country", the "2026 pre-season" practice line, "2026 cross country schedule & results", the "Printable season schedule" Google Doc link, and the "Past seasons & results archive 2020–2025" label.
-4. **Coach bio year counts**: head coach "ninth season" (`coach-wales-dinan.html`), Spilker "8th year" (`coach-spilker.html`), Graham "40th year" (`coach-graham.html`), Williams "4th season" (`coach-williams-brittany.html`). Add 1 to each.
+4. **Coach bio year counts**: head coach "ninth season" (`team/patrick-wales-dinan/`), Spilker "8th year" (`team/logan-spilker/`), Graham "40th year" (`team/dan-graham/`), Williams "4th season" (`team/brittany-williams/`). Add 1 to each.
 
 ## Records and letters
 
@@ -223,7 +216,7 @@ The standards page isn't in the top nav (seven items is the limit). It's linked 
 
 ## Coach photos
 
-`coaches.html` lists every coach; coaches with a bio have their own page, `coach-<name>.html`, in the repo root (not a subfolder, so asset paths and the shared header/footer keep working). Each shows a photo slot that stays a neutral grey block until the file exists.
+`team/index.html` (`/team/`) lists every coach; coaches with a bio have their own page at `team/<first>-<last>/index.html` (`/team/patrick-wales-dinan/`): first and last name, lowercase, hyphenated. The old addresses (`coaches.html`, `coach-wales-dinan.html`, `coach-graham.html`, `coach-spilker.html`, `coach-williams-brittany.html`) are redirect stubs in the repo root: a canonical link, a meta refresh and a visible link to the new address, with no header or footer. They're not in the sitemap; leave them in place, since the old addresses were shared. Each shows a photo slot that stays a neutral grey block until the file exists.
 
 To add a photo, save it as:
 
@@ -297,11 +290,11 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | Page | Missing |
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
-| `coach-*.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
-| `coaches.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add a `coach-<name>.html` page (copy an existing one) and turn their index entry into a link. |
-| `coach-*.html`, `coaches.html` | Coach photos: Wales-Dinan and Graham done; the other five not supplied yet. See "Coach photos". |
+| `team/*/index.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
+| `team/index.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn their index entry into a link. |
+| `team/` pages | Coach photos: Wales-Dinan and Graham done; the other five not supplied yet. See "Coach photos". |
 | `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
-| `coaches.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
+| `team/index.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
 | `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |

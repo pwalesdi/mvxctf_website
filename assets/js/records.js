@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/records.csv";
+  var DATA_URL = "/assets/data/records.csv";
   var GENDERS = ["Girls", "Boys"];
   var GROUP_ORDER = ["Sprints", "Hurdles", "Distance", "Relays", "Field"];
   var FLAG_TITLES = { w: "Wind-aided", c: "Converted mark" };

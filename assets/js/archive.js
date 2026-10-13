@@ -8,7 +8,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/results-archive.csv";
+  var DATA_URL = "/assets/data/results-archive.csv";
   var app = document.getElementById("archive-app");
   if (!app) return;
   function fail() { app.innerHTML = '<p class="count">The results archive couldn’t load. Try again later.</p>'; }

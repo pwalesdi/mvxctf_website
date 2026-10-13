@@ -13,13 +13,17 @@ The site is **live at montevistaxc.com** (GitHub Pages, served from `main`). A p
 
 ## Structure
 
-- The header and footer are **duplicated across all 19 `.html` pages** and change together, in one commit. Check with `grep -c 'class="nav"' *.html` (every page reports 1).
+- The header and footer are **duplicated across all 19 pages** (14 in the repo root, 5 under `team/`) and change together, in one commit. They are byte-identical except for the current-page markers (`aria-current`, `is-current`). Check with `grep -c 'class="nav"' *.html team/index.html team/*/index.html` (every page reports 1; the five redirect stubs report 0).
+- Coach pages live at `team/<first>-<last>/index.html` (lowercase, hyphenated; `/team/patrick-wales-dinan/`), and the coaches index at `team/index.html`. The old `coaches.html` and `coach-*.html` in the root are redirect stubs for addresses already shared: leave them, keep them out of the sitemap, and don't give them the header and footer.
 - `assets/css/site.css` is the only stylesheet. No inline `style=""`; add a class there.
 - `assets/js/csv.js` is the only CSV parser. Never write a second one. Data pages load it first.
 
 ## Paths
 
-Everything relative, always: no leading `/`, no `pwalesdi.github.io` or project-path URLs, in pages, CSS, JS, CSV or archive rows. The site moved from a project path to a domain root, and absolute paths break on one or the other. `404.html` is the one exception to plain relative paths: it pins them with a `<base>` script at the top of `<head>`. Keep that script. The other exception is the `https://montevistaxc.com/...` addresses that must be absolute by spec: canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
+- **Site pages use root-absolute paths**: `/assets/css/site.css`, `/schedule.html`, `/team/`, and the scripts' data files (`/assets/data/...`). Pages sit at different depths, and this keeps the header and footer identical at every one. No `pwalesdi.github.io` URLs.
+- **Archived documents keep their captured relative paths and are never edited.** Nothing under `archive/` changes.
+- Paths inside the data files stay relative (`archive/results/...`, `results-archive.html#...`): they're rendered on root-level pages, and `archive.js` accepts only relative paths.
+- Full `https://montevistaxc.com/...` addresses only where the spec requires them: canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
 
 ## Data
 

@@ -9,7 +9,7 @@
 (function () {
   "use strict";
 
-  var DATA_URL = "assets/data/news.csv";
+  var DATA_URL = "/assets/data/news.csv";
 
   var sec = document.getElementById("latest");
   if (!sec || !window.MVCSV) return;
