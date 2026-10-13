@@ -19,7 +19,7 @@ The site is **live at montevistaxc.com** (GitHub Pages, served from `main`). A p
 
 ## Paths
 
-Everything relative, always: no leading `/`, no `pwalesdi.github.io` or project-path URLs, in pages, CSS, JS, CSV or archive rows. The site moved from a project path to a domain root, and absolute paths break on one or the other. `404.html` is the one exception to plain relative paths: it pins them with a `<base>` script at the top of `<head>`. Keep that script.
+Everything relative, always: no leading `/`, no `pwalesdi.github.io` or project-path URLs, in pages, CSS, JS, CSV or archive rows. The site moved from a project path to a domain root, and absolute paths break on one or the other. `404.html` is the one exception to plain relative paths: it pins them with a `<base>` script at the top of `<head>`. Keep that script. The other exception is the `https://montevistaxc.com/...` addresses that must be absolute by spec: canonical links, Open Graph tags, JSON-LD, `sitemap.xml` and `robots.txt`.
 
 ## Data
 
@@ -32,7 +32,7 @@ Woodward Park and CIF State times are "fastest in school history", never "school
 ## Schedule
 
 - One file per season, `assets/data/schedule-<id>.csv`, indexed by `assets/data/seasons.csv`. The current season is `CURRENT_SEASON` in `assets/js/schedule.js`; only its file changes, and past seasons are frozen.
-- **A meet whose date is in the future never shows a results link.** Not yet enforced in code: as of October 2026, several upcoming rows in `schedule-2026-xc.csv` still carry links (some to 2025 pages). Don't add new ones.
+- **A meet whose date is in the future never shows a results link.** `schedule.js` enforces this: a Results link renders only for a meet dated today or earlier, whatever the file says. Still leave the cell blank until the meet happens.
 - Results links only: no Google Docs or Drive links, itineraries or race assignments in past seasons.
 
 ## Photos

@@ -23,6 +23,7 @@
     return id === CURRENT_SEASON && CURRENT_SHEET_URL ? CURRENT_SHEET_URL : "assets/data/schedule-" + id + ".csv";
   }
   var SEASONS_URL = "assets/data/seasons.csv";
+  var CANONICAL_BASE = "https://montevistaxc.com/schedule.html";
 
   // Athletic.net team pages, used only as the fallback when a file can't load.
   var ATHLETIC = {
@@ -98,9 +99,12 @@
   /* ---------- schedule.html ---------- */
 
   // full = the current season's columns; past seasons drop Level and Time.
+  // A Results link shows only once the meet has happened (today counts), whatever
+  // the file says, so a stale link can't pass off last year's results as this
+  // year's. Undated meets haven't happened either.
   function rowHTML(m, full) {
     var r = m.r, links = [];
-    if (safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
+    if (m.key && m.key <= todayKey() && safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
     if (r.extra_label && safeUrl(r.extra_url)) links.push(link(r.extra_url, r.extra_label));
     return "<tr>" +
       // data-label feeds the stacked phone layout; the date has a long
@@ -146,6 +150,7 @@
       var note = document.getElementById("season-note");
       var body = document.getElementById("season-body");
       var eyebrow = document.querySelector(".sec-head .eyebrow");
+      var canonical = document.querySelector('link[rel="canonical"]');
       var shown = null;
 
       function wanted() { var p = seasonParam(); return byId[p] ? p : CURRENT_SEASON; }
@@ -155,6 +160,11 @@
         var s = byId[id];
         select.value = id;
         if (eyebrow) eyebrow.textContent = id === CURRENT_SEASON ? "This season" : "Past season";
+        // Each past season is its own page to search engines (sitemap.xml lists
+        // them): its own title and canonical address.
+        document.title = (id === CURRENT_SEASON ? "Meet Schedule and Results" : s.label + " Schedule and Results") +
+          " | Monte Vista Cross Country and Track & Field";
+        if (canonical) canonical.href = CANONICAL_BASE + (id === CURRENT_SEASON ? "" : "?season=" + encodeURIComponent(id));
         note.textContent = s.note || "";
         note.hidden = !s.note;
         body.innerHTML = '<p class="sched-status">Loading schedule…</p>';
