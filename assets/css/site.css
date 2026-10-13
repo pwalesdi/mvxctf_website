@@ -344,6 +344,7 @@ section.follow{padding-top:0}
 @media (max-width:460px){.honors-grid.two{grid-template-columns:1fr}}
 .honors-grid.two .fig{font-size:clamp(2rem,3.6vw,2.75rem)} /* half-width cells: keeps "12 straight" on one line */
 h1.statement{font-size:clamp(1.75rem,4vw,3rem)}
+h1.page-title{font-size:clamp(1.375rem,2.4vw,1.75rem)} /* a page title that leaves the paragraph below it dominant */
 .honors-grid.flush{margin-top:0}
 /* Top-line band: 2x2 on phones instead of the base grid's single column. */
 @media (max-width:599.98px){.honors-grid.flush{grid-template-columns:repeat(2,minmax(0,1fr))}}
