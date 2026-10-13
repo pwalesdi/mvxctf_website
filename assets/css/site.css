@@ -404,8 +404,8 @@ section.panel.letters{padding-block:0}
    alt text. Drop a JPEG at assets/img/coaches/<slug>.jpg and it appears. */
 .coach-photo{display:block;aspect-ratio:4/5;width:100%;background:var(--surface-2) no-repeat 50% 25%/cover;border:1px solid var(--line);border-radius:6px}
 .p-wales-dinan{background-image:url("../img/coaches/wales-dinan.jpg")}
+.p-spilker{background-image:url("../img/coaches/spilker.jpg")} /* 392 × 615, below the 600px minimum: used as supplied, not enlarged */
 /* Photos not supplied yet. Each rule stays off until its file exists, so no page requests a missing image: uncomment it when you add the photo. */
-/* .p-spilker{background-image:url("../img/coaches/spilker.jpg")} */
 .p-graham{background-image:url("../img/coaches/graham.jpg")}
 /* .p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")} */
 /* .p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")} */

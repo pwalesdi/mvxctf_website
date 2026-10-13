@@ -230,7 +230,8 @@ To add a photo, save it as:
 | Craig Rothstein | `assets/img/coaches/rothstein.jpg` |
 | Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
 
-- **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). The current two are 710 × 887 (Wales-Dinan) and 691 × 864 (Graham), about three times the 240px card.
+- **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). Wales-Dinan (710 × 887) and Graham (691 × 864) are about three times the 240px card.
+- **Exception: `coaches/spilker.jpg` is 392 × 615**, below the minimum and not 4:5 (the slot crops it). The owner chose to use it as supplied, not enlarged. It's soft on 3× phone screens; replace it when the full-size file arrives. **Credit unconfirmed and pending**: probably Lindsay Baloun, with the credit stripped. Once confirmed, add it to `photo-credits.csv`.
 - If the photographer needs credit, add the file to `assets/data/photo-credits.csv`; `photos.js` puts the credit on the photo wherever it appears.
 - Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
 - One line to change: each slot is a CSS background (`.p-<name>` rules in `site.css`). Rules for coaches without a photo are commented out, so no page requests a missing file (a missing photo shows the grey block); when you add a photo, uncomment its rule.
@@ -239,9 +240,11 @@ To add a photo, save it as:
 
 Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82, with **all metadata stripped**: no Exif, XMP or IPTC/Photoshop blocks. What remains is the JFIF header, the ICC colour profile and, on one file, Adobe's APP14 colour marker, none of which identify anyone. Two of the phone originals carried GPS coordinates; `sips` keeps those when it converts, and adds an Exif block of its own, so it isn't safe to use on its own. Strip losslessly afterwards (`exiftool -all= -tagsfromfile @ -icc_profile file.jpg`, or `jpegtran -copy icc`) rather than re-encoding. There are no full-size masters any more: photos are either processed into `assets/img/` or deleted, never kept in a third place.
 
-**Photo decisions (October 2026).** Deleted: the ten full-size masters of photos already in `assets/img/` at the 1600px cap (two carried GPS), and one unidentified 1060px race photo. Processed: the sharper 5333px frame of the 2024 EBAL champions photo (replacing the 1536px one), the 2024 EBAL discus photo, two 2016/2025 team photos, the 2026 Clovis photo, and three crops of Coach Wales-Dinan. Held in `~/Developer/mvxctf_archive/photos/` and not to be touched: Lindsay Baloun's 2024 EBAL photo of the girls carrying a coach (the source of `coaches/wales-dinan-3.jpg`), and `spilker_edited.jpg` (392px; a full-size file has been requested from the photographer, and it is probably hers). `assets/img/coaches/` holds card portraits only; photos that appear inside a bio go in `assets/img/` with dated names.
+**Photo decisions (October 2026).** Deleted: the ten full-size masters of photos already in `assets/img/` at the 1600px cap (two carried GPS), and one unidentified 1060px race photo. Processed: the sharper 5333px frame of the 2024 EBAL champions photo (replacing the 1536px one), the 2024 EBAL discus photo, two 2016/2025 team photos, the 2026 Clovis photo, and three crops of Coach Wales-Dinan. Held in `~/Developer/mvxctf_archive/photos/` and not to be touched: Lindsay Baloun's 2024 EBAL photo of the girls carrying a coach. A 4898 × 3265 copy of it, dated 2024-05-03, sits untracked as `coaches/walesd-dinan-4.jpg` (the misspelling is in the filename), not yet used. `spilker_edited.jpg` (392px; a full-size file has been requested from the photographer, probably Baloun) is now `coaches/spilker.jpg`. `assets/img/coaches/` holds card portraits only; photos that appear inside a bio go in `assets/img/` with dated names.
 
 Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-05-03-track-ebal-champions-team.jpg`, `2024-05-03-track-ebal-discus.jpg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`; an image not in the CSV can carry `data-credit`, which is how the news item's `image_credit` works). Scripts that add photos after load call `MVPhotos.apply(element)`. Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
+
+**Credits pending** (shown uncredited until confirmed): `coaches/spilker.jpg` (probably Lindsay Baloun) and `xc-wales-dinan-pointing-field.jpg` (photographer unknown).
 
 **Known:** photos committed before October 2026 still carry their old Exif and Photoshop blocks in git history (no GPS). The current files are clean; the history was left alone on purpose.
 
@@ -276,13 +279,14 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `dan-graham-high-five-2024.jpg` | Coach Graham high-fiving relay runners, 2024. Lindsay Baloun. Source of `coaches/graham.jpg` |
 | `ethan-miller-2023-moc-3200m.jpg` | Boys 3200m at the 2023 Meet of Champions; Ethan Miller. Lindsay Baloun |
 | `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova |
-| `2026-08-22-xc-scrimmage-wales-dinan-cheering.jpg` | Coach Wales-Dinan cheering a boy on the track at the August 2026 XC scrimmage. On the head coach page |
+| `2026-08-22-xc-scrimmage-wales-dinan-cheering.jpg` | Coach Wales-Dinan cheering a boy on the track at the August 2026 XC scrimmage. Not on a page since October 2026 (replaced by the pointing photo below) |
+| `xc-wales-dinan-pointing-field.jpg` | Coach Wales-Dinan in a red Monte Vista shirt, phone in hand, pointing across a dry-grass field beside a runner. **Undated** (no camera data) and **credit pending**. On the head coach page, Cross Country section |
 | `2026-08-22-xc-scrimmage-wales-dinan-girls.jpg` | Coach Wales-Dinan talking with the girls at the August 2026 XC scrimmage. On the head coach page |
-| `xc-wales-dinan-on-course.jpg` | Coach Wales-Dinan alone on a cross country course, pointing. **Undated** (no camera data), so not placed: every photo on a page needs a dated caption |
+| `xc-wales-dinan-on-course.jpg` | Coach Wales-Dinan alone on a cross country course, pointing. **Undated** (no camera data). On the head coach page, Cross Country section |
 | `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
 | `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
-| `coaches/wales-dinan.jpg`, `coaches/graham.jpg` | Coach portraits, 4:5 crops at source resolution (see "Coach photos") |
+| `coaches/wales-dinan.jpg`, `coaches/graham.jpg`, `coaches/spilker.jpg` | Coach portraits, 4:5 crops at source resolution, except Spilker's (see "Coach photos") |
 | `share/*.jpg` | Link-preview images (`og:image`): 1200 × 630 crops, named after the photo in `assets/img/` they're cut from. The hero crop is the default for pages without a fitting photo. **Never a Lindsay Baloun photo**: a preview card can't carry her credit. Portraits narrower than 1200px aren't enlarged for this, so the head coach page uses the scrimmage photo instead of his card portrait |
 
 ## Unfinished pages
@@ -292,7 +296,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `track-field.html` | Program overview, season and event-group information |
 | `team/*/index.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
 | `team/index.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn their index entry into a link. |
-| `team/` pages | Coach photos: Wales-Dinan and Graham done; the other five not supplied yet. See "Coach photos". |
+| `team/` pages | Coach photos: Wales-Dinan, Graham and Spilker (low resolution) done; the other four not supplied yet. See "Coach photos". |
 | `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
 | `team/index.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
