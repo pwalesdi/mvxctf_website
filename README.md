@@ -240,7 +240,7 @@ To add a photo, save it as:
 - **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). The current two are 710 × 887 (Wales-Dinan) and 691 × 864 (Graham), about three times the 240px card.
 - If the photographer needs credit, add the file to `assets/data/photo-credits.csv`; `photos.js` puts the credit on the photo wherever it appears.
 - Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
-- No code change is needed. The slots are CSS backgrounds (`.p-<name>` rules in `site.css`), so a missing file shows the grey block rather than a broken image. Until a file exists, the browser logs a harmless "not found" for it.
+- One line to change: each slot is a CSS background (`.p-<name>` rules in `site.css`). Rules for coaches without a photo are commented out, so no page requests a missing file (a missing photo shows the grey block); when you add a photo, uncomment its rule.
 
 ## Photos
 

@@ -97,7 +97,8 @@
 
   /* ---------- schedule.html ---------- */
 
-  function rowHTML(m) {
+  // full = the current season's columns; past seasons drop Level and Time.
+  function rowHTML(m, full) {
     var r = m.r, links = [];
     if (safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
     if (r.extra_label && safeUrl(r.extra_url)) links.push(link(r.extra_url, r.extra_label));
@@ -108,18 +109,18 @@
         '</span><span class="d-short">' + esc(formatDate(m.key).replace(",", "")) + "</span></td>" +
       '<td class="event" data-label="Meet">' + esc(r.meet) + (r.notes ? '<span class="note">' + esc(r.notes) + "</span>" : "") + "</td>" +
       '<td data-label="Location">' + (r.location ? link(r.map_url, r.location) : "") + "</td>" +
-      '<td data-label="Level">' + esc(r.level) + "</td>" +
-      '<td class="time" data-label="Time">' + esc(r.time) + "</td>" +
+      (full ? '<td data-label="Level">' + esc(r.level) + "</td>" +
+        '<td class="time" data-label="Time">' + esc(r.time) + "</td>" : "") +
       '<td class="links" data-label="Links">' + (links.length ? "<span>" + links.join("") + "</span>" : "") + "</td>" +
       "</tr>";
   }
 
-  function blockHTML(title, list, empty) {
+  function blockHTML(title, list, empty, full) {
     var body = list.length
       ? '<div class="panel sched-panel"><div class="table-scroll"><table class="sched">' +
         '<thead><tr><th scope="col">Date</th><th scope="col">Meet</th><th scope="col">Location</th>' +
-        '<th scope="col">Level</th><th scope="col">Time</th><th scope="col">Links</th></tr></thead>' +
-        "<tbody>" + list.map(rowHTML).join("") + "</tbody></table></div></div>"
+        (full ? '<th scope="col">Level</th><th scope="col">Time</th>' : "") + '<th scope="col">Links</th></tr></thead>' +
+        "<tbody>" + list.map(function (m) { return rowHTML(m, full); }).join("") + "</tbody></table></div></div>"
       : '<p class="sched-status">' + esc(empty) + "</p>";
     return '<div class="sched-block">' + (title ? "<h2>" + esc(title) + "</h2>" : "") + body + "</div>";
   }
@@ -164,12 +165,13 @@
             var upcoming = meets.filter(function (m) { return m.key && m.key >= today; });
             var completed = meets.filter(function (m) { return m.key && m.key < today; });
             var undated = meets.filter(function (m) { return !m.key; });
-            body.innerHTML = blockHTML("Upcoming", upcoming, "No upcoming meets.") +
-              blockHTML("Completed", completed, "No completed meets yet.") +
-              (undated.length ? blockHTML("Date to be announced", undated, "") : "");
+            body.innerHTML = blockHTML("Upcoming", upcoming, "No upcoming meets.", true) +
+              blockHTML("Completed", completed, "No completed meets yet.", true) +
+              (undated.length ? blockHTML("Date to be announced", undated, "", true) : "");
           } else {
             // A past season is complete: one list, no Upcoming/Completed split.
-            body.innerHTML = blockHTML("", meets, "No meets listed for this season.");
+            // Date, meet, location and links only.
+            body.innerHTML = blockHTML("", meets, "No meets listed for this season.", false);
           }
         }).catch(function () {
           if (shown !== id) return;
