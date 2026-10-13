@@ -290,6 +290,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
 | `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
 | `coaches/wales-dinan.jpg`, `coaches/graham.jpg` | Coach portraits, 4:5 crops at source resolution (see "Coach photos") |
+| `share/*.jpg` | Link-preview images (`og:image`): 1200 × 630 crops, named after the photo in `assets/img/` they're cut from. The hero crop is the default for pages without a fitting photo. **Never a Lindsay Baloun photo**: a preview card can't carry her credit. Portraits narrower than 1200px aren't enlarged for this, so the head coach page uses the scrimmage photo instead of his card portrait |
 
 ## Unfinished pages
 
