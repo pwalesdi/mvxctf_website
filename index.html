@@ -20,6 +20,32 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400..600&family=Space+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
+<script>
+/* Hero rotation, part one (part two is assets/js/hero.js). Starts loading the
+   photo list before the page is drawn. fallback() shows the default hero from
+   the <noscript class="hero-default"> blocks; it runs if hero.js reports a
+   failure, or if no photo has been picked three seconds after the page loads. */
+window.MVHero = (function () {
+  var hero = { state: "waiting" };
+  hero.fallback = function () {
+    if (hero.state !== "waiting") return;
+    hero.state = "default";
+    Array.prototype.forEach.call(document.querySelectorAll("noscript.hero-default"), function (n) {
+      n.insertAdjacentHTML("afterend", n.textContent);
+    });
+    if (window.MVPhotos) window.MVPhotos.apply(document.querySelector(".hero"));
+  };
+  if (window.fetch) {
+    hero.list = fetch("/assets/data/hero.csv", { cache: "no-store" }).then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.text();
+    });
+    hero.list.catch(function () {}); // hero.js handles the failure
+  }
+  document.addEventListener("DOMContentLoaded", function () { setTimeout(hero.fallback, 3000); });
+  return hero;
+})();
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -100,7 +126,7 @@
 
   <section class="hero">
     <div class="hero-media">
-      <img src="/assets/img/hero-loughery-miller.jpg" alt="Monte Vista runners Jack Loughery and Ethan Miller racing side by side on a tree-lined cross country course.">
+      <noscript class="hero-default"><img src="/assets/img/hero-loughery-miller.jpg" alt="Monte Vista runners Jack Loughery and Ethan Miller racing side by side on a tree-lined cross country course."></noscript>
       <div class="hero-scrim"></div>
     </div>
     <div class="hero-copy">
@@ -111,7 +137,7 @@
           <a class="btn btn-primary" href="/schedule.html">Season schedule</a>
           <a class="btn btn-ghost" href="/clearance.html">XC / T&amp;F clearance</a>
         </div>
-        <p class="credit">Jack Loughery &amp; Ethan Miller</p>
+        <p class="credit" id="hero-caption" data-credit-for=".hero-media img"><noscript class="hero-default">Jack Loughery &amp; Ethan Miller</noscript></p>
       </div>
     </div>
   </section>
@@ -321,6 +347,7 @@
   </div>
 </footer>
 <script src="/assets/js/csv.js"></script>
+<script src="/assets/js/hero.js"></script>
 <script src="/assets/js/schedule.js"></script>
 <script src="/assets/js/news.js"></script>
 <script src="/assets/js/photos.js"></script>

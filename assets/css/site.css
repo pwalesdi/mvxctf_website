@@ -95,7 +95,7 @@ p{margin:0}
 .hero{position:relative;background:var(--surface)}
 .hero-media{position:relative;width:100%;height:480px;max-width:100%;overflow:hidden} /* desktop: fixed height so the Latest item and schedule sit near the fold */
 @media (max-width:760px){.hero-media{height:auto;aspect-ratio:4/5}}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 0%} /* top-anchored: the runners' heads reach the top edge of the photo */
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:var(--hero-focus,50% 0%)} /* focal point per photo from assets/data/hero.csv; the default hero is top-anchored: the runners' heads reach the top edge of the photo */
 .hero-scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,7,6,.88) 0%,rgba(10,7,6,.62) 40%,rgba(10,7,6,.10) 76%,rgba(10,7,6,0) 100%)}
 @media (max-width:760px){.hero-scrim{background:linear-gradient(0deg,rgba(10,7,6,.92) 24%,rgba(10,7,6,.42) 62%,rgba(10,7,6,.06) 100%)}}
 .hero-copy{position:absolute;inset:0;display:flex;align-items:flex-end;padding-block:clamp(24px,5vw,52px)}
@@ -404,7 +404,7 @@ section.panel.letters{padding-block:0}
    alt text. Drop a JPEG at assets/img/coaches/<slug>.jpg and it appears. */
 .coach-photo{display:block;aspect-ratio:4/5;width:100%;background:var(--surface-2) no-repeat 50% 25%/cover;border:1px solid var(--line);border-radius:6px}
 .p-wales-dinan{background-image:url("../img/coaches/wales-dinan.jpg")}
-.p-spilker{background-image:url("../img/coaches/spilker.jpg")} /* 392 × 615, below the 600px minimum: used as supplied, not enlarged */
+.p-spilker{background-image:url("../img/coaches/spilker.jpg");background-position:50% 0%} /* 392 × 615, below the 600px minimum: used as supplied, not enlarged. Top-anchored: the photo has little room above his head, and the default 25% clipped it */
 /* Photos not supplied yet. Each rule stays off until its file exists, so no page requests a missing image: uncomment it when you add the photo. */
 .p-graham{background-image:url("../img/coaches/graham.jpg")}
 .p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")}
@@ -446,6 +446,10 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .resume{display:flex;flex-direction:column;margin:26px 0 24px;padding:22px 0 24px;border-block:1px solid var(--line)}
 .resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:28px 0 6px}
 .resume ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:2px;color:var(--ink-2);font-size:.9375rem;line-height:1.45}
+/* Home page hero rotation (hero.js). The caption line keeps its height while it waits for
+   the chosen photo's caption, so the headline and buttons don't jump when it arrives. */
+.hero-copy .credit{min-height:1.6em}
+.hero-copy .credit .photo-credit::before{content:" · "}
 /* Home page: "Latest" news item (rendered by news.js; the section stays hidden until there is one),
    single-column schedule and practice blocks, and the clearance/donation pointers. */
 .latest{border-bottom:1px solid var(--line)}

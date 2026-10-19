@@ -27,12 +27,14 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
 | `assets/js/news.js` | Renders the home page's "Latest" item from `assets/data/news.csv` (see "Home page"). |
+| `assets/js/hero.js` | Picks the home page hero photo at random from `assets/data/hero.csv` on every load (see "Home page"). Works with a small inline script in `index.html`'s `<head>`. |
 | `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
 | `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `team/index.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/seasons.csv` | The season index for the schedule's Season selector (see "The schedule"). |
 | `assets/data/schedule-<season>.csv` | One schedule per season, e.g. `schedule-2026-xc.csv`. Only the current season's file changes; past seasons are frozen. |
 | `assets/data/news.csv` | The home page's "Latest" item. Headers only means no item. |
+| `assets/data/hero.csv` | The home page hero photos, one row each, with focal point and caption (see "Home page"). |
 | `assets/data/results-archive.csv` | One row per archived results file (see "Results archive"). |
 | `archive/results/` | The archived results files themselves, one folder per season. |
 | `assets/data/photo-credits.csv` | One row per credited photo: `file` (site path, e.g. `assets/img/carlson-alexys.jpg`) and `credit`. |
@@ -129,6 +131,19 @@ Sections, top to bottom: hero, **Latest**, schedule & results (with the next mee
 
 Everything is HTML-escaped. With no rows (headers only), a missing file or a load error, the section doesn't render at all: no box, no placeholder.
 
+**The hero photo** changes on every load, picked at random from `assets/data/hero.csv`, columns `file, focus, caption, alt`:
+
+| Column | Notes |
+| --- | --- |
+| `file` | The photo, e.g. `assets/img/2022-04-23-track-hurdles.jpg`. Relative path inside `assets/img/`; anything else is ignored. |
+| `focus` | The point of the photo to keep in frame, as `<across>% <down>%`. `50% 0%` keeps the top edge, `65% 55%` keeps a spot right of centre and a little below the middle. The hero is a wide 480px band on computers (only the `down` number matters there) and a 4:5 portrait on phones (only `across` matters). Set it by trying the photo at 1280px and 1920px wide and on a phone: the wider the screen, the thinner the slice of a photo you see. |
+| `caption` | The small line under the buttons. Names the athletes where known. |
+| `alt` | Describe the photo for screen readers. |
+
+Prefer landscape photos. A portrait shows as a thin horizontal slice on computers: the Clovis photo (1200 × 1600) works at `50% 34%` with every head in frame up to 1920px, but it's chest-up at that width and slightly soft, because it's stretched. A row whose first cell starts with `#` is switched off. The Woodbridge photo of O'Connell and Makarova is in the file that way, held until its photographer is confirmed (see "Photos"). If a hero photo is listed in `photo-credits.csv`, its credit is added to the caption line.
+
+How it avoids showing the wrong photo first: an inline script in `index.html`'s `<head>` starts loading `hero.csv` before anything is drawn, and with JavaScript on, the hero has no photo until `hero.js` has picked one. The default hero (`hero-loughery-miller.jpg`, "Jack Loughery & Ethan Miller") sits in `<noscript class="hero-default">` blocks: it's what shows without JavaScript, and what the page falls back to if the list, the script or the chosen file fails to load, or if nothing has been picked three seconds after the page loads. The default isn't in the rotation; add a row for it if you want it there. The link preview (`og:image`) and the JSON-LD still use the default hero.
+
 ## Post-season checklist
 
 Several parts of the site go stale on a fixed yearly cycle. Work through the relevant list after each season. Every change below is to a file in this repo. Afterwards, run the site locally (see the top of this file), click through the pages you touched, and check nothing says "couldn't load".
@@ -214,6 +229,22 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 
 The standards page isn't in the top nav (seven items is the limit). It's linked from Track & Field, Records, and the footer under "The program".
 
+## Image folders
+
+Photos live in three folders. Each folder holds one shape of picture, for one job.
+
+| Folder | What it's for | Shape |
+| --- | --- | --- |
+| `assets/img/` | Photos shown on the pages themselves: the home page hero, the Latest item, photos inside coach bios. Also the two logos. | The photo's own shape, at most 1600px on the long side. Named with the date it was taken, e.g. `2024-05-03-track-ebal-discus.jpg`. |
+| `assets/img/coaches/` | The portrait on each coach's card and page. Nothing else goes here. | Tall, 4:5 (about 710 × 887), one person, face in the top half. Named after the coach, e.g. `graham.jpg`. |
+| `assets/img/share/` | The picture that shows when someone shares a link in a text message or on social media (`og:image`). | Wide, exactly 1200 × 630. Named after the photo in `assets/img/` it was cut from. Never a Lindsay Baloun photo: a preview can't show her credit. |
+
+**Why the same photo can be in two or three folders.** A coach card needs a tall picture of one person; a link preview needs a wide one. Phones and social sites download the preview file as it is and can't crop it, so it has to be its own file, and a card portrait is cropped by hand so the face sits right. So one good photo can exist three times: the whole frame in `assets/img/`, a tall crop in `coaches/`, a wide crop in `share/`. For example, Coach Graham's card is cut from `dan-graham-high-five-2024.jpg`, and the Cross Country Records page's preview is cut from `2026-10-10-xc-clovis-girls.jpg`. Each copy is a separate small file; editing one doesn't change the others.
+
+Two things to keep in mind:
+- **Anything committed here can be downloaded by anyone** at `montevistaxc.com/assets/img/...`, even if no page shows it. Don't keep originals or work files in these folders; they get committed by accident (see "Committing").
+- **Being in the folder doesn't mean being on the site.** Many photos are on file for later. The table under "Photos" says what each one shows.
+
 ## Coach photos
 
 `team/index.html` (`/team/`) lists every coach; coaches with a bio have their own page at `team/<first>-<last>/index.html` (`/team/patrick-wales-dinan/`): first and last name, lowercase, hyphenated. The old addresses (`coaches.html`, `coach-wales-dinan.html`, `coach-graham.html`, `coach-spilker.html`, `coach-williams-brittany.html`) are redirect stubs in the repo root: a canonical link, a meta refresh and a visible link to the new address, with no header or footer. They're not in the sitemap; leave them in place, since the old addresses were shared. Each shows a photo slot that stays a neutral grey block until the file exists.
@@ -231,7 +262,7 @@ To add a photo, save it as:
 | Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
 
 - **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). Wales-Dinan (710 × 887), Edd Williams (710 × 887) and Graham (691 × 864) are about three times the 240px card.
-- **Exception: `coaches/spilker.jpg` is 392 × 615**, below the minimum and not 4:5 (the slot crops it). The owner chose to use it as supplied, not enlarged. It's soft on 3× phone screens; replace it when the full-size file arrives. **Credit unconfirmed and pending**: probably Lindsay Baloun, with the credit stripped. Once confirmed, add it to `photo-credits.csv`.
+- **Exception: `coaches/spilker.jpg` is 392 × 615**, below the minimum and not 4:5 (the slot crops it, anchored to the top of the photo, because the usual crop clipped his head; there's only about 14px of photo above his hair). The owner chose to use it as supplied, not enlarged. It's soft on 3× phone screens; replace it when the full-size file arrives. **Credit unconfirmed and pending**: probably Lindsay Baloun, with the credit stripped. Once confirmed, add it to `photo-credits.csv`.
 - If the photographer needs credit, add the file to `assets/data/photo-credits.csv`; `photos.js` puts the credit on the photo wherever it appears.
 - Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
 - One line to change: each slot is a CSS background (`.p-<name>` rules in `site.css`). Rules for coaches without a photo are commented out, so no page requests a missing file (a missing photo shows the grey block); when you add a photo, uncomment its rule.
@@ -264,9 +295,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2023-05-05-track-ebal-ethan-miller.jpg` | Boy on the track (portrait); Ethan Miller at EBAL |
 | `2022-track-jack-loughery.jpg` | Boy running on the track (portrait); Jack Loughery |
 | `2022-track-caden-honda.jpg` | Three boys sprinting; Caden Honda |
-| `2022-04-23-track-hurdles.jpg` | Wide shot of a hurdles race with a full grandstand |
+| `2022-04-23-track-hurdles.jpg` | Wide shot of a boys hurdles race with a full grandstand; Sacramento Meet of Champions (the hurdles read "American River"). In the home page hero rotation |
 | `2022-04-08-track-arcadia-peters.jpg` | Girl finishing a race, "Finish on…" banner; Peters at Arcadia |
-| `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; Rosati |
+| `2022-04-23-track-shot-put-rosati.jpg` | Shot put throw; Rosati (first name not confirmed: Ash and Emilie Rosati were both on the 2022 team). In the home page hero rotation |
 | `2022-track-pole-vault-wong.jpg` | Girl on a pole vault runway (portrait); Wong |
 | `2022-05-28-cif-state-track-wright.jpg` | Hurdles finish, athlete flexing; Wright at CIF State |
 | `2022-track-coach-graham.jpg` | Coach and athlete on the infield; Coach Graham |
@@ -278,14 +309,14 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `carlson-alexys.jpg` | Thrower in Monte Vista kit by the throws-ring fence; Alexys Carlson. Lindsay Baloun |
 | `dan-graham-high-five-2024.jpg` | Coach Graham high-fiving relay runners, 2024. Lindsay Baloun. Source of `coaches/graham.jpg` |
 | `ethan-miller-2023-moc-3200m.jpg` | Boys 3200m at the 2023 Meet of Champions; Ethan Miller. Lindsay Baloun |
-| `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova |
+| `oconnell-makarova-woodbridge-2026.jpg` | Girls race at Woodbridge 2026 (portrait); O'Connell and Makarova. **Photographer unknown**: shot on a Sony A7 V with a 70–200mm lens and edited in Lightroom, with no name in the file. Held out of the hero rotation (a switched-off row in `hero.csv`) until confirmed |
 | `2026-08-22-xc-scrimmage-wales-dinan-cheering.jpg` | Coach Wales-Dinan cheering a boy on the track at the August 2026 XC scrimmage. Not on a page since October 2026 (replaced by the pointing photo below) |
 | `xc-wales-dinan-pointing-field.jpg` | Coach Wales-Dinan in a red Monte Vista shirt, phone in hand, pointing across a dry-grass field beside a runner. **Undated** (no camera data) and **credit pending**. On the head coach page, Cross Country section |
 | `2026-08-22-xc-scrimmage-wales-dinan-girls.jpg` | Coach Wales-Dinan talking with the girls at the August 2026 XC scrimmage. On the head coach page |
 | `xc-wales-dinan-on-course.jpg` | Coach Wales-Dinan alone on a cross country course, pointing. **Undated** (no camera data). On the head coach page, Cross Country section |
 | `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
-| `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
+| `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original. In the home page hero rotation |
 | `2025-05-21-track-tssaa-state-williams-edd.jpg` | Coach Edd Williams (left) and a fellow Millington coach with the 2025 TSSAA Division I Class AA boys state runner-up trophy (portrait, shown at most 400px wide). Converted from iPhone HEIC; the original carried GPS. On his coach page |
 | `2024-07-28-track-junior-olympics-williams-edd.jpg` | Coach Edd Williams with four athletes wearing National Junior Olympic medals and All-American caps, July 2024. Converted from iPhone HEIC; the original carried GPS. On his coach page, and the source of its share image |
 | `coaches/wales-dinan.jpg`, `coaches/graham.jpg`, `coaches/spilker.jpg`, `coaches/williams-edd.jpg` | Coach portraits, 4:5 crops at source resolution, except Spilker's (see "Coach photos"). Edd Williams's is a head-and-shoulders crop of a May 2024 photo of him beside a young Youth Memphis athlete, cut tight to leave the child out; converted from iPhone HEIC, the original carried GPS |
