@@ -55,7 +55,7 @@ Fonts load from Google Fonts: Archivo (display), Source Serif 4 (body) and Space
 
 Static HTML has no includes, so every page carries its own copy of the site header (logo + nav) and footer. The copies are identical except for which nav item is marked current: a top-level link gets `aria-current="page"`; on the four records pages, the Records button gets `class="nav-dd-btn is-current"` and the matching link inside its menu gets `aria-current="page"`.
 
-**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **19 pages**: in the repo root index, schedule, cross-country, track-field, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance; under `team/` the coaches index (`team/index.html`) and the four coach pages (`team/<first>-<last>/index.html`). Every path in them is root-absolute (`/assets/css/site.css`, `/schedule.html`, `/team/`), so the header and footer are the same at every depth. Afterwards, check with:
+**Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **20 pages**: in the repo root index, schedule, cross-country, track-field, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards and ebal-distance; under `team/` the coaches index (`team/index.html`) and the five coach pages (`team/<first>-<last>/index.html`). Every path in them is root-absolute (`/assets/css/site.css`, `/schedule.html`, `/team/`), so the header and footer are the same at every depth. Afterwards, check with:
 
 ```sh
 grep -c 'class="nav"' *.html team/index.html team/*/index.html   # every page reports 1, except the five redirect stubs (0)
@@ -230,7 +230,7 @@ To add a photo, save it as:
 | Craig Rothstein | `assets/img/coaches/rothstein.jpg` |
 | Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
 
-- **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). Wales-Dinan (710 × 887) and Graham (691 × 864) are about three times the 240px card.
+- **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). Wales-Dinan (710 × 887), Edd Williams (710 × 887) and Graham (691 × 864) are about three times the 240px card.
 - **Exception: `coaches/spilker.jpg` is 392 × 615**, below the minimum and not 4:5 (the slot crops it). The owner chose to use it as supplied, not enlarged. It's soft on 3× phone screens; replace it when the full-size file arrives. **Credit unconfirmed and pending**: probably Lindsay Baloun, with the credit stripped. Once confirmed, add it to `photo-credits.csv`.
 - If the photographer needs credit, add the file to `assets/data/photo-credits.csv`; `photos.js` puts the credit on the photo wherever it appears.
 - Every slot crops to fill (centred horizontally, weighted toward the top), so any 4:5 photo with the face in the upper half drops straight in. Other shapes still work but get cropped.
@@ -244,7 +244,7 @@ Every photo in `assets/img/` is at most 1600px on the long edge, JPEG quality 82
 
 Stripping also removes photographer credit, so credit lives here. Lindsay Baloun (Lindsay Baloun Photography) took `2024-05-03-track-ebal-champions-team.jpg`, `2024-05-03-track-ebal-discus.jpg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (and the `coaches/graham.jpg` crop of it) and `ethan-miller-2023-moc-3200m.jpg`. Credit her wherever one of these is shown. That's automatic: every credited file is listed in `assets/data/photo-credits.csv`, and `photos.js` adds "Photo: …" to coach-photo slots (along the bottom edge; below the thumbnail on phone cards) and to `<figure>` images (in the `figcaption`; an image not in the CSV can carry `data-credit`, which is how the news item's `image_credit` works). Scripts that add photos after load call `MVPhotos.apply(element)`. Add any new credited photo to that file, and load `csv.js` + `photos.js` on any page that shows photos.
 
-**Credits pending** (shown uncredited until confirmed): `coaches/spilker.jpg` (probably Lindsay Baloun) and `xc-wales-dinan-pointing-field.jpg` (photographer unknown).
+**Credits pending** (shown uncredited until confirmed): `coaches/spilker.jpg` (probably Lindsay Baloun), `xc-wales-dinan-pointing-field.jpg` (photographer unknown), and Edd Williams's three photos (`coaches/williams-edd.jpg` and the two `*-williams-edd.jpg` bio photos; sent by text message, no credit in the files, photographer unknown).
 
 **Known:** photos committed before October 2026 still carry their old Exif and Photoshop blocks in git history (no GPS). The current files are clean; the history was left alone on purpose.
 
@@ -286,7 +286,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
 | `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original |
-| `coaches/wales-dinan.jpg`, `coaches/graham.jpg`, `coaches/spilker.jpg` | Coach portraits, 4:5 crops at source resolution, except Spilker's (see "Coach photos") |
+| `2025-05-21-track-tssaa-state-williams-edd.jpg` | Coach Edd Williams (left) and a fellow Millington coach with the 2025 TSSAA Division I Class AA boys state runner-up trophy (portrait, shown at most 400px wide). Converted from iPhone HEIC; the original carried GPS. On his coach page |
+| `2024-07-28-track-junior-olympics-williams-edd.jpg` | Coach Edd Williams with four athletes wearing National Junior Olympic medals and All-American caps, July 2024. Converted from iPhone HEIC; the original carried GPS. On his coach page, and the source of its share image |
+| `coaches/wales-dinan.jpg`, `coaches/graham.jpg`, `coaches/spilker.jpg`, `coaches/williams-edd.jpg` | Coach portraits, 4:5 crops at source resolution, except Spilker's (see "Coach photos"). Edd Williams's is a head-and-shoulders crop of a May 2024 photo of him beside a young Youth Memphis athlete, cut tight to leave the child out; converted from iPhone HEIC, the original carried GPS |
 | `share/*.jpg` | Link-preview images (`og:image`): 1200 × 630 crops, named after the photo in `assets/img/` they're cut from. The hero crop is the default for pages without a fitting photo. **Never a Lindsay Baloun photo**: a preview card can't carry her credit. Portraits narrower than 1200px aren't enlarged for this, so the head coach page uses the scrimmage photo instead of his card portrait |
 
 ## Unfinished pages
@@ -294,9 +296,9 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | Page | Missing |
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
-| `team/*/index.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Williams "4th season". |
-| `team/index.html` | Coach bios still needed: Edd Williams, Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn their index entry into a link. |
-| `team/` pages | Coach photos: Wales-Dinan, Graham and Spilker (low resolution) done; the other four not supplied yet. See "Coach photos". |
+| `team/*/index.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Spilker "8th year", Graham "40th year", Brittany Williams "4th season". |
+| `team/index.html` | Coach bios still needed: Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn their index entry into a link. |
+| `team/` pages | Coach photos: Wales-Dinan, Graham, Edd Williams and Spilker (low resolution) done; the other three not supplied yet. See "Coach photos". |
 | `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
 | `team/index.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |

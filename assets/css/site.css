@@ -407,7 +407,7 @@ section.panel.letters{padding-block:0}
 .p-spilker{background-image:url("../img/coaches/spilker.jpg")} /* 392 × 615, below the 600px minimum: used as supplied, not enlarged */
 /* Photos not supplied yet. Each rule stays off until its file exists, so no page requests a missing image: uncomment it when you add the photo. */
 .p-graham{background-image:url("../img/coaches/graham.jpg")}
-/* .p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")} */
+.p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")}
 /* .p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")} */
 /* .p-rothstein{background-image:url("../img/coaches/rothstein.jpg")} */
 /* .p-pogue{background-image:url("../img/coaches/pogue.jpg")} */
@@ -494,11 +494,13 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .arch-list details ul{list-style:none;margin:8px 0 4px;padding:0;columns:2 240px;column-gap:24px;font-size:.875rem;line-height:1.7}
 @media (max-width:640px){.arch-list > li{grid-template-columns:56px minmax(0,1fr)}.arch-list .f{grid-column:2}}
 /* Photos inside a coach bio: reading width by default; .wide breaks out to the full column
-   (it sits between two .coach-bio blocks, like the resume). */
+   (it sits between two .coach-bio blocks, like the resume); .portrait caps a tall photo's
+   width so it doesn't run past the height of a laptop screen. */
 .bio-photo{margin:8px 0}
 .bio-photo img{display:block;width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
 .bio-photo figcaption{margin-top:7px;font-size:.875rem;line-height:1.45;color:var(--ink-3)}
 .bio-photo.wide{margin:26px 0}
+.bio-photo.portrait{max-width:400px}
 /* Schedule season selector (schedule.js). */
 .season-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .season-pick label{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
