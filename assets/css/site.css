@@ -419,7 +419,7 @@ section.panel.letters{padding-block:0}
 .p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")}
 .p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")} /* 224 × 280, below the 600px minimum: the only photo supplied, used as is */
 /* .p-rothstein{background-image:url("../img/coaches/rothstein.jpg")} */
-/* .p-pogue{background-image:url("../img/coaches/pogue.jpg")} */
+.p-pogue{background-image:url("../img/coaches/pogue.jpg")} /* 300 × 375, below the 600px minimum: used as supplied, not enlarged */
 /* Coaches index */
 .coach-sec{margin-top:clamp(36px,5vw,56px)}
 .coach-card .coach-photo{margin-bottom:6px}
