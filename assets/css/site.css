@@ -514,6 +514,9 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .bio-photo figcaption{margin-top:7px;font-size:.875rem;line-height:1.45;color:var(--ink-3)}
 .bio-photo.wide{margin:26px 0}
 .bio-photo.portrait{max-width:400px}
+/* A bare year starting a season paragraph in an assistant coach's bio: marks the start of
+   each season without a subhead (the head coach's page uses h3s; assistants don't). */
+.bio-year{font-family:var(--display);font-stretch:90%;font-weight:700;letter-spacing:.02em;color:var(--red-ink)}
 /* Schedule season selector (schedule.js). */
 .season-pick{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .season-pick label{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
