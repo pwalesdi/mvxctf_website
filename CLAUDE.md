@@ -42,7 +42,7 @@ Woodward Park and CIF State times are "fastest in school history", never "school
 
 ## Photos
 
-- `assets/img/`: at most 1600px on the long edge, JPEG about quality 82. Home page hero photos (`assets/data/hero.csv`) are the exception: full-bleed, so at least 1920px wide. Coach card portraits go in `assets/img/coaches/`: 4:5, at least 600px wide, **never enlarged**. Photos used inside a bio go in `assets/img/` with dated names.
+- `assets/img/`: at most 1600px on the long edge, JPEG about quality 82. Home page hero photos (`assets/data/hero.csv`) are the exception: full-bleed, so at least 1920px wide, cut from the full-resolution original as `hero-<in-page name>.jpg` when the in-page copy is smaller. Coach card portraits go in `assets/img/coaches/`: 4:5, at least 600px wide, **never enlarged**. Photos used inside a bio go in `assets/img/` with dated names.
 - **All metadata stripped, losslessly** (no re-encode): no Exif, XMP or IPTC. `sips` alone keeps GPS and adds Exif. Check the rotation flag before stripping, or the photo turns sideways. Never commit HEIC.
 - Photographer credits live in `assets/data/photo-credits.csv`; `photos.js` renders them wherever the file appears. Lindsay Baloun's photos must always be credited.
 

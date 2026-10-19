@@ -2,7 +2,6 @@ file,focus,caption,alt
 assets/img/hero-loughery-miller.jpg,50% 0%,Jack Loughery & Ethan Miller,Monte Vista runners Jack Loughery and Ethan Miller racing side by side on a tree-lined cross country course.
 assets/img/2022-04-23-track-hurdles.jpg,65% 55%,Adam Wright,"Adam Wright, in a maroon Monte Vista singlet, clears a hurdle mid-race between runners from other schools, with a crowd in the grandstand behind."
 assets/img/2022-04-23-track-shot-put-rosati.jpg,75% 0%,Ash Rosati,"Ash Rosati, in a black Monte Vista top, releases the shot put, the shot just leaving the hand, with an official seated beside the ring."
-# Out of the rotation: only 1200px wide, so it looks pixelated across a wide screen, and it is also the Latest item's photo.
-# assets/img/2026-10-10-xc-clovis-girls.jpg,50% 34%,The girls at the 2026 Clovis Invitational,"Seven Monte Vista girls in striped team singlets and race bibs, arms around each other, smiling after the race."
-# Held until the photographer is confirmed. To add it, delete the # from the row below.
+assets/img/hero-2026-10-10-xc-clovis-girls.jpg,50% 34%,The girls at the 2026 Clovis Invitational,"Seven Monte Vista girls in striped team singlets and race bibs, arms around each other, smiling after the race."
+# Held: the photographer is now known (Ivan Makarov, credited in photo-credits.csv), but no focal point keeps O'Connell clear of the headline at 1280-1920px wide. Tried 18% to 33% in October 2026. Don't switch it on as it is.
 # assets/img/oconnell-makarova-woodbridge-2026.jpg,50% 28%,Kaylie O'Connell & Nadya Makarova,"Kaylie O'Connell and Nadya Makarova, side by side in Monte Vista singlets, racing at night on a lit cross country course."
