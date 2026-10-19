@@ -1,6 +1,7 @@
 /* Home page hero rotation (index.html).
    Shows one photo, picked at random on every load, from assets/data/hero.csv
-   (file, focus, caption, alt), with its own caption line under the hero.
+   (file, focus, caption, alt, phone), with its own caption line under the hero.
+   phone is optional: smaller 4:5 crops that phones download instead.
 
    The work is split in two so nobody ever sees one photo replaced by another:
    - A small inline script in the page's <head> (window.MVHero) starts
@@ -25,22 +26,43 @@
   var FILE = /^assets\/img\/[\w.\/-]+\.(jpe?g|png|webp)$/i;
   var FOCUS = /^\d{1,3}% \d{1,3}%$/;
 
+  // The phone column: "file width, file width", e.g. "assets/img/x-800.jpg 800w, assets/img/x-1200.jpg 1200w".
+  // Each file is a 4:5 crop of what the phone frame shows, so it fills the frame exactly.
+  function phoneSrcset(s) {
+    var parts = (s || "").split(",").map(function (c) { return c.trim().split(/\s+/); });
+    var ok = parts.length && parts.every(function (c) {
+      return c.length === 2 && FILE.test(c[0]) && c[0].indexOf("..") < 0 && /^\d+w$/.test(c[1]);
+    });
+    return ok ? parts.map(function (c) { return "/" + c[0] + " " + c[1]; }).join(", ") : "";
+  }
+
   function show(r) {
     var img = document.createElement("img");
     var text = document.createElement("span");
+    var shown = img, phone = phoneSrcset(r.phone);
     img.alt = r.alt;
     img.fetchPriority = "high";
     if (FOCUS.test(r.focus)) img.style.setProperty("--hero-focus", r.focus);
+    if (phone) {
+      // Phones (the hero's 4:5 layout, up to 760px) pick from the phone crops; wider screens get the full photo.
+      shown = document.createElement("picture");
+      var source = document.createElement("source");
+      source.media = "(max-width: 760px)";
+      source.sizes = "100vw";
+      source.srcset = phone;
+      shown.appendChild(source);
+      shown.appendChild(img);
+    }
     // A missing file falls back to the default rather than leaving a blank hero.
     img.onerror = function () {
-      img.remove(); text.remove();
+      shown.remove(); text.remove();
       Array.prototype.forEach.call(caption.querySelectorAll(".photo-credit"), function (el) { el.remove(); });
       hero.state = "waiting";
       hero.fallback();
     };
     img.src = "/" + r.file;
     text.textContent = r.caption;
-    media.insertBefore(img, media.firstChild);
+    media.insertBefore(shown, media.firstChild);
     caption.appendChild(text);
     if (window.MVPhotos) window.MVPhotos.apply(document.querySelector(".hero"));
   }
