@@ -248,6 +248,8 @@ th.num{text-align:right}
 .sched .sched-new{display:block;margin-top:5px;font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.8125rem;line-height:1.35;letter-spacing:.01em;color:var(--red-ink)}
 .pill.new{background:var(--red);border-color:var(--red);color:#fff;padding:1px 7px;margin-right:3px;vertical-align:1px}
 .sched tr.is-new td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
+/* The same flag on the home page: a tinted row under "Next meet" (schedule.js, #next-update). */
+.linklist .is-new a,.linklist .is-new a:hover{background:var(--red-soft)}
 
 /* Phones: each meet becomes a card. Meet name is the heading; every other
    cell is a label/value row; empty cells disappear. */
@@ -415,7 +417,7 @@ section.panel.letters{padding-block:0}
 /* Photos not supplied yet. Each rule stays off until its file exists, so no page requests a missing image: uncomment it when you add the photo. */
 .p-graham{background-image:url("../img/coaches/graham.jpg")}
 .p-williams-edd{background-image:url("../img/coaches/williams-edd.jpg")}
-/* .p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")} */
+.p-williams-brittany{background-image:url("../img/coaches/williams-brittany.jpg")} /* 224 × 280, below the 600px minimum: the only photo supplied, used as is */
 /* .p-rothstein{background-image:url("../img/coaches/rothstein.jpg")} */
 /* .p-pogue{background-image:url("../img/coaches/pogue.jpg")} */
 /* Coaches index */

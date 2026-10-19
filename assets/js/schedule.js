@@ -3,7 +3,8 @@
    meets come from assets/data/schedule-<season id>.csv. The page URL carries the
    season (schedule.html?season=2024-xc), so Back works and a season can be
    shared; no parameter means the current season.
-   index.html: the "Next" row (#next-meet), from the current season.
+   index.html: the "Next" row (#next-meet), from the current season, and under
+   it the latest "New" update among upcoming meets (#next-update), if any.
    Needs assets/js/csv.js loaded first. */
 (function () {
   "use strict";
@@ -82,10 +83,12 @@
     return Math.round((Date.UTC(+b[0], +b[1] - 1, +b[2]) - Date.UTC(+a[0], +a[1] - 1, +a[2])) / 864e5);
   }
 
-  // The "New" flag for a current-season row, or "" (see UPDATE_DAYS). A future
-  // or unreadable update_date is a data error: never shown, and reported in
-  // the browser console.
-  function updateHTML(r) {
+  // The one rule for the "New" flag, used by the schedule page and the home
+  // page alike: a current-season row's update counts while update_note is set
+  // and update_date is 0 to UPDATE_DAYS - 1 days ago. Returns its date key, or
+  // "" if it doesn't count. A future or unreadable update_date is a data
+  // error: never shown, and reported in the browser console.
+  function activeUpdate(r) {
     if (!r.update_date) return "";
     var key = dateKey(r.update_date), age = key ? daysAgo(key) : NaN;
     if (!(age >= 0)) {
@@ -93,8 +96,14 @@
         (key ? "in the future" : "not a date") + ", so its update isn't shown.");
       return "";
     }
-    if (!r.update_note || age >= UPDATE_DAYS) return "";
-    return '<span class="sched-new"><span class="pill new">New</span> ' + esc(r.update_note) + "</span>";
+    return r.update_note && age < UPDATE_DAYS ? key : "";
+  }
+
+  var NEW_PILL = '<span class="pill new">New</span>';
+
+  // The flag on a schedule-page row, or "".
+  function updateHTML(r) {
+    return activeUpdate(r) ? '<span class="sched-new">' + NEW_PILL + " " + esc(r.update_note) + "</span>" : "";
   }
 
   function formatDate(key) {
@@ -241,11 +250,33 @@
     li.querySelector(".m").innerHTML = esc(formatDate(next.key));
   }
 
+  // The home page's "New" row, inserted right under the next-meet line: the
+  // single most recent active update among upcoming meets (a tie goes to the
+  // sooner meet), linking straight to what changed: the row's extra link, or
+  // the season page if it has none. Nothing at all when there's no update.
+  function renderUpdate(li, meets) {
+    var today = todayKey(), best = null, bestKey = "";
+    meets.forEach(function (m) {
+      if (!m.key || m.key < today) return;
+      var key = activeUpdate(m.r);
+      if (key && key > bestKey) { best = m.r; bestKey = key; }
+    });
+    if (!best) return;
+    var href = best.extra_label ? safeUrl(best.extra_url) : null;
+    var kind = !href ? "Season page" : /\.pdf($|[?#])/i.test(href) ? "PDF" : best.extra_label;
+    var row = document.createElement("li");
+    row.id = "next-update";
+    row.className = "is-new";
+    row.innerHTML = '<a href="' + esc(href || "/schedule.html") + '"><span class="t">' + NEW_PILL + " " +
+      esc(best.meet) + ": " + esc(best.update_note) + '</span><span class="m">' + esc(kind) + "</span></a>";
+    li.parentNode.insertBefore(row, li.nextSibling);
+  }
+
   /* ---------- boot ---------- */
 
   if (app0) startSchedule(app0);
   if (next0) {
-    loadMeets(CURRENT_SEASON).then(function (meets) { renderNextMeet(next0, meets); })
+    loadMeets(CURRENT_SEASON).then(function (meets) { renderUpdate(next0, meets); renderNextMeet(next0, meets); })
       .catch(function () { if (next0.parentNode) next0.parentNode.removeChild(next0); });
   }
 })();
