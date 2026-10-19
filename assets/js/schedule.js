@@ -15,6 +15,11 @@
      =================================================================== */
   var CURRENT_SEASON = "2026-xc";
 
+  /* "Just updated" flag: a current-season row with both update_note and
+     update_date shows a red "New" pill and the note for this many days,
+     counting update_date as day 1, then drops off by itself. */
+  var UPDATE_DAYS = 7;
+
   // Optional: the current season from a published Google Sheet CSV instead of
   // its file (File → Share → Publish to web → the tab → CSV). Empty = the file.
   var CURRENT_SHEET_URL = "";
@@ -71,6 +76,27 @@
     return t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
   }
 
+  // Whole days from a "YYYY-MM-DD" key to today: 0 = today, negative = future.
+  function daysAgo(key) {
+    var a = key.split("-"), b = todayKey().split("-");
+    return Math.round((Date.UTC(+b[0], +b[1] - 1, +b[2]) - Date.UTC(+a[0], +a[1] - 1, +a[2])) / 864e5);
+  }
+
+  // The "New" flag for a current-season row, or "" (see UPDATE_DAYS). A future
+  // or unreadable update_date is a data error: never shown, and reported in
+  // the browser console.
+  function updateHTML(r) {
+    if (!r.update_date) return "";
+    var key = dateKey(r.update_date), age = key ? daysAgo(key) : NaN;
+    if (!(age >= 0)) {
+      console.warn("schedule-" + CURRENT_SEASON + ".csv: update_date \"" + r.update_date + "\" for \"" + r.meet + "\" is " +
+        (key ? "in the future" : "not a date") + ", so its update isn't shown.");
+      return "";
+    }
+    if (!r.update_note || age >= UPDATE_DAYS) return "";
+    return '<span class="sched-new"><span class="pill new">New</span> ' + esc(r.update_note) + "</span>";
+  }
+
   function formatDate(key) {
     if (!key) return "TBD";
     var p = key.split("-");
@@ -98,20 +124,21 @@
 
   /* ---------- schedule.html ---------- */
 
-  // full = the current season's columns; past seasons drop Level and Time.
+  // full = the current season: all its columns and the "New" flag; past seasons
+  // drop Level and Time and never show the flag, whatever their file says.
   // A Results link shows only once the meet has happened (today counts), whatever
   // the file says, so a stale link can't pass off last year's results as this
   // year's. Undated meets haven't happened either.
   function rowHTML(m, full) {
-    var r = m.r, links = [];
+    var r = m.r, links = [], flag = full ? updateHTML(r) : "";
     if (m.key && m.key <= todayKey() && safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
     if (r.extra_label && safeUrl(r.extra_url)) links.push(link(r.extra_url, r.extra_label));
-    return "<tr>" +
+    return (flag ? '<tr class="is-new">' : "<tr>") +
       // data-label feeds the stacked phone layout; the date has a long
       // (desktop) and short (phone) form, toggled in CSS.
       '<td class="day" data-label="Date"><span class="d-long">' + esc(formatDate(m.key)) +
         '</span><span class="d-short">' + esc(formatDate(m.key).replace(",", "")) + "</span></td>" +
-      '<td class="event" data-label="Meet">' + esc(r.meet) + (r.notes ? '<span class="note">' + esc(r.notes) + "</span>" : "") + "</td>" +
+      '<td class="event" data-label="Meet">' + esc(r.meet) + flag + (r.notes ? '<span class="note">' + esc(r.notes) + "</span>" : "") + "</td>" +
       '<td data-label="Location">' + (r.location ? link(r.map_url, r.location) : "") + "</td>" +
       (full ? '<td data-label="Level">' + esc(r.level) + "</td>" +
         '<td class="time" data-label="Time">' + esc(r.time) + "</td>" : "") +

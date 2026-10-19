@@ -243,6 +243,11 @@ th.num{text-align:right}
 .sched .note{display:block;font-size:.8125rem;color:var(--ink-3);line-height:1.45;margin-top:3px}
 .sched td.links a{display:block;white-space:nowrap}
 .sched .d-short{display:none}
+/* "New" flag on a just-updated row (schedule.js, UPDATE_DAYS): a solid red pill and the note
+   in red under the meet name, and the row tinted like a highlighted record row. */
+.sched .sched-new{display:block;margin-top:5px;font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.8125rem;line-height:1.35;letter-spacing:.01em;color:var(--red-ink)}
+.pill.new{background:var(--red);border-color:var(--red);color:#fff;padding:1px 7px;margin-right:3px;vertical-align:1px}
+.sched tr.is-new td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 
 /* Phones: each meet becomes a card. Meet name is the heading; every other
    cell is a label/value row; empty cells disappear. */
@@ -264,6 +269,8 @@ th.num{text-align:right}
   .sched .d-long{display:none}
   .sched .d-short{display:inline}
   .sched td:empty{display:none} /* after the grid rule: same specificity */
+  .sched tr.is-new{background:var(--red-soft);border-color:var(--red);border-left-width:3px} /* the whole card, not cell by cell */
+  .sched tr.is-new td{background:none}
 }
 
 /* ---------- record book components (from Monte Vista at State) ---------- */

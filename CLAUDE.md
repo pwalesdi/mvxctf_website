@@ -38,16 +38,18 @@ Woodward Park and CIF State times are "fastest in school history", never "school
 - One file per season, `assets/data/schedule-<id>.csv`, indexed by `assets/data/seasons.csv`. The current season is `CURRENT_SEASON` in `assets/js/schedule.js`; only its file changes, and past seasons are frozen.
 - **A meet whose date is in the future never shows a results link.** `schedule.js` enforces this: a Results link renders only for a meet dated today or earlier, whatever the file says. Still leave the cell blank until the meet happens.
 - Results links only: no Google Docs or Drive links, itineraries or race assignments in past seasons.
+- The "New" flag (`update_note` + `update_date`, current season only) shows for `UPDATE_DAYS` (7) from `update_date`, then drops off by itself. Set `update_date` to the day the change is posted, never a future date.
 
 ## Photos
 
-- `assets/img/`: at most 1600px on the long edge, JPEG about quality 82. Coach card portraits go in `assets/img/coaches/`: 4:5, at least 600px wide, **never enlarged**. Photos used inside a bio go in `assets/img/` with dated names.
+- `assets/img/`: at most 1600px on the long edge, JPEG about quality 82. Home page hero photos (`assets/data/hero.csv`) are the exception: full-bleed, so at least 1920px wide. Coach card portraits go in `assets/img/coaches/`: 4:5, at least 600px wide, **never enlarged**. Photos used inside a bio go in `assets/img/` with dated names.
 - **All metadata stripped, losslessly** (no re-encode): no Exif, XMP or IPTC. `sips` alone keeps GPS and adds Exif. Check the rotation flag before stripping, or the photo turns sideways. Never commit HEIC.
 - Photographer credits live in `assets/data/photo-credits.csv`; `photos.js` renders them wherever the file appears. Lindsay Baloun's photos must always be credited.
 
 ## Archive
 
 - Published results are in `archive/results/<season>/`, indexed by `assets/data/results-archive.csv` and shown on `results-archive.html`. Every path is relative.
+- **Before the meet goes in `archive/meets/<season>/`, after the meet goes in `archive/results/<season>/`.** Race schedules and heat sheets are meet documents, never results. Same naming (dated, lowercase, hyphenated); strip metadata naming a person or a local path; keep the untouched original in `~/Developer/mvxctf_archive/meets/<season>/`.
 - `~/Developer/mvxctf_archive/` (outside the repo) holds the untouched originals and manifests. Never modify or delete originals there; repo copies are derivatives.
 - Don't alter archived documents to tidy them (blank pages, ads and timing-company notes stay). Never publish the alumni-run spreadsheets.
 
