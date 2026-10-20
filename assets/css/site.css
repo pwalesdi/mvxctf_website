@@ -147,8 +147,11 @@ section.tint{background:var(--surface)}
 .highlights{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(245,240,237,.16);border:1px solid rgba(245,240,237,.16);border-radius:8px;overflow:hidden}
 @media (max-width:760px){.highlights{grid-template-columns:1fr}}
 .highlights li{background:#14100F;padding:18px 22px;display:flex;flex-direction:column;gap:5px}
-.highlights .yr{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:#F3798A}
+.highlights .yr,.honor .sport{font-family:var(--display);font-stretch:88%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:#F3798A}
 .highlights .txt{font-size:.9375rem;line-height:1.5;color:rgba(245,240,237,.86)}
+/* Sport labels on the home page tiles: in the four-column layout the two-sport label wraps to two lines,
+   so every tile reserves two and a one-line label sits on the lower one, keeping the figures aligned. */
+@media (min-width:861px){.honors.band .honor .sport{min-height:calc(2 * 1.5em);display:flex;align-items:flex-end;line-height:1.5}}
 
 /* ---------- steps ---------- */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
