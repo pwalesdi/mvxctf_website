@@ -278,7 +278,7 @@ Two things to keep in mind:
 - One is the in-page copy of a hero photo: `oconnell-makarova-woodbridge-2026.jpg` (Ivan Makarov). The hero uses its own versions, cut from the original in the archive.
 - The other 18 are simply not placed yet: `2016-10-07-xc-girls-group.jpg`, `2019-05-18-track-kelli-wilson.jpg`, `2019-11-09-xc-girls.jpg`, `2019-11-23-xc-team-photo.jpg`, `2019-xc-girls-group.jpg`, `2021-11-06-xc-girls-race-start.jpg`, `2022-04-08-track-arcadia-peters.jpg`, `2022-05-28-cif-state-track-wright.jpg`, `2022-cif-state-xc-ethan-miller.jpg`, `2022-track-caden-honda.jpg`, `2022-track-coach-graham-pole-vault.jpg`, `2022-track-ebal-binder-pogue.jpg`, `2022-track-jack-loughery.jpg`, `2022-track-pole-vault-wong.jpg`, `2023-05-05-track-ebal-ethan-miller.jpg`, `2025-11-22-xc-ncs-kotamraju.jpg`, `2026-08-22-xc-scrimmage-wales-dinan-cheering.jpg` and `ncs-logo.png`.
 
-Four more Lindsay Baloun photos aren't on any page either, though they're listed in `photo-credits.csv` so they'll be credited when placed: `2024-05-03-track-ebal-discus.jpg`, `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (the original of `coaches/graham.jpg`) and `ethan-miller-2023-moc-3200m.jpg`.
+Three more Lindsay Baloun photos aren't on any page either, though they're listed in `photo-credits.csv` so they'll be credited when placed: `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (the original of `coaches/graham.jpg`) and `ethan-miller-2023-moc-3200m.jpg`.
 
 ## Coach photos
 
@@ -342,7 +342,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2022-track-coach-wales-dinan.jpg` | Coach in a plaid shirt and cap trackside; Wales-Dinan |
 | `ncs-logo.png` | CIF North Coast Section logo (PNG, transparent background) |
 | `2024-05-03-track-ebal-champions-team.jpg` | Girls track team with coaches after winning the 2024 EBAL Championships, "Winning is a Habit" shirts. Lindsay Baloun. Replaced a 1536px frame of the same moment. On the head coach page |
-| `2024-05-03-track-ebal-discus.jpg` | Alexys Carlson throwing the discus at the 2024 EBAL Championships (thrower confirmed by the owner, October 2026; same session as `carlson-alexys.jpg`). Lindsay Baloun. **Caption it with her name, the event, the meet and the year only**, e.g. "Alexys Carlson in the discus at the 2024 EBAL Championships": she placed 2nd and Avery Helfer won, so nothing that reads like a winning throw |
+| `2024-05-03-track-ebal-discus.jpg` | Alexys Carlson throwing the discus at the 2024 EBAL Championships (thrower confirmed by the owner, October 2026; same session as `carlson-alexys.jpg`). Lindsay Baloun. **Caption it with her name, the event, the meet and the year only**, e.g. "Alexys Carlson in the discus at the 2024 EBAL Championships": she placed 2nd and Avery Helfer won, so nothing that reads like a winning throw. On Logan Spilker's page, after the 2024 paragraph, at reading width |
 | `carlson-alexys.jpg` | Thrower in Monte Vista kit by the throws-ring fence; Alexys Carlson. Lindsay Baloun |
 | `dan-graham-high-five-2024.jpg` | Coach Graham high-fiving relay runners, 2024. Lindsay Baloun. Source of `coaches/graham.jpg` |
 | `ethan-miller-2023-moc-3200m.jpg` | Boys 3200m at the 2023 Meet of Champions; Ethan Miller. Lindsay Baloun |
