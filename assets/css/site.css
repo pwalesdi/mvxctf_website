@@ -546,3 +546,14 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .season-note{margin:-6px 0 22px;color:var(--ink-2);font-size:.9375rem;max-width:68ch}
 /* Cross country page: the opening statement, set as a large intro paragraph. */
 .statement-text{font-family:var(--body);font-size:clamp(1.1875rem,2vw,1.5rem);line-height:1.5;color:var(--ink);max-width:62ch;margin:0}
+/* Track & field page: the preseason block at the top. The clearance button is the primary
+   button at a larger size (bigger than the hero's, still a button); subheads inside prose get
+   room above them; the parent meeting is a label/value list, labels as in the phone schedule cards. */
+.btn-lg{font-size:1rem;line-height:1.2;padding:17px 30px}
+.page-cta{margin-bottom:clamp(32px,4.5vw,52px)}
+.prose h2:not(:first-child){margin-top:clamp(18px,2.6vw,30px)}
+.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 22px;align-items:baseline;margin:0;padding-block:16px 18px;border-block:1px solid var(--line)}
+.facts dt{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.facts dd{margin:0;font-family:var(--display);font-stretch:92%;font-weight:600;color:var(--ink);line-height:1.4}
+/* Clearance page dates: the labels are long, so on phones each one sits above its date instead of squeezing it onto two lines. */
+@media (max-width:480px){.facts.stack{grid-template-columns:minmax(0,1fr);row-gap:2px}.facts.stack dd + dt{margin-top:10px}}
