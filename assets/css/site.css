@@ -401,6 +401,8 @@ section.panel.letters{padding-block:0}
 .std-app #standards-body{max-width:640px}
 .std-app .controls + #standards-body .data-group:first-child{margin-top:20px}
 .std-table td.num{width:1%}
+/* A mark in running text (14-04, 40' 6") that must not break across lines; the characters stay as typed. */
+.nowrap{white-space:nowrap}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .hl-key{background:var(--red-soft);color:var(--ink);padding:1px 6px;border-radius:3px}
 

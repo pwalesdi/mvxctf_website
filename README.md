@@ -113,7 +113,7 @@ A row whose `date` cell starts with `#` is a comment (the file ends with one, sh
 
 `schedule.js` shows a Results link only for a meet dated today or earlier, whatever the file says; still leave `results_url` blank until the meet happens. Before adding a link, open it and check the meet name and date inside: Diablo Timing's addresses are date-based, so last year's page is one digit away.
 
-The 2026-10-10 Wildcat Invitational (Dougherty Valley High School) has no `results_url` yet.
+The 2026 scrimmage vs Cal High (Aug 21) and the Mid Season Mania 1600m (Sep 30) link to athletic.net, not to an archived copy: athletic.net puts every page behind a Cloudflare browser check, so it can't be captured automatically (and its meet name and date couldn't be checked from here). Save those by hand if you want a copy.
 
 The 2026-09-30 Mid Season Mania 1600m row's "Athletes / heats" link goes to a Google Drive folder titled "msm 1600", created and last changed on 1 October 2024 and owned by another account, with no files we can see: it looks like the 2024 meet's folder. Remove or replace it. It comes off anyway when the season is frozen, since past seasons keep results links only.
 
@@ -179,7 +179,7 @@ Several parts of the site go stale on a fixed yearly cycle. Work through the rel
 
 1. Download the final compiled results (Hy-Tek PDF or the meet's own file). Not live results.
 2. Keep the original in `~/Developer/mvxctf_archive/`. For the repo copy, take the smaller of the original and a Ghostscript `/ebook` pass, and strip metadata.
-3. Screen it: results only. No rosters, contact details, forms, or social events (see "Results archive").
+3. Screen it: results only. No rosters, contact details, forms, or social events (see "Results archive"). Leave out community or open races that name entrants who aren't on a school team, especially children: the 2026 Wildcat Invitational copy holds its seven high school races and leaves out the Community 2 Mile run (the full page is in the private archive).
 4. Save it as `archive/results/<season>/<YYYY>-<track|xc>-<MM>-<DD>-<meet-slug>-results.pdf`. A meet published as many per-event pages gets a folder of that name, with the original filenames.
 5. Add one row per file to `assets/data/results-archive.csv`. **Relative paths only**, no leading `/`.
 6. In the season's `schedule-<id>.csv`, point `results_url` at the copy (the file, or `results-archive.html#m-<date>-<meet-slug>` for multi-file meets) and keep the original URL in `results_source_url`.
@@ -281,6 +281,8 @@ Two things to keep in mind:
 Three more Lindsay Baloun photos aren't on any page either, though they're listed in `photo-credits.csv` so they'll be credited when placed: `carlson-alexys.jpg`, `dan-graham-high-five-2024.jpg` (the original of `coaches/graham.jpg`) and `ethan-miller-2023-moc-3200m.jpg`.
 
 **Dan Graham's bio** opens with a short highlights list in the Coaching resume style (`.resume.summary`, no heading), then seven paragraphs. His Mt. Eden High School years (1987–2000) have no recorded results, so the bio deliberately says nothing about them beyond the dates; don't add claims about them without a source.
+
+**Marks in running text** (heights like `14-04`, distances like `40' 6"`) are wrapped in `<span class="nowrap">` so a line can't break inside them. The characters are unchanged, so find-in-page still matches an ordinary hyphen or space. Do the same for any mark added to a bio. Marks in the records, standards and schedule tables already sit in cells that never wrap.
 
 ## Coach photos
 
