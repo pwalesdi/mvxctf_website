@@ -469,6 +469,10 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .resume{display:flex;flex-direction:column;margin:26px 0 24px;padding:22px 0 24px;border-block:1px solid var(--line)}
 .resume h4{font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:28px 0 6px}
 .resume ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:2px;color:var(--ink-2);font-size:.9375rem;line-height:1.45}
+/* A short highlights list opening an assistant coach's bio (Dan Graham): the resume treatment without a heading,
+   at reading width, directly under the name. */
+.resume.summary{max-width:65ch;margin:0 0 6px;padding:16px 0 18px}
+.resume.summary ul{gap:5px}
 /* Home page hero rotation (hero.js). The caption line keeps its height while it waits for
    the chosen photo's caption, so the headline and buttons don't jump when it arrives. */
 .hero-copy .credit{min-height:1.6em}
