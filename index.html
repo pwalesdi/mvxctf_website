@@ -27,9 +27,20 @@
    failure, or if no photo has been picked three seconds after the page loads. */
 window.MVHero = (function () {
   var hero = { state: "waiting" };
+  /* The headline follows the season the hero does (window.MVSeason, from schedule.js):
+     "<year> Cross Country" or "<year> Track & Field". Without a season it's the
+     <noscript> text in the <h1>, which is also what visitors without JavaScript see. */
+  var HEADLINES = { xc: "Cross\u00a0Country", track: "Track & Field" };
+  hero.title = function () {
+    var h = document.getElementById("hero-title"), s = window.MVSeason, n = h && h.querySelector("noscript");
+    if (!n) return; // already set
+    if (s && HEADLINES[s.sport]) h.textContent = s.year + " " + HEADLINES[s.sport];
+    else { n.insertAdjacentHTML("afterend", n.textContent); n.remove(); }
+  };
   hero.fallback = function () {
     if (hero.state !== "waiting") return;
     hero.state = "default";
+    hero.title();
     Array.prototype.forEach.call(document.querySelectorAll("noscript.hero-default"), function (n) {
       n.insertAdjacentHTML("afterend", n.textContent);
     });
@@ -132,7 +143,7 @@ window.MVHero = (function () {
     <div class="hero-copy">
       <div class="wrap">
         <p class="eyebrow">East Bay Athletic League &middot; North Coast Section &middot; Danville, CA</p>
-        <h1>2026 Cross&nbsp;Country</h1>
+        <h1 id="hero-title"><noscript>2026 Cross&nbsp;Country</noscript></h1>
         <div class="hero-cta">
           <a class="btn btn-primary" href="/schedule.html">Season schedule</a>
           <a class="btn btn-ghost" href="/clearance.html">XC / T&amp;F clearance</a>
@@ -367,8 +378,9 @@ window.MVHero = (function () {
 /* The scripts that read the CSVs load with this page's deploy time as a version (?v=), so a
    page fresh from the server never runs a cached copy of one against a fresh CSV. GitHub Pages
    stamps every file with the deploy time, so this changes by itself on every deploy: nothing to
-   bump. Written in place, so they load exactly as plain <script> tags would. See README, "Cached scripts". */
-["hero", "schedule", "news"].forEach(function (name) {
+   bump. Written in place, so they load exactly as plain <script> tags would. See README, "Cached scripts".
+   schedule.js comes before hero.js: the hero picks its photos by schedule.js's current season. */
+["schedule", "hero", "news"].forEach(function (name) {
   document.write('<script src="/assets/js/' + name + '.js?v=' + (Date.parse(document.lastModified) || 0) + '"><\/script>');
 });
 </script>

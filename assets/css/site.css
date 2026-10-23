@@ -476,8 +476,10 @@ div.card.static:hover{transform:none;border-color:var(--line)} /* coaches withou
 .resume.summary{max-width:65ch;margin:0 0 6px;padding:16px 0 18px}
 .resume.summary ul{gap:5px}
 /* Home page hero rotation (hero.js). The caption line keeps its height while it waits for
-   the chosen photo's caption, so the headline and buttons don't jump when it arrives. */
+   the chosen photo's caption, and the headline its one line while it waits for the season,
+   so nothing jumps when they arrive. */
 .hero-copy .credit{min-height:1.6em}
+.hero-copy h1{min-height:.95em}
 .hero-copy .credit .photo-credit::before{content:" · "}
 /* Home page: "Latest" news item (rendered by news.js; the section stays hidden until there is one),
    single-column schedule and practice blocks, and the clearance/donation pointers. */

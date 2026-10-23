@@ -1,23 +1,27 @@
 /* Home page hero rotation (index.html).
    Shows one photo, picked at random on every load, from assets/data/hero.csv
-   (file, focus, caption, alt, phone), with its own caption line under the hero.
-   phone is optional: smaller 4:5 crops that phones download instead.
+   (file, focus, caption, alt, phone, sport, show), with its own caption line
+   under the hero. phone is optional: smaller 4:5 crops that phones download
+   instead. Only the photos for the current season and this kind of screen
+   rotate (see heroPool below). The headline follows the same season
+   (MVHero.title(), in the page's <head>).
 
    The work is split in two so nobody ever sees one photo replaced by another:
    - A small inline script in the page's <head> (window.MVHero) starts
      fetching the list before anything is drawn.
-   - With JavaScript on, the hero ships with no photo. The default photo and
-     caption live in <noscript class="hero-default"> blocks, which only show
-     without JavaScript. This script picks a row and inserts it.
+   - With JavaScript on, the hero ships with no photo and no headline. The
+     defaults live in <noscript> blocks, which only show without JavaScript.
+     This script sets the headline, picks a row and inserts it.
    If the list, csv.js or this script fails, or nothing is picked within three
    seconds of the page loading, the head script shows the default instead.
-   Needs csv.js first. photos.js adds "Photo: …" to the caption when the
-   chosen file is in photo-credits.csv. */
+   Needs csv.js and schedule.js (for the season) first. photos.js adds
+   "Photo: …" to the caption when the chosen file is in photo-credits.csv. */
 (function () {
   "use strict";
 
   var hero = window.MVHero;
   if (!hero) return;
+  if (hero.title) hero.title();
   var media = document.querySelector(".hero-media");
   var caption = document.getElementById("hero-caption");
   if (!window.MVCSV || !hero.list || !media || !caption) { hero.fallback(); return; }
@@ -25,6 +29,33 @@
   // Relative paths inside assets/img/ only, and focal points like "60% 40%".
   var FILE = /^assets\/img\/[\w.\/-]+\.(jpe?g|png|webp)$/i;
   var FOCUS = /^\d{1,3}% \d{1,3}%$/;
+
+  // The phone layout: site.css switches the hero to its 4:5 phone frame at this
+  // width, and the phone crops use the same query. Read once, at page load: a
+  // later resize doesn't re-pick the photo.
+  var PHONE_QUERY = "(max-width: 760px)";
+  var DEVICE = window.matchMedia && window.matchMedia(PHONE_QUERY).matches ? "phone" : "desktop";
+
+  /* Which photos rotate. Two columns decide it:
+     - sport: "xc", "track", or "both" (works year round: a team photo, a banner).
+       The active sport is window.MVSeason's, from CURRENT_SEASON in schedule.js
+       (with its stale-constant backstop), so the hero matches the schedule.
+     - show: "both", "phone" or "desktop": the screens the photo works on. Empty
+       counts as "both".
+     The pool is the rows that match the season (or are "both") AND suit this
+     screen. If that's empty, the screen filter is dropped first, then the season
+     filter: the hero is never empty. Any count works, one included. A row with an
+     unknown sport only shows once the season filter is dropped. */
+  var SPORTS = ["xc", "track", "both"];
+  var SHOWS = ["both", "phone", "desktop"];
+  function heroPool(rows) {
+    var sport = window.MVSeason && window.MVSeason.sport;
+    var bySeason = sport ? rows.filter(function (r) { return r.sport === sport || r.sport === "both"; }) : rows;
+    var pool = bySeason.filter(function (r) { return r.show === "both" || r.show === DEVICE; });
+    if (!pool.length) pool = bySeason; // first fallback: any screen
+    if (!pool.length) pool = rows;     // then: any season
+    return pool;
+  }
 
   // The phone column: "file width, file width", e.g. "assets/img/x-800.jpg 800w, assets/img/x-1200.jpg 1200w".
   // Each file is a 4:5 crop of what the phone frame shows, so it fills the frame exactly.
@@ -44,10 +75,10 @@
     img.fetchPriority = "high";
     if (FOCUS.test(r.focus)) img.style.setProperty("--hero-focus", r.focus);
     if (phone) {
-      // Phones (the hero's 4:5 layout, up to 760px) pick from the phone crops; wider screens get the full photo.
+      // Phones (the hero's 4:5 layout) pick from the phone crops; wider screens get the full photo.
       shown = document.createElement("picture");
       var source = document.createElement("source");
-      source.media = "(max-width: 760px)";
+      source.media = PHONE_QUERY;
       source.sizes = "100vw";
       source.srcset = phone;
       shown.appendChild(source);
@@ -71,8 +102,15 @@
     var rows = window.MVCSV.toRecords(window.MVCSV.parse(csv), ["file", "focus", "caption", "alt"])
       .filter(function (r) { return FILE.test(r.file) && r.file.indexOf("..") < 0; });
     if (!rows.length) throw new Error("hero.csv has no usable rows");
+    rows.forEach(function (r) {
+      r.sport = (r.sport || "").trim().toLowerCase();
+      r.show = (r.show || "").trim().toLowerCase() || "both";
+      if (SPORTS.indexOf(r.sport) < 0) console.warn("hero.csv: " + r.file + " has sport \"" + r.sport + "\"; use xc, track or both.");
+      if (SHOWS.indexOf(r.show) < 0) { console.warn("hero.csv: " + r.file + " has show \"" + r.show + "\"; use both, phone or desktop. Treated as both."); r.show = "both"; }
+    });
     if (hero.state !== "waiting") return; // too late: the default is already showing
     hero.state = "chosen";
-    show(rows[Math.floor(Math.random() * rows.length)]);
+    var pool = heroPool(rows);
+    show(pool[Math.floor(Math.random() * pool.length)]);
   }).catch(function () { hero.fallback(); });
 })();

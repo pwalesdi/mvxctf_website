@@ -16,6 +16,35 @@
      =================================================================== */
   var CURRENT_SEASON = "2026-xc";
 
+  /* The season the home page shows (hero photos and headline), shared with the
+     hero as window.MVSeason = { id, sport: "xc" | "track", year, fromDate }.
+     Normally it's CURRENT_SEASON's own sport and year, so the front page follows
+     the schedule's switch. Backstop for a constant nobody updated: once today is
+     more than STALE_AFTER_DAYS past the end of the season it names (November 30
+     for cross country, July 31 for track), the front page goes by the date
+     instead: August to November is cross country, December to July is track
+     (named for the year it ends in), and the console says so. The schedule page
+     itself always uses CURRENT_SEASON, since its file is the data that exists. */
+  var STALE_AFTER_DAYS = 30; // a month's grace after a season ends, for the rollover
+  window.MVSeason = frontPageSeason(CURRENT_SEASON, new Date());
+
+  function frontPageSeason(id, now) {
+    var mo = now.getMonth() + 1, y = now.getFullYear();
+    var byDate = { id: id, sport: mo >= 8 && mo <= 11 ? "xc" : "track", year: mo === 12 ? y + 1 : y, fromDate: true };
+    var m = /^(\d{4})-(xc|track)(-|$)/.exec(id); // "2026-xc", "2027-track", "2021-xc-spring"
+    if (!m) return byDate;
+    var year = +m[1], sport = m[2];
+    // Stale from the first day more than STALE_AFTER_DAYS after the season's last day
+    // (with 30: from December 31 for cross country, from August 31 for track).
+    var staleFrom = sport === "xc" ? new Date(year, 11, 1 + STALE_AFTER_DAYS) : new Date(year, 7, 1 + STALE_AFTER_DAYS);
+    if (now >= staleFrom) {
+      console.warn("CURRENT_SEASON \"" + id + "\" ended more than " + STALE_AFTER_DAYS + " days ago, so the home page follows the date (" +
+        byDate.year + " " + (byDate.sport === "xc" ? "cross country" : "track") + ") until it's updated.");
+      return byDate;
+    }
+    return { id: id, sport: sport, year: year, fromDate: false };
+  }
+
   /* "Just updated" flag: a current-season row with both update_note and
      update_date shows a red "New" pill and the note for this many days,
      counting update_date as day 1, then drops off by itself. */
