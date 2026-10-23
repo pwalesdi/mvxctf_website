@@ -31,10 +31,11 @@ window.MVHero = (function () {
      "<year> Cross Country" or "<year> Track & Field". Without a season it's the
      <noscript> text in the <h1>, which is also what visitors without JavaScript see. */
   var HEADLINES = { xc: "Cross\u00a0Country", track: "Track & Field" };
-  hero.title = function () {
+  hero.title = function (preview) { // preview: hero.js's ?season= sport; the year stays the season's
     var h = document.getElementById("hero-title"), s = window.MVSeason, n = h && h.querySelector("noscript");
     if (!n) return; // already set
-    if (s && HEADLINES[s.sport]) h.textContent = s.year + " " + HEADLINES[s.sport];
+    var sport = preview || (s && s.sport);
+    if (s && HEADLINES[sport]) h.textContent = s.year + " " + HEADLINES[sport];
     else { n.insertAdjacentHTML("afterend", n.textContent); n.remove(); }
   };
   hero.fallback = function () {

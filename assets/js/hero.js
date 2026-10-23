@@ -21,7 +21,23 @@
 
   var hero = window.MVHero;
   if (!hero) return;
-  if (hero.title) hero.title();
+
+  /* Preview: ?season=track or ?season=xc on the home page shows that season's
+     photos and headline sport, to check a pool out of season. The headline keeps
+     the current season's year. The schedule, the stale-constant backstop
+     (window.MVSeason) and everything a visitor sees without the parameter stay as
+     they are. The screen filter still applies; resize and reload to check the
+     other screen. */
+  var PREVIEW = (function () {
+    var v = "";
+    try { v = new URLSearchParams(window.location.search).get("season") || ""; } catch (e) { return ""; }
+    if (!v) return "";
+    if (v !== "xc" && v !== "track") { console.log("Hero preview: ?season=" + v + " ignored; use xc or track."); return ""; }
+    console.log("Hero preview active: showing the " + (v === "xc" ? "cross country" : "track") + " photos and headline (?season=" + v + "). Without the parameter the home page shows " + ((window.MVSeason && window.MVSeason.sport) === "track" ? "track" : "cross country") + ".");
+    return v;
+  })();
+
+  if (hero.title) hero.title(PREVIEW);
   var media = document.querySelector(".hero-media");
   var caption = document.getElementById("hero-caption");
   if (!window.MVCSV || !hero.list || !media || !caption) { hero.fallback(); return; }
@@ -48,20 +64,6 @@
      unknown sport only shows once the season filter is dropped. */
   var SPORTS = ["xc", "track", "both"];
   var SHOWS = ["both", "phone", "desktop"];
-
-  /* Preview: ?season=track or ?season=xc on the home page forces which season's
-     photos rotate, to check a pool out of season. It changes only the photo pool:
-     the headline, the schedule, the stale-constant backstop (window.MVSeason) and
-     everything a visitor sees without the parameter stay as they are. The screen
-     filter still applies; resize and reload to check the other screen. */
-  var PREVIEW = (function () {
-    var v = "";
-    try { v = new URLSearchParams(window.location.search).get("season") || ""; } catch (e) { return ""; }
-    if (!v) return "";
-    if (v !== "xc" && v !== "track") { console.log("Hero preview: ?season=" + v + " ignored; use xc or track."); return ""; }
-    console.log("Hero preview active: showing the " + (v === "xc" ? "cross country" : "track") + " photos (?season=" + v + "). Without the parameter the home page shows " + ((window.MVSeason && window.MVSeason.sport) === "track" ? "track" : "cross country") + ".");
-    return v;
-  })();
 
   function heroPool(rows) {
     var sport = PREVIEW || (window.MVSeason && window.MVSeason.sport);
