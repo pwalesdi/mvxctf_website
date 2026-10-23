@@ -555,5 +555,11 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 22px;align-items:baseline;margin:0;padding-block:16px 18px;border-block:1px solid var(--line)}
 .facts dt{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .facts dd{margin:0;font-family:var(--display);font-stretch:92%;font-weight:600;color:var(--ink);line-height:1.4}
+/* Race schedule pages we write ourselves (2026-xc-10-24-haystack-tune-up-race-schedule.html): the meet facts, then
+   one table of start times. Girls and boys are in words, in the record book's pills; times shrink to fit their column. */
+.race-panel{margin-top:clamp(20px,3vw,28px)}
+.race-table th.num,.race-table td.num{width:1%}
+.race-table .pill{margin-right:6px;vertical-align:1px}
+@media (max-width:640px){.race-table th,.race-table td{padding-inline:12px}.race-table th:first-child,.race-table td:first-child{padding-left:14px}}
 /* Clearance page dates: the labels are long, so on phones each one sits above its date instead of squeezing it onto two lines. */
 @media (max-width:480px){.facts.stack{grid-template-columns:minmax(0,1fr);row-gap:2px}.facts.stack dd + dt{margin-top:10px}}

@@ -13,7 +13,7 @@ The site is **live at montevistaxc.com** (GitHub Pages, served from `main`). A p
 
 ## Structure
 
-- The header and footer are **duplicated across all 20 pages** (14 in the repo root, 6 under `team/`) and change together, in one commit. They are byte-identical except for the current-page markers (`aria-current`, `is-current`). Check with `grep -c 'class="nav"' *.html team/index.html team/*/index.html` (every page reports 1; the five redirect stubs report 0).
+- The header and footer are **duplicated across all 21 pages** (15 in the repo root, 6 under `team/`) and change together, in one commit. They are byte-identical except for the current-page markers (`aria-current`, `is-current`). Check with `grep -c 'class="nav"' *.html team/index.html team/*/index.html` (every page reports 1; the five redirect stubs report 0).
 - Coach pages live at `team/<first>-<last>/index.html` (lowercase, hyphenated; `/team/patrick-wales-dinan/`), and the coaches index at `team/index.html`. The old `coaches.html` and `coach-*.html` in the root are redirect stubs for addresses already shared: leave them, keep them out of the sitemap, and don't give them the header and footer.
 - `assets/css/site.css` is the only stylesheet. No inline `style=""`; add a class there.
 - `assets/js/csv.js` is the only CSV parser. Never write a second one. Data pages load it first.
