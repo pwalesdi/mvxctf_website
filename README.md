@@ -139,7 +139,7 @@ Sections, top to bottom: hero, **Latest**, schedule & results (with the next mee
 | `headline` | Required. Rows without one are ignored. |
 | `body` | Two or three sentences, plain text. Wrap it in double quotes if it contains a comma. |
 | `link_label` / `link_url` | Optional link, e.g. "See the results" and a results URL. Only `http`/`https` or site-relative links are rendered. With `link_url` empty nothing renders, not even the label. |
-| `image` | Optional photo, e.g. `assets/img/2026-10-10-xc-clovis-girls.jpg` (processed to the photo rules first; never HEIC). Shown beside the text at 300px tall on wider screens, above it at 240px on phones, lazy-loaded. |
+| `image` | Optional photo, e.g. `assets/img/2026-10-10-xc-clovis-girls.jpg` (processed to the photo rules first; never HEIC). Shown beside the text at 300px tall on wider screens, above it at 240px on phones, lazy-loaded. A news item's photo need not be from that item's meet; the filename always carries the photo's own capture date. |
 | `image_alt` | Describe the photo. Required whenever `image` is set. |
 | `image_credit` | Optional photographer credit. Used only if the image isn't already listed in `assets/data/photo-credits.csv`, which wins. |
 
@@ -147,7 +147,7 @@ Everything is HTML-escaped. With no rows (headers only), a missing file or a loa
 
 **One item or a carousel.** With one row the block is a single item, with no controls. With two to five it becomes a carousel, newest first: it moves to the next item every 10 seconds (`ROTATE_MS` in `news.js`; `MAX_ITEMS` is the five), and under it are a pause button, previous and next arrows and a dot per item. They're ordinary buttons, so Tab, Enter and Space work, and the left and right arrow keys move between items while focus is on the controls. It holds still while the pointer is over it, while keyboard focus is inside it, and while the tab is in the background; the pause button stops it until it's pressed again. Screen readers hear an item change when someone moves it themselves, not when it rotates on its own. Adding an item is a new row in `news.csv`; no code changes.
 
-All the items sit in the same place, so the block is as tall as the tallest one and the page below it doesn't move when it rotates. A shorter item leaves space under it: on a phone, a headline-only item next to one with a photo leaves about 420px.
+All the items sit in the same place, so the block is as tall as the tallest one and the page below it doesn't move when it rotates. A shorter item leaves space under it: on a phone, the two items of October 2026 (both with a photo and a link) differ by about 136px, and a headline-only item next to one with a photo would leave about 420px.
 
 **Without JavaScript** the newest item shows as plain text, from the `<noscript>` copy under `#latest` in `index.html`. That copy isn't read from `news.csv`: when a newer item goes in, update it too (date, headline and body; no photo), or visitors without JavaScript keep seeing the older one.
 
@@ -374,6 +374,7 @@ Dates in a filename come from the camera's capture time (Pacific). Files with on
 | `2016-10-07-xc-girls-group.jpg` | Seven girls in red team shirts lying on the grass by an ASICS banner, 2016 (iPhone) |
 | `2025-11-22-xc-ncs-kotamraju.jpg` | Boys race at the 2025 NCS Championships; Rohan Kotamraju (from the original filename and date) |
 | `2026-10-10-xc-clovis-girls.jpg` | Seven girls in uniform after the 2026 Clovis Invitational (portrait; the home page's first Latest item). Converted from iPhone HEIC; no GPS in the original. The in-page copy; the hero uses `hero-2026-10-10-xc-clovis-girls.jpg` |
+| `2026-09-19-xc-de-la-salle-tochilnik.jpg` | Boy in a black Monte Vista singlet, bib 1334, running on the grass course past Nike banners at the 2026 Nike De La Salle Invitational (from the bib and the capture time); Tochilnik, per the supplied filename. The photo on the Mid Season Mania Latest item. 1296 × 864, left at JPEG quality 92 by the owner's choice; its Exif block (capture time, "Google") stripped losslessly with `jpegtran -copy none`. Photographer unknown |
 | `hero-2026-10-10-xc-clovis-girls.jpg` | The Clovis photo for the home page hero: 1920 × 1216, the band a desktop can show, cut from the full-resolution iPhone original (`IMG_0813.HEIC`, 3024 × 4032, no GPS; stored sideways, rotation applied before stripping). The original is in `mvxctf_archive/photos/` |
 | `hero-oconnell-makarova-woodbridge-2026.jpg` | The Woodbridge photo for the home page hero: 1920 × 1216 band, cut from the 27 MB original in `mvxctf_archive/photos/`. Photo: Ivan Makarov (credited in `photo-credits.csv`) |
 | `hero-phone-*.jpg` | Phone versions of the five hero photos: 4:5 crops of what a phone shows (see "Home page"). The landscape ones are lossless crops of the desktop file; Clovis and Woodbridge come in 800 and 1200px widths, cut from their originals. The Woodbridge ones are credited to Ivan Makarov |
