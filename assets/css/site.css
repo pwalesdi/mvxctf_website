@@ -498,6 +498,26 @@ section.latest{padding-block:clamp(28px,4vw,44px)}
 }
 .latest-link{align-self:flex-start;font-family:var(--display);font-stretch:92%;font-weight:700;font-size:.8125rem;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;color:var(--red-ink)}
 .latest-link::after{content:" →"}
+/* Latest as a carousel (news.js, two items or more). The items share one grid cell, so the block is as
+   tall as its tallest item and nothing below it moves when it rotates; only the current one is visible.
+   Controls: round buttons in the line colours, the current item's dot in red. */
+.latest-slides{display:grid}
+.latest-slides > .latest-item{grid-area:1 / 1;transition:opacity .4s ease,visibility 0s linear .4s}
+.latest-slides > .latest-item:not(.is-active){opacity:0;visibility:hidden}
+.latest-slides > .latest-item.is-active{z-index:1;transition:opacity .4s ease}
+.latest-controls{display:flex;align-items:center;gap:6px;margin-top:clamp(16px,2.4vw,22px)}
+.latest-btn{display:inline-grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid var(--line-strong);border-radius:50%;background:var(--ground);color:var(--ink-2);cursor:pointer}
+.latest-btn:hover{color:var(--ink);background:var(--surface)}
+.latest-prev::before,.latest-next::before{content:"";width:8px;height:8px;border:solid currentColor;border-width:0 2px 2px 0}
+.latest-prev::before{transform:translateX(2px) rotate(135deg)}
+.latest-next::before{transform:translateX(-2px) rotate(-45deg)}
+.latest-pause::before{content:"";width:4px;height:12px;border-inline:3px solid currentColor} /* two bars */
+.latest-pause.is-paused::before{width:0;height:0;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent currentColor;margin-left:3px} /* play triangle */
+.latest-dots{display:flex}
+.latest-dot{display:grid;place-items:center;width:28px;height:40px;padding:0;border:0;background:none;cursor:pointer}
+.latest-dot::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--line-strong)}
+.latest-dot:hover::before{background:var(--ink-3)}
+.latest-dot[aria-current="true"]::before{background:var(--red)}
 .solo{max-width:720px}
 .pointers{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);font-size:.9375rem;max-width:720px}
 /* Home page accomplishments band: same figures, less air, so it reads as a dense strip. */

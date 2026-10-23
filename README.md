@@ -26,14 +26,14 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 | `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
 | `assets/js/nav.js` | The Records dropdown in the header. Loaded on every page. |
-| `assets/js/news.js` | Renders the home page's "Latest" item from `assets/data/news.csv` (see "Home page"). |
+| `assets/js/news.js` | Renders the home page's "Latest" item, or the Latest carousel when there are two or more, from `assets/data/news.csv` (see "Home page"). |
 | `assets/js/hero.js` | Picks the home page hero photo at random from `assets/data/hero.csv` on every load (see "Home page"). Works with a small inline script in `index.html`'s `<head>`. |
 | `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
 | `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `team/index.html` and every coach page. |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/seasons.csv` | The season index for the schedule's Season selector (see "The schedule"). |
 | `assets/data/schedule-<season>.csv` | One schedule per season, e.g. `schedule-2026-xc.csv`. Only the current season's file changes; past seasons are frozen. |
-| `assets/data/news.csv` | The home page's "Latest" item. Headers only means no item. |
+| `assets/data/news.csv` | The home page's "Latest" items, one row each. Headers only means no item. |
 | `assets/data/hero.csv` | The home page hero photos, one row each, with focal point and caption (see "Home page"). |
 | `assets/data/results-archive.csv` | One row per archived results file (see "Results archive"). |
 | `archive/results/` | The archived results files themselves, one folder per season. |
@@ -121,13 +121,13 @@ The 2026-09-30 Mid Season Mania 1600m row's "Athletes / heats" link goes to a Go
 
 Sections, top to bottom: hero, **Latest**, schedule & results (with the next meet), the program record band, practice times, sign-ups & volunteering, contacts. Clearance has its own page (`clearance.html`) and the donation has `donate.html`; the home page has a one-line pointer to each under practice times. They are deliberately not presented as steps: the donation is not required.
 
-**"New" on the home page.** When an upcoming meet in the current season has an active update (the schedule's `update_note` / `update_date`), a tinted row with the red **New** pill appears right under the "Next meet" line: the meet name and the note, linking straight to the row's `extra_url` (the PDF itself for a race schedule; the season page if the row has no extra link). Only one shows: the most recent update, and if two share a date, the sooner meet. It uses the same rule and the same `UPDATE_DAYS` as the schedule page, so it expires on the same day; it also goes once the meet itself has passed, since it only looks at upcoming meets. With no active update nothing renders. The row sits inside the schedule panel, so the Schedule & results section itself never moves (it starts at 952px at 1280 wide and 1275px at 390, with or without the row); the row adds about 53px (77px on a phone) to the panel below the "Next meet" line, which pushes the program record band down by that much while it shows.
+**"New" on the home page.** When an upcoming meet in the current season has an active update (the schedule's `update_note` / `update_date`), a tinted row with the red **New** pill appears right under the "Next meet" line: the meet name and the note, linking straight to the row's `extra_url` (the PDF itself for a race schedule; the season page if the row has no extra link). Only one shows: the most recent update, and if two share a date, the sooner meet. It uses the same rule and the same `UPDATE_DAYS` as the schedule page, so it expires on the same day; it also goes once the meet itself has passed, since it only looks at upcoming meets. With no active update nothing renders. The row sits inside the schedule panel, so the Schedule & results section itself never moves (with the two Latest items of October 2026 it starts at 1014px at 1280 wide and 1324px at 390, with or without the row; the Latest block's height sets it); the row adds about 53px (77px on a phone) to the panel below the "Next meet" line, which pushes the program record band down by that much while it shows.
 
 **Latest** comes from `assets/data/news.csv`, columns `date, headline, body, link_label, link_url, image, image_alt, image_credit`:
 
 | Column | Notes |
 | --- | --- |
-| `date` | `YYYY-MM-DD`. The row with the latest date is shown; only one item ever shows. |
+| `date` | `YYYY-MM-DD`, shown as "Oct 21, 2026". Items show newest first; rows with the same date, the lower row in the file first. Only the newest five show. |
 | `headline` | Required. Rows without one are ignored. |
 | `body` | Two or three sentences, plain text. Wrap it in double quotes if it contains a comma. |
 | `link_label` / `link_url` | Optional link, e.g. "See the results" and a results URL. Only `http`/`https` or site-relative links are rendered. With `link_url` empty nothing renders, not even the label. |
@@ -136,6 +136,12 @@ Sections, top to bottom: hero, **Latest**, schedule & results (with the next mee
 | `image_credit` | Optional photographer credit. Used only if the image isn't already listed in `assets/data/photo-credits.csv`, which wins. |
 
 Everything is HTML-escaped. With no rows (headers only), a missing file or a load error, the section doesn't render at all: no box, no placeholder.
+
+**One item or a carousel.** With one row the block is a single item, with no controls. With two to five it becomes a carousel, newest first: it moves to the next item every 10 seconds (`ROTATE_MS` in `news.js`; `MAX_ITEMS` is the five), and under it are a pause button, previous and next arrows and a dot per item. They're ordinary buttons, so Tab, Enter and Space work, and the left and right arrow keys move between items while focus is on the controls. It holds still while the pointer is over it, while keyboard focus is inside it, and while the tab is in the background; the pause button stops it until it's pressed again. Screen readers hear an item change when someone moves it themselves, not when it rotates on its own. Adding an item is a new row in `news.csv`; no code changes.
+
+All the items sit in the same place, so the block is as tall as the tallest one and the page below it doesn't move when it rotates. A shorter item leaves space under it: on a phone, a headline-only item next to one with a photo leaves about 420px.
+
+**Without JavaScript** the newest item shows as plain text, from the `<noscript>` copy under `#latest` in `index.html`. That copy isn't read from `news.csv`: when a newer item goes in, update it too (date, headline and body; no photo), or visitors without JavaScript keep seeing the older one.
 
 **The hero photo** changes on every load, picked at random from `assets/data/hero.csv`, columns `file, focus, caption, alt, phone`:
 
