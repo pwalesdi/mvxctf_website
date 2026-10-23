@@ -581,5 +581,11 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .race-table th.num,.race-table td.num{width:1%}
 .race-table .pill{margin-right:6px;vertical-align:1px}
 @media (max-width:640px){.race-table th,.race-table td{padding-inline:12px}.race-table th:first-child,.race-table td:first-child{padding-left:14px}}
+/* Monte Vista's races: listed on their own above the full schedule, and marked in it with the records pages'
+   highlighted-row fill, a red edge and a filled red "Monte Vista" label, so the marking isn't colour alone. */
+.race-sub{margin-top:clamp(28px,4vw,40px)}
+.race-table tr.is-mv td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
+.race-table tr.is-mv td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+.race-table .pill.mv{display:block;width:fit-content;margin:6px 0 0;background:var(--red);border-color:var(--red);color:#fff}
 /* Clearance page dates: the labels are long, so on phones each one sits above its date instead of squeezing it onto two lines. */
 @media (max-width:480px){.facts.stack{grid-template-columns:minmax(0,1fr);row-gap:2px}.facts.stack dd + dt{margin-top:10px}}
