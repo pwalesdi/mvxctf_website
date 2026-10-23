@@ -15,6 +15,14 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 
 **Never `git add` a directory in this repo** (`git add .`, `git add assets/img`, `git commit -a`…). Stage files by name. Working files pass through `assets/img/` all the time (crops, phone originals), and staging a folder publishes them: in October 2026 two in-progress crops (`coaches/wales-dinan-2.jpg`, 11 MB with a camera serial, and `coaches/wales-dinan-3.jpg`) were committed that way and served for about twenty minutes. They were removed, but **they remain in git history**, like the old Exif in earlier photos.
 
+## Cached scripts
+
+A visitor can briefly get a cached script against a fresh CSV, which looks like content disappearing (in October 2026, the old one-item `news.js` against the new two-row `news.csv` showed only the newest Latest item); a hard refresh clears it. The CSVs are always fetched fresh (`csv.js` asks for `no-store`), but browsers keep other files for up to 10 minutes.
+
+The version tag prevents it. `index.html` and `schedule.html` load the three scripts that read CSVs (`hero.js`, `schedule.js`, `news.js`) as `…/news.js?v=<this page's deploy time>`, written by a small inline script from `document.lastModified`. GitHub Pages stamps every file with the time of the deploy, changed or not, so every deploy gives those scripts a new address, and a page fresh from the server always gets the matching scripts. **It sets itself: there's nothing to run before pushing.** Everything else (`site.css`, `csv.js`, `photos.js`, `nav.js`) loads with no version, on purpose: a stale stylesheet is cosmetic. A new script that reads a CSV gets its name added to the list in that inline script on its page.
+
+What it can't cover: a page the browser is still holding from before the deploy (up to 10 minutes) runs its old scripts against the fresh CSVs, and a hard refresh is still the fix. Locally, `python3 -m http.server` stamps each file with its own modification time, so after editing only a script, hard-refresh.
+
 ## Where things live
 
 | Path | What it is |

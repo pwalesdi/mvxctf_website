@@ -107,7 +107,13 @@
   </div>
 </footer>
 <script src="/assets/js/csv.js"></script>
-<script src="/assets/js/schedule.js"></script>
+<script>
+/* schedule.js loads with this page's deploy time as a version (?v=); see the same script in index.html
+   and README, "Cached scripts". */
+["schedule"].forEach(function (name) {
+  document.write('<script src="/assets/js/' + name + '.js?v=' + (Date.parse(document.lastModified) || 0) + '"><\/script>');
+});
+</script>
 <script src="/assets/js/nav.js"></script>
 </body>
 </html>

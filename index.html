@@ -362,9 +362,15 @@ window.MVHero = (function () {
   </div>
 </footer>
 <script src="/assets/js/csv.js"></script>
-<script src="/assets/js/hero.js"></script>
-<script src="/assets/js/schedule.js"></script>
-<script src="/assets/js/news.js"></script>
+<script>
+/* The scripts that read the CSVs load with this page's deploy time as a version (?v=), so a
+   page fresh from the server never runs a cached copy of one against a fresh CSV. GitHub Pages
+   stamps every file with the deploy time, so this changes by itself on every deploy: nothing to
+   bump. Written in place, so they load exactly as plain <script> tags would. See README, "Cached scripts". */
+["hero", "schedule", "news"].forEach(function (name) {
+  document.write('<script src="/assets/js/' + name + '.js?v=' + (Date.parse(document.lastModified) || 0) + '"><\/script>');
+});
+</script>
 <script src="/assets/js/photos.js"></script>
 <script src="/assets/js/nav.js"></script>
 </body>
