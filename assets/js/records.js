@@ -22,16 +22,12 @@
   var esc = window.MVCSV.esc;
 
   function isRecent(r) { return (r.year || "").trim() === HIGHLIGHT_YEAR; }
-  function isActive(r) { return (r.active || "").trim().toLowerCase() === "yes"; }
   function yearLabel() { return "Set in " + HIGHLIGHT_YEAR; }
 
-  // The key under the heading: the roster marker's entry only while some row is
-  // marked active, and an entry for the year's label when any mark has it.
+  // The key under the heading gets an entry for the year's label when any mark has it.
   function legend(records) {
     var key = document.querySelector(".rec-legend");
     if (!key) return;
-    var roster = key.querySelector(".legend-active");
-    if (roster) roster.hidden = !records.some(isActive);
     if (records.some(isRecent)) {
       var item = document.createElement("span");
       item.innerHTML = '<span class="pill yr">' + esc(yearLabel()) + "</span> &mdash; a mark set in " + esc(HIGHLIGHT_YEAR);
@@ -54,16 +50,11 @@
       '<th scope="col" class="num">#</th><th scope="col">Athlete</th><th scope="col" class="num">Mark</th><th scope="col" class="num">Year</th>' +
       "</tr></thead><tbody>" +
       rows.map(function (r) {
-        // Two separate markings, so a row can carry both. A mark set in
-        // HIGHLIGHT_YEAR is about the mark: the whole row gets the fill, the red
-        // edge and the label. A current athlete (the active column, set by hand,
-        // including relays with any current leg) is about the person: a marker
-        // beside the name, no fill.
-        var active = isActive(r), recent = isRecent(r);
+        // A mark set in HIGHLIGHT_YEAR: the row gets the fill, the red edge and the label.
+        var recent = isRecent(r);
         return '<tr' + (recent ? ' class="hl is-year"' : "") + ">" +
           '<td class="rank num">' + esc(r.rank) + "</td>" +
           '<td class="athlete">' + esc(r.athlete) +
-            (active ? '<span class="roster-mark" aria-hidden="true"></span><span class="sr-only"> (current athlete)</span>' : "") +
             (recent ? '<span class="pill yr">' + esc(yearLabel()) + "</span>" : "") + "</td>" +
           '<td class="mono num">' + markHTML(r) + "</td>" +
           '<td class="mono num">' + esc(r.year) + "</td></tr>";

@@ -396,12 +396,7 @@ section.data-group h2{margin-bottom:16px}
    The same label sits in the page's key. */
 .rec-table tr.is-year td:first-child{box-shadow:inset 3px 0 0 var(--red)}
 .pill.yr{background:var(--red);border-color:var(--red);color:#fff}
-.rec-table .pill.yr{display:block;width:fit-content;margin:6px 0 0}
-/* A current athlete (records.csv's active column): a red dot beside the name, the nav's "current" dot at table size.
-   It marks the person, not the row, so it never shares the "Set in" fill and a row can carry both. */
-.roster-mark{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:7px;vertical-align:1px}
-.rec-legend .roster-mark{margin-left:0}
-@media (max-width:640px){.rec-table th,.rec-table td{padding-inline:8px}.rec-table th:first-child,.rec-table td:first-child{padding-left:14px}.rec-table th:last-child,.rec-table td:last-child{padding-right:14px}}
+.rec-table .pill.yr{display:block;width:fit-content;margin:6px 0 0}@media (max-width:640px){.rec-table th,.rec-table td{padding-inline:8px}.rec-table th:first-child,.rec-table td:first-child{padding-left:14px}.rec-table th:last-child,.rec-table td:last-child{padding-right:14px}}
 section.panel.letters{padding-block:0}
 .panel.letters + .panel.letters{margin-top:16px}
 .panel-head .count{font-family:var(--display);font-weight:600;font-size:.875rem}
