@@ -197,6 +197,9 @@ td.day{font-family:var(--display);font-stretch:92%;font-weight:600;letter-spacin
 .linklist .t{font-family:var(--display);font-stretch:92%;font-weight:600;font-size:.9375rem}
 .linklist .m{font-family:var(--display);font-stretch:90%;font-size:.6875rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
 .linklist a:hover .m{color:var(--red-ink)}
+/* Home page next-meet label, "Next:" or (on the meet's date) "Today:": one width for both, so a long meet name
+   wraps the same either way and the row keeps its height on meet day. "Today:" is 2.93em in Archivo. */
+.linklist .next-label{display:inline-block;min-width:3em}
 
 /* ---------- card grid ---------- */
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}

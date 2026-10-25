@@ -292,7 +292,7 @@
     var today = todayKey();
     var next = meets.filter(function (m) { return m.key && m.key >= today; })[0];
     if (!next) { li.parentNode.removeChild(li); return; }
-    li.querySelector(".t").innerHTML = (next.key === today ? "Today: " : "Next: ") + esc(next.r.meet);
+    li.querySelector(".t").innerHTML = '<span class="next-label">' + (next.key === today ? "Today:" : "Next:") + "</span> " + esc(next.r.meet);
     li.querySelector(".m").innerHTML = esc(formatDate(next.key));
   }
 
