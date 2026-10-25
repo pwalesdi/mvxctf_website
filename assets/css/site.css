@@ -391,6 +391,12 @@ section.data-group h2{margin-bottom:16px}
 .rec-table{font-size:.875rem}
 /* Number columns shrink to fit; the athlete column gets the rest, and relay names wrap there. */
 .rec-table th.num,.rec-table td.num{width:1%}
+/* Marks set in records.js's HIGHLIGHT_YEAR: the highlighted-row fill (.ledger tr.hl) plus a red edge and a filled red
+   "Set in <year>" label under the athlete, as Monte Vista's races are marked on a race schedule page: not colour alone.
+   The same label sits in the page's key. */
+.rec-table tr.is-year td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+.pill.yr{background:var(--red);border-color:var(--red);color:#fff}
+.rec-table .pill.yr{display:block;width:fit-content;margin:6px 0 0}
 @media (max-width:640px){.rec-table th,.rec-table td{padding-inline:8px}.rec-table th:first-child,.rec-table td:first-child{padding-left:14px}.rec-table th:last-child,.rec-table td:last-child{padding-right:14px}}
 section.panel.letters{padding-block:0}
 .panel.letters + .panel.letters{margin-top:16px}
@@ -592,5 +598,10 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .race-table tr.is-mv td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 .race-table tr.is-mv td:first-child{box-shadow:inset 3px 0 0 var(--red)}
 .race-table .pill.mv{display:block;width:fit-content;margin:6px 0 0;background:var(--red);border-color:var(--red);color:#fff}
+/* A row that isn't a race (Awards, last in the schedule): no Girls/Boys pill and no start time, in the muted ink the
+   record tables give a cell with no result (.ledger td.ncs-none), at regular weight. Its time is a phrase, so it wraps,
+   at a width that keeps it to about three lines (the time column widens to match). */
+.race-table tr.race-aside td{color:var(--ink-2);font-weight:400;vertical-align:baseline}
+.race-table tr.race-aside td.num{white-space:normal;min-width:9em;font-size:.875rem;line-height:1.4;text-wrap:balance}
 /* Clearance page dates: the labels are long, so on phones each one sits above its date instead of squeezing it onto two lines. */
 @media (max-width:480px){.facts.stack{grid-template-columns:minmax(0,1fr);row-gap:2px}.facts.stack dd + dt{margin-top:10px}}

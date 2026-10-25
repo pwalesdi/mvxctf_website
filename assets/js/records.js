@@ -9,11 +9,35 @@
   var GROUP_ORDER = ["Sprints", "Hurdles", "Distance", "Relays", "Field"];
   var FLAG_TITLES = { w: "Wind-aided", c: "Converted mark" };
 
+  // Marks set in this year are highlighted: the row fill, a red edge and a red
+  // "Set in <year>" label, with a matching entry in the page's key. Compared with
+  // the year column, which is a plain four-digit year in every row. Next season
+  // is a one-line change: set it to the new year.
+  var HIGHLIGHT_YEAR = "2026";
+
   var app = document.getElementById("records-app");
   if (!app) return;
   function fail() { app.innerHTML = '<p class="sched-status">The records couldn’t load. Try again later.</p>'; }
   if (!window.MVCSV) { fail(); return; }
   var esc = window.MVCSV.esc;
+
+  function isRecent(r) { return (r.year || "").trim() === HIGHLIGHT_YEAR; }
+  function yearLabel() { return "Set in " + HIGHLIGHT_YEAR; }
+
+  // The key under the heading: an entry for the year's label when any mark has
+  // it, and the roster entry only while some row is marked active, since both
+  // share the row fill.
+  function legend(records) {
+    var key = document.querySelector(".rec-legend");
+    if (!key) return;
+    var roster = key.querySelector(".legend-active");
+    if (roster) roster.hidden = !records.some(function (r) { return (r.active || "").trim().toLowerCase() === "yes"; });
+    if (records.some(isRecent)) {
+      var item = document.createElement("span");
+      item.innerHTML = '<span class="pill yr">' + esc(yearLabel()) + "</span> &mdash; a mark set in " + esc(HIGHLIGHT_YEAR);
+      key.appendChild(item);
+    }
+  }
 
   function markHTML(r) {
     var flag = r.flag;
@@ -30,12 +54,16 @@
       '<th scope="col" class="num">#</th><th scope="col">Athlete</th><th scope="col" class="num">Mark</th><th scope="col" class="num">Year</th>' +
       "</tr></thead><tbody>" +
       rows.map(function (r) {
-        // Highlight comes only from the active column (set by hand, including
-        // relays with any current leg).
+        // The fill comes from the active column (set by hand, including relays
+        // with any current leg) or from a mark set in HIGHLIGHT_YEAR, which also
+        // gets the red edge and its label.
         var active = (r.active || "").trim().toLowerCase() === "yes";
-        return '<tr' + (active ? ' class="hl"' : "") + ">" +
+        var recent = isRecent(r);
+        var cls = active || recent ? "hl" + (recent ? " is-year" : "") : "";
+        return '<tr' + (cls ? ' class="' + cls + '"' : "") + ">" +
           '<td class="rank num">' + esc(r.rank) + "</td>" +
-          '<td class="athlete">' + esc(r.athlete) + (active ? '<span class="sr-only"> (current athlete)</span>' : "") + "</td>" +
+          '<td class="athlete">' + esc(r.athlete) + (active ? '<span class="sr-only"> (current athlete)</span>' : "") +
+            (recent ? '<span class="pill yr">' + esc(yearLabel()) + "</span>" : "") + "</td>" +
           '<td class="mono num">' + markHTML(r) + "</td>" +
           '<td class="mono num">' + esc(r.year) + "</td></tr>";
       }).join("") +
@@ -73,6 +101,7 @@
   }
 
   function mount(records) {
+    legend(records);
     var current = GENDERS[0];
     var seg = '<div class="seg" role="group" aria-label="Gender">' + GENDERS.map(function (g) {
       return '<button type="button" data-g="' + g + '" aria-pressed="' + (g === current) + '">' + g + "</button>";
