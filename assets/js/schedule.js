@@ -101,8 +101,23 @@
     return y + "-" + ("0" + mo).slice(-2) + "-" + ("0" + d).slice(-2);
   }
 
+  // Today as a "YYYY-MM-DD" key, in Pacific time whatever the device is set to:
+  // meet dates are Pacific dates, so a meet is today's until midnight Pacific.
+  // Every date rule here goes through this (the home page's Next/Today line,
+  // Upcoming/Completed, the Results link, the "New" flag). The device's own
+  // date only if the browser can't do time zones.
+  var PACIFIC = (function () {
+    try {
+      return new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" });
+    } catch (e) { return null; }
+  })();
+
   function todayKey() {
-    var t = new Date();
+    var t = new Date(), p = {};
+    if (PACIFIC && PACIFIC.formatToParts) {
+      PACIFIC.formatToParts(t).forEach(function (x) { p[x.type] = x.value; });
+      if (p.year && p.month && p.day) return p.year + "-" + p.month + "-" + p.day;
+    }
     return t.getFullYear() + "-" + ("0" + (t.getMonth() + 1)).slice(-2) + "-" + ("0" + t.getDate()).slice(-2);
   }
 
@@ -271,11 +286,13 @@
 
   /* ---------- index.html ---------- */
 
+  // The next meet, today's included: on its own date it reads "Today:" instead
+  // of "Next:", and it rolls over to the following meet at midnight Pacific.
   function renderNextMeet(li, meets) {
     var today = todayKey();
     var next = meets.filter(function (m) { return m.key && m.key >= today; })[0];
     if (!next) { li.parentNode.removeChild(li); return; }
-    li.querySelector(".t").innerHTML = "Next: " + esc(next.r.meet);
+    li.querySelector(".t").innerHTML = (next.key === today ? "Today: " : "Next: ") + esc(next.r.meet);
     li.querySelector(".m").innerHTML = esc(formatDate(next.key));
   }
 

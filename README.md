@@ -29,7 +29,7 @@ What it can't cover: a page the browser is still holding from before the deploy 
 | --- | --- |
 | `assets/css/site.css` | **The design system.** Colors, type, spacing and every component. The top part is the approved mockup's `<style>` block copied unchanged; additions are below the marked line. Don't put inline `style=""` attributes in pages. Add a class here instead. |
 | `assets/js/csv.js` | **The one CSV parser.** Also fetch-with-timeout and HTML escaping. Every data page loads it first; don't write another parser. A row whose first cell starts with `#` is a comment and is skipped, in every CSV. |
-| `assets/js/schedule.js` | Renders `schedule.html` (Season selector, one season at a time) and the "Next" row on the home page from the current season. |
+| `assets/js/schedule.js` | Renders `schedule.html` (Season selector, one season at a time) and the "Next" row on the home page from the current season ("Today" on a meet's own date). |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
 | `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
 | `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
@@ -79,6 +79,8 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 ## The schedule
 
 `schedule.html` shows one season at a time, picked from a **Season** selector. The current season loads by default; any other is `schedule.html?season=<id>` (e.g. `?season=2024-xc`), so Back works and a season can be shared. An unknown id falls back to the current season. The current season is split into Upcoming, Completed and (if any) Date to be announced; a past season is one list, since every meet in it is done.
+
+**"Today" is Pacific time**, whatever the visitor's device is set to (`todayKey()` in `schedule.js`). Every date rule goes through it: the home page's next-meet line, the Upcoming/Completed split, the Results-link rule and the "New" flag. A meet counts as upcoming through the end of its own day and moves to Completed at midnight Pacific. On the home page the line reads **"Today: <meet>"** on the meet's date and **"Next: <meet>"** before it, and rolls over to the following meet at midnight Pacific. Before October 2026 it used the device's date, so a browser reporting UTC rolled the site over at 5 PM Pacific (4 PM in winter).
 
 The **current season** is the constant at the top of `assets/js/schedule.js`:
 
