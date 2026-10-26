@@ -454,9 +454,11 @@ section.panel.letters{padding-block:0}
   .coach-card .m{padding-top:4px}
 }
 div.card.static:hover{transform:none;border-color:var(--line)} /* coaches without a page: not a link */
-/* Coach page */
+/* Coach page. The back link (.coach-back, also on the race schedule pages) leads with a left arrow, like the site's
+   other arrowed links, so it reads as a link and not as another eyebrow label. */
 .coach-back{margin-bottom:18px}
 .coach-back a{color:inherit;text-decoration:none}
+.coach-back a::before{content:"← "}
 .coach-back a:hover{color:var(--red-ink)}
 .coach-hero{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:clamp(20px,4vw,40px);align-items:end;margin-bottom:clamp(28px,4vw,40px)}
 @media (max-width:600px){.coach-hero{grid-template-columns:minmax(0,1fr)}.coach-hero .coach-photo{max-width:240px}}
