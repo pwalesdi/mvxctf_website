@@ -15,6 +15,7 @@ The site is **live at montevistaxc.com** (GitHub Pages, served from `main`). A p
 
 - The header and footer are **duplicated across all 22 pages** (15 in the repo root, 6 under `team/`, 1 under `meets/`) and change together, in one commit. They are byte-identical except for the current-page markers (`aria-current`, `is-current`). Check with `grep -c 'class="nav"' *.html team/index.html team/*/index.html meets/*.html` (every page reports 1; the five redirect stubs report 0).
 - Coach pages live at `team/<first>-<last>/index.html` (lowercase, hyphenated; `/team/patrick-wales-dinan/`), and the coaches index at `team/index.html`. The old `coaches.html` and `coach-*.html` in the root are redirect stubs for addresses already shared: leave them, keep them out of the sitemap, and don't give them the header and footer.
+- A meet page we write (`meets/*.html`, and the Haystack page in the root) is titled for the meet and year, never for the race schedule that was its first contents: "EBAL Cross Country Championships 2026" in the `<title>`, `og:title` and `<h1>`, with the schedule as a "Race schedule" section under it (README, "Results archive").
 - `assets/css/site.css` is the only stylesheet. No inline `style=""`; add a class there.
 - `assets/js/csv.js` is the only CSV parser. Never write a second one. Data pages load it first.
 

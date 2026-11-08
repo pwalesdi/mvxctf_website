@@ -587,8 +587,8 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 .facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 22px;align-items:baseline;margin:0;padding-block:16px 18px;border-block:1px solid var(--line)}
 .facts dt{font-family:var(--display);font-stretch:90%;font-weight:700;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .facts dd{margin:0;font-family:var(--display);font-stretch:92%;font-weight:600;color:var(--ink);line-height:1.4}
-/* Race schedule pages we write ourselves (2026-xc-10-24-haystack-tune-up-race-schedule.html): the meet facts, then
-   one table of start times. Girls and boys are in words, in the record book's pills; times shrink to fit their column. */
+/* Meet pages we write ourselves (meets/*.html, and the Haystack page in the root): the meet facts, then a Race schedule
+   section of start times. Girls and boys are in words, in the record book's pills; times shrink to fit their column. */
 .race-panel{margin-top:clamp(20px,3vw,28px)}
 .race-table th.num,.race-table td.num{width:1%}
 .race-table .pill{margin-right:6px;vertical-align:1px}
@@ -596,6 +596,11 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 /* Monte Vista's races: listed on their own above the full schedule, and marked in it with the records pages'
    highlighted-row fill, a red edge and a filled red "Monte Vista" label, so the marking isn't colour alone. */
 .race-sub{margin-top:clamp(28px,4vw,40px)}
+/* Where Monte Vista's races are listed on their own, "Monte Vista's races" and "Full schedule" are h3 subheads inside
+   the Race schedule section, each set closer to its own table than to what's above it. */
+.race-sub3{margin-top:clamp(22px,3vw,30px)}
+.race-sub + .race-sub3{margin-top:16px}
+.race-sub3 + .race-panel{margin-top:12px}
 .race-table tr.is-mv td{background:color-mix(in srgb,var(--red) 7.5%,transparent)}
 .race-table tr.is-mv td:first-child{box-shadow:inset 3px 0 0 var(--red)}
 .race-table .pill.mv{display:block;width:fit-content;margin:6px 0 0;background:var(--red);border-color:var(--red);color:#fff}
