@@ -37,7 +37,7 @@ Woodward Park and CIF State times are "fastest in school history", never "school
 
 - One file per season, `assets/data/schedule-<id>.csv`, indexed by `assets/data/seasons.csv`. The current season is `CURRENT_SEASON` in `assets/js/schedule.js`; only its file changes, and past seasons are frozen.
 - **A meet whose date is in the future never shows a results link.** `schedule.js` enforces this: a Results link renders only for a meet dated today or earlier, whatever the file says. Still leave the cell blank until the meet happens.
-- Results links only: no Google Docs or Drive links, itineraries or race assignments in past seasons.
+- Results links only in past seasons: no Google Docs or Drive links, itineraries, race assignments or tickets. The rule exists to drop third-party and temporary material. **A meet page we write ourselves is the exception** (`meets/*.html`, and the Haystack page in the root): it's permanent and on our domain, so its link stays when the season freezes, relabelled "Meet page". Captured meet documents in `archive/meets/` still come off. A meet page goes in `sitemap.xml` once it carries results, not before.
 - The "New" flag (`update_note` + `update_date`, current season only) shows for `UPDATE_DAYS` (7) from `update_date`, then drops off by itself. Set `update_date` to the day the change is posted, never a future date. The home page shows the latest active one among upcoming meets, linking to the row's `extra_url`, through the same `activeUpdate()` in `schedule.js`: one rule, one place.
 
 ## Photos
