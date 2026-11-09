@@ -69,7 +69,7 @@ Static HTML has no includes, so every page carries its own copy of the site head
 **Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **22 pages**: in the repo root index, schedule, cross-country, track-field, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards, ebal-distance and the Haystack Tune-Up 2026 meet page (`2026-xc-10-24-haystack-tune-up-race-schedule.html`); under `team/` the coaches index (`team/index.html`) and the five coach pages (`team/<first>-<last>/index.html`); under `meets/` the meet pages we write ourselves, so far the EBAL Championships (`meets/2026-xc-11-07-ebal-championships-race-schedule.html`). Every path in them is root-absolute (`/assets/css/site.css`, `/schedule.html`, `/team/`), so the header and footer are the same at every depth. Afterwards, check with:
 
 ```sh
-grep -c 'class="nav"' *.html team/index.html team/*/index.html meets/*.html   # every page reports 1, except the nine redirect stubs (0)
+grep -c 'class="nav"' *.html team/index.html team/*/index.html meets/*.html   # every page reports 1, except the eleven redirect stubs (0)
 ```
 
 The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current; a meet page marks Schedule. `clearance.html` isn't in the nav either and marks nothing current; the home page hero's "XC / T&F clearance" button links to it.
@@ -78,7 +78,7 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 
 ## Old addresses
 
-**The old Wix site was on this domain**, so its addresses still arrive: `www.montevistaxc.com/<page>` redirects to `montevistaxc.com/<page>`, and most of those now return 404 (103 of the 112 page addresses the Wayback Machine holds, in November 2026). Four that people bookmarked have redirect stubs in the repo root, in the coach stubs' pattern (see "Coach photos"): a canonical link to the destination, an instant meta refresh and a visible link, with no header or footer, and out of the sitemap. GitHub Pages serves `/records` from `records.html`, so each stub catches the old address without `.html`, arriving through `www` too.
+**The old Wix site was on this domain**, so its addresses still arrive: `www.montevistaxc.com/<page>` redirects to `montevistaxc.com/<page>`, and most of those return 404: 103 of the 112 page addresses the Wayback Machine holds did in November 2026, before the six stubs below, and 97 do now. Six that people bookmarked have redirect stubs in the repo root, in the coach stubs' pattern (see "Coach photos"): a canonical link to the destination, an instant meta refresh and a visible link, with no header or footer, and out of the sitemap. GitHub Pages serves `/records` from `records.html`, so each stub catches the old address without `.html`, arriving through `www` too.
 
 | Old address | Stub | Goes to |
 | --- | --- | --- |
@@ -86,8 +86,10 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 | `/xc` | `xc.html` | `/cross-country-records.html` |
 | `/trackfield` | `trackfield.html` | `/track-field-records.html` |
 | `/varsity-letter-winners` | `varsity-letter-winners.html` | `/varsity-letters.html` |
+| `/coaches-bios` | `coaches-bios.html` | `/team/` |
+| `/coaches-emails` | `coaches-emails.html` | `/team/` |
 
-The Wayback Machine captured each of them 10 to 15 times between 2021 and April 2026, and each has an exact destination. `/records` was Wix's records index, linking to the other three (`/xc` was its Cross Country Records). The new site has no index page, since the Records menu does that job, and the footer's "School records" link already goes to the track page. `records.html` was also this site's own name for the track records page until 11 October 2026, so the one stub covers both. Wix's `/coaches` (2023–2026) already resolves through `coaches.html`.
+Each has an exact destination. The Wayback Machine captured the four records addresses 10 to 15 times each between 2021 and April 2026. The two coaches addresses were each in turn the Wix menu's COACHES link. `/coaches-bios` was that link in the January 2021, December 2021 and November 2022 captures, though the Wayback Machine holds the page itself only from 2019. `/coaches-emails` was the link in the April 2026 capture, the last before the move, and was captured 9 times from April 2024. Both stubs are copies of `coaches.html`. `/records` was Wix's records index, linking to the other three (`/xc` was its Cross Country Records). The new site has no index page, since the Records menu does that job, and the footer's "School records" link already goes to the track page. `records.html` was also this site's own name for the track records page until 11 October 2026, so the one stub covers both. Wix's `/coaches` (2023–2026) already resolves through `coaches.html`.
 
 **Considered and left as 404s** (November 2026). Revisit any of them if Search Console's 404 list names it.
 - `/about`: a 2019 coaching-staff page. It was in the Wix menu in November 2019 and gone from it by January 2021, and the Wayback Machine has it only from 2019.
