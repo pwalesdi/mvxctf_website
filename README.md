@@ -69,12 +69,31 @@ Static HTML has no includes, so every page carries its own copy of the site head
 **Any change to the header or footer must be made in every `.html` page, in the same commit.** That's **22 pages**: in the repo root index, schedule, cross-country, track-field, donate, clearance, 404, results-archive, summer-run, track-field-records, cross-country-records, varsity-letters, varsity-standards, ebal-distance and the Haystack Tune-Up 2026 meet page (`2026-xc-10-24-haystack-tune-up-race-schedule.html`); under `team/` the coaches index (`team/index.html`) and the five coach pages (`team/<first>-<last>/index.html`); under `meets/` the meet pages we write ourselves, so far the EBAL Championships (`meets/2026-xc-11-07-ebal-championships-race-schedule.html`). Every path in them is root-absolute (`/assets/css/site.css`, `/schedule.html`, `/team/`), so the header and footer are the same at every depth. Afterwards, check with:
 
 ```sh
-grep -c 'class="nav"' *.html team/index.html team/*/index.html meets/*.html   # every page reports 1, except the five redirect stubs (0)
+grep -c 'class="nav"' *.html team/index.html team/*/index.html meets/*.html   # every page reports 1, except the nine redirect stubs (0)
 ```
 
 The top nav is **seven items, and that's the limit**. It's measured to fit without scrolling from 1201px up. "Records" is a dropdown (`assets/js/nav.js`) holding Track & Field Records, Cross Country Records, Track & Field Letter Winners, Track & Field Letter Standards and EBAL distance points. Above 1200px it opens on hover or click; at 1200px and below, where the nav scrolls sideways, a tap opens it as a band under the nav that pushes the page down. Escape closes it. `summer-run.html` isn't in the nav and marks Cross Country as current; a meet page marks Schedule. `clearance.html` isn't in the nav either and marks nothing current; the home page hero's "XC / T&F clearance" button links to it.
 
-`404.html` (not in the nav, nothing current) is what GitHub Pages serves for any unmatched URL, including every old Wix link (`/24xc`, `/tf24`, `/2025-cross-country`…). It's served at the bad URL's own path, which is why its paths, like every page's, are root-absolute. It is `noindex`. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+`404.html` (not in the nav, nothing current) is what GitHub Pages serves for any unmatched URL, including the old Wix links that have no stub (`/24xc`, `/tf24`, `/2025-cross-country`…; see "Old addresses"). It's served at the bad URL's own path, which is why its paths, like every page's, are root-absolute. It is `noindex`. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
+
+## Old addresses
+
+**The old Wix site was on this domain**, so its addresses still arrive: `www.montevistaxc.com/<page>` redirects to `montevistaxc.com/<page>`, and most of those now return 404 (103 of the 112 page addresses the Wayback Machine holds, in November 2026). Four that people bookmarked have redirect stubs in the repo root, in the coach stubs' pattern (see "Coach photos"): a canonical link to the destination, an instant meta refresh and a visible link, with no header or footer, and out of the sitemap. GitHub Pages serves `/records` from `records.html`, so each stub catches the old address without `.html`, arriving through `www` too.
+
+| Old address | Stub | Goes to |
+| --- | --- | --- |
+| `/records` | `records.html` | `/track-field-records.html` |
+| `/xc` | `xc.html` | `/cross-country-records.html` |
+| `/trackfield` | `trackfield.html` | `/track-field-records.html` |
+| `/varsity-letter-winners` | `varsity-letter-winners.html` | `/varsity-letters.html` |
+
+The Wayback Machine captured each of them 10 to 15 times between 2021 and April 2026, and each has an exact destination. `/records` was Wix's records index, linking to the other three (`/xc` was its Cross Country Records). The new site has no index page, since the Records menu does that job, and the footer's "School records" link already goes to the track page. `records.html` was also this site's own name for the track records page until 11 October 2026, so the one stub covers both. Wix's `/coaches` (2023–2026) already resolves through `coaches.html`.
+
+**Considered and left as 404s** (November 2026). Revisit any of them if Search Console's 404 list names it.
+- `/about`: a 2019 coaching-staff page. It was in the Wix menu in November 2019 and gone from it by January 2021, and the Wayback Machine has it only from 2019.
+- `state-history.html` and `mv-state-history.html`: this site's own pages on 11 October 2026, public for under two hours (1 h 36 min and 16 min), only at the github.io address, before the custom domain was switched on. Both became `cross-country-records.html`.
+
+No stubs for the Wix blog posts or season pages (`/xc21`, `/tf22`, …): they have no destination, and a redirect to the home page is worse than a 404.
 
 ## The schedule
 
@@ -82,7 +101,7 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 
 **The schedule is one page with a query filter, not a page per season.** `?season=<id>` chooses what the page shows; it doesn't make a separate page. So for every season the canonical link stays what the HTML says, `https://montevistaxc.com/schedule.html`, and `sitemap.xml` lists `schedule.html` once, with no `?season=` addresses. **Don't reintroduce per-season canonicals or sitemap entries.** Until November 2026 `schedule.js` rewrote the canonical to each season's own address after the page loaded, and the sitemap listed 13 season addresses. That gave Google two canonicals for every season: `schedule.html` in the HTML, and the season's address from the script. The `?season=` addresses still work for people, and the tab title still names the season shown.
 
-**"Today" is Pacific time**, whatever the visitor's device is set to (`todayKey()` in `schedule.js`). Every date rule goes through it: the home page's next-meet line, the Upcoming/Completed split, the Results-link rule and the "New" flag. A meet counts as upcoming through the end of its own day and moves to Completed at midnight Pacific. On the home page the line reads **"Today: <meet>"** on the meet's date and **"Next: <meet>"** before it, and rolls over to the following meet at midnight Pacific. Both labels take the same width (`.next-label`, `min-width:3em` in `site.css`; "Today:" is 2.93em), so a long meet name wraps the same way on either day and the row doesn't change height on meet day. Before October 2026 it used the device's date, so a browser reporting UTC rolled the site over at 5 PM Pacific (4 PM in winter).
+**"Today" is Pacific time**, whatever the visitor's device is set to (`todayKey()` in `schedule.js`). Every date rule goes through it: the home page's next-meet line, the Upcoming/Completed split, the Results-link rule, the meet-page link's label and the "New" flag. A meet counts as upcoming through the end of its own day and moves to Completed at midnight Pacific. On the home page the line reads **"Today: <meet>"** on the meet's date and **"Next: <meet>"** before it, and rolls over to the following meet at midnight Pacific. Both labels take the same width (`.next-label`, `min-width:3em` in `site.css`; "Today:" is 2.93em), so a long meet name wraps the same way on either day and the row doesn't change height on meet day. Before October 2026 it used the device's date, so a browser reporting UTC rolled the site over at 5 PM Pacific (4 PM in winter).
 
 The **current season** is the constant at the top of `assets/js/schedule.js`:
 
