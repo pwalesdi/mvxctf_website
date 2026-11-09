@@ -58,7 +58,6 @@
     return id === CURRENT_SEASON && CURRENT_SHEET_URL ? CURRENT_SHEET_URL : "/assets/data/schedule-" + id + ".csv";
   }
   var SEASONS_URL = "/assets/data/seasons.csv";
-  var CANONICAL_BASE = "https://montevistaxc.com/schedule.html";
 
   // Athletic.net team pages, used only as the fallback when a file can't load.
   var ATHLETIC = {
@@ -249,7 +248,6 @@
       var note = document.getElementById("season-note");
       var body = document.getElementById("season-body");
       var eyebrow = document.querySelector(".sec-head .eyebrow");
-      var canonical = document.querySelector('link[rel="canonical"]');
       var shown = null;
 
       function wanted() { var p = seasonParam(); return byId[p] ? p : CURRENT_SEASON; }
@@ -259,11 +257,11 @@
         var s = byId[id];
         select.value = id;
         if (eyebrow) eyebrow.textContent = id === CURRENT_SEASON ? "This season" : "Past season";
-        // Each past season is its own page to search engines (sitemap.xml lists
-        // them): its own title and canonical address.
+        // The tab title names the season shown, for people. The canonical link is
+        // left as the HTML has it, schedule.html, for every season: ?season= is a
+        // filter on one page, not a page of its own (README, "The schedule").
         document.title = (id === CURRENT_SEASON ? "Meet Schedule and Results" : s.label + " Schedule and Results") +
           " | Monte Vista Cross Country and Track & Field";
-        if (canonical) canonical.href = CANONICAL_BASE + (id === CURRENT_SEASON ? "" : "?season=" + encodeURIComponent(id));
         note.textContent = s.note || "";
         note.hidden = !s.note;
         body.innerHTML = '<p class="sched-status">Loading schedule…</p>';
