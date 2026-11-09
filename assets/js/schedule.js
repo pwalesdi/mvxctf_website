@@ -104,8 +104,8 @@
   // Today as a "YYYY-MM-DD" key, in Pacific time whatever the device is set to:
   // meet dates are Pacific dates, so a meet is today's until midnight Pacific.
   // Every date rule here goes through this (the home page's Next/Today line,
-  // Upcoming/Completed, the Results link, the "New" flag). The device's own
-  // date only if the browser can't do time zones.
+  // Upcoming/Completed, the Results link, a meet page link's label, the "New"
+  // flag). The device's own date only if the browser can't do time zones.
   var PACIFIC = (function () {
     try {
       return new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" });
@@ -150,6 +150,25 @@
     return activeUpdate(r) ? '<span class="sched-new">' + NEW_PILL + " " + esc(r.update_note) + "</span>" : "";
   }
 
+  // Meet pages we write ourselves (README, "Results archive"): everything in
+  // meets/, plus the first one, which stayed in the repo root.
+  var MEET_PAGE = /^\/(?:meets\/[a-z0-9-]+|2026-xc-10-24-haystack-tune-up-race-schedule)\.html$/;
+
+  // A row's extra link as [href, label], or null. A link to one of our meet
+  // pages is labelled by the meet's date, whatever extra_label says: "Race
+  // schedule" until the meet is over (its own day included, while it's under
+  // Upcoming), "Meet page" from the next day, when it moves to Completed and
+  // the page holds the results. Past seasons get "Meet page" the same way, so
+  // freezing a season needs no relabelling. Any other link keeps its label.
+  function extraLink(m) {
+    var href = safeUrl(m.r.extra_url), u = href && new URL(href);
+    if (!href) return null;
+    if (u.origin === window.location.origin && MEET_PAGE.test(u.pathname)) {
+      return [href, m.key && m.key < todayKey() ? "Meet page" : "Race schedule"];
+    }
+    return m.r.extra_label ? [href, m.r.extra_label] : null;
+  }
+
   function formatDate(key) {
     if (!key) return "TBD";
     var p = key.split("-");
@@ -183,9 +202,9 @@
   // the file says, so a stale link can't pass off last year's results as this
   // year's. Undated meets haven't happened either.
   function rowHTML(m, full) {
-    var r = m.r, links = [], flag = full ? updateHTML(r) : "";
+    var r = m.r, links = [], flag = full ? updateHTML(r) : "", extra = extraLink(m);
     if (m.key && m.key <= todayKey() && safeUrl(r.results_url)) links.push(link(r.results_url, "Results"));
-    if (r.extra_label && safeUrl(r.extra_url)) links.push(link(r.extra_url, r.extra_label));
+    if (extra) links.push(link(extra[0], extra[1]));
     return (flag ? '<tr class="is-new">' : "<tr>") +
       // data-label feeds the stacked phone layout; the date has a long
       // (desktop) and short (phone) form, toggled in CSS.
@@ -305,16 +324,16 @@
     meets.forEach(function (m) {
       if (!m.key || m.key < today) return;
       var key = activeUpdate(m.r);
-      if (key && key > bestKey) { best = m.r; bestKey = key; }
+      if (key && key > bestKey) { best = m; bestKey = key; }
     });
     if (!best) return;
-    var href = best.extra_label ? safeUrl(best.extra_url) : null;
-    var kind = !href ? "Season page" : /\.pdf($|[?#])/i.test(href) ? "PDF" : best.extra_label;
+    var extra = extraLink(best), href = extra ? extra[0] : null;
+    var kind = !href ? "Season page" : /\.pdf($|[?#])/i.test(href) ? "PDF" : extra[1];
     var row = document.createElement("li");
     row.id = "next-update";
     row.className = "is-new";
     row.innerHTML = '<a href="' + esc(href || "/schedule.html") + '"><span class="t">' + NEW_PILL + " " +
-      esc(best.meet) + ": " + esc(best.update_note) + '</span><span class="m">' + esc(kind) + "</span></a>";
+      esc(best.r.meet) + ": " + esc(best.r.update_note) + '</span><span class="m">' + esc(kind) + "</span></a>";
     li.parentNode.insertBefore(row, li.nextSibling);
   }
 
