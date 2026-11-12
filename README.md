@@ -76,6 +76,8 @@ The top nav is **seven items, and that's the limit**. It's measured to fit witho
 
 `404.html` (not in the nav, nothing current) is what GitHub Pages serves for any unmatched URL, including the old Wix links that have no stub (`/24xc`, `/tf24`, `/2025-cross-country`…; see "Old addresses"). It's served at the bad URL's own path, which is why its paths, like every page's, are root-absolute. It is `noindex`. The nav label for the schedule page is just "Schedule"; the page's own heading stays "Schedule & results".
 
+**`summer-run.html` is "Winter and summer training".** That training is the Bay Area Track Club's program, a private USATF club, not a Monte Vista one. The page holds Patrick's paragraph word for word, with "here" linking to https://bayareatrackclub.org/. Don't reword it. Three links lead to the page: the footer's "Get involved" column, the home page's contact row ("Off-season") and the Cross Country page's "Where to go next" cards. It keeps its address because every footer links to it, and it's left out of `sitemap.xml`. Patrick's coach page links to the club as well, and the club's site links back to his bio here, so the two sites link both ways.
+
 ## Old addresses
 
 **The old Wix site was on this domain**, so its addresses still arrive: `www.montevistaxc.com/<page>` redirects to `montevistaxc.com/<page>`, and most of those return 404: 103 of the 112 page addresses the Wayback Machine holds did in November 2026, before the six stubs below, and 97 do now. Six that people bookmarked have redirect stubs in the repo root, in the coach stubs' pattern (see "Coach photos"): a canonical link to the destination, an instant meta refresh and a visible link, with no header or footer, and out of the sitemap. GitHub Pages serves `/records` from `records.html`, so each stub catches the old address without `.html`, arriving through `www` too.
@@ -442,7 +444,6 @@ Dates in a filename come from the camera's capture time (Pacific). **When a phot
 | `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
 | `team/index.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
-| `summer-run.html` | Dates, meeting place, sign-up |
 | `schedule.html` | Works. The home page's "Past seasons & results archive (2020–2025)" link also points here, and there is no archive yet. |
 
 ## Results archive
