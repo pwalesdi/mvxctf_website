@@ -330,6 +330,9 @@ th.num{text-align:right}
 .pill.act{color:var(--red-ink);background:var(--red-soft);border-color:transparent}
 .count{color:var(--ink-2);font-size:13px}
 .notes{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-2);font-size:13px;display:flex;flex-direction:column;gap:6px;max-width:75ch}
+/* A sources note collapsed behind "About this data": plain details/summary, closed by default, no script. Summary styled like the results archive's toggles. */
+.notes summary{cursor:pointer;width:fit-content;color:var(--red-ink);font-family:var(--display);font-stretch:92%;font-weight:600;font-size:.875rem}
+.notes details > p{margin:6px 0 0}
 
 /* Ledger: dense data table layered on the site table (use inside .panel > .table-scroll) */
 .ledger{font-variant-numeric:tabular-nums}
