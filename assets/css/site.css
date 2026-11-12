@@ -62,15 +62,16 @@ p{margin:0}
 
 .nav{display:flex;flex-wrap:nowrap;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin-inline:-4px;padding-inline:4px}
 .nav::-webkit-scrollbar{display:none}
-.nav a{font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;padding:8px 10px;border-radius:6px;white-space:nowrap}
+.nav a{font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;padding:8px 9px;border-radius:6px;white-space:nowrap}
 .nav a:hover{color:var(--ink);background:var(--surface)}
 .nav a[aria-current="page"]{color:var(--ink);background:var(--surface)}
 .nav a[aria-current="page"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
 
-/* Header dropdowns, Cross Country and Records (assets/js/nav.js). The button matches .nav a; menu links
+/* Header dropdowns: Cross Country, Track & Field and Records (assets/js/nav.js). Nav items have 9px side padding (was 10px) so the three
+   dropdown arrows fit beside the logo from 1201px up with the logo text on one line; measure before adding width to the nav. The button matches .nav a; menu links
    inherit .nav a styling, including the current-page dot. */
 .nav-dd{display:flex;flex-shrink:0}
-.nav-dd-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
+.nav-dd-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 9px;border-radius:6px;white-space:nowrap}
 .nav-dd-btn::after{content:"";border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid currentColor;transition:transform .15s ease}
 .nav-dd-btn[aria-expanded="true"]::after{transform:rotate(180deg)}
 .nav-dd-btn:hover,.nav-dd-btn[aria-expanded="true"],.nav-dd-btn.is-current{color:var(--ink);background:var(--surface)}

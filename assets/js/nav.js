@@ -1,4 +1,4 @@
-/* Dropdowns in the site header (every page): Cross Country and Records.
+/* Dropdowns in the site header (every page): Cross Country, Track & Field and Records.
    Each behaves the same way, and only one is open at a time.
    Desktop (>1200px): opens on hover or click, drops down under the button.
    Narrower: the nav scrolls sideways, so the menu opens on tap as a band
