@@ -67,7 +67,7 @@ p{margin:0}
 .nav a[aria-current="page"]{color:var(--ink);background:var(--surface)}
 .nav a[aria-current="page"]::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-right:7px;vertical-align:middle}
 
-/* Records dropdown (assets/js/nav.js). The button matches .nav a; menu links
+/* Header dropdowns, Cross Country and Records (assets/js/nav.js). The button matches .nav a; menu links
    inherit .nav a styling, including the current-page dot. */
 .nav-dd{display:flex;flex-shrink:0}
 .nav-dd-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-stretch:88%;font-weight:600;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:6px;white-space:nowrap}
