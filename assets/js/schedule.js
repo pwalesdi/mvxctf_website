@@ -47,7 +47,8 @@
 
   /* "Just updated" flag: a current-season row with both update_note and
      update_date shows a red "New" pill and the note for this many days,
-     counting update_date as day 1, then drops off by itself. */
+     counting update_date as day 1, or until the row's own meet is over if
+     that's later, then drops off by itself. */
   var UPDATE_DAYS = 7;
 
   // Optional: the current season from a published Google Sheet CSV instead of
@@ -128,9 +129,12 @@
 
   // The one rule for the "New" flag, used by the schedule page and the home
   // page alike: a current-season row's update counts while update_note is set
-  // and update_date is 0 to UPDATE_DAYS - 1 days ago. Returns its date key, or
-  // "" if it doesn't count. A future or unreadable update_date is a data
-  // error: never shown, and reported in the browser console.
+  // and either update_date is 0 to UPDATE_DAYS - 1 days ago, or the row's own
+  // meet hasn't happened yet (its date is today or later, Pacific), so an
+  // update about a meet stays up until the meet is over. An undated meet gets
+  // the UPDATE_DAYS only. Returns its date key, or "" if it doesn't count. A
+  // future or unreadable update_date is a data error: never shown, and
+  // reported in the browser console.
   function activeUpdate(r) {
     if (!r.update_date) return "";
     var key = dateKey(r.update_date), age = key ? daysAgo(key) : NaN;
@@ -139,7 +143,8 @@
         (key ? "in the future" : "not a date") + ", so its update isn't shown.");
       return "";
     }
-    return r.update_note && age < UPDATE_DAYS ? key : "";
+    var meet = dateKey(r.date), upcoming = meet !== "" && meet >= todayKey();
+    return r.update_note && (age < UPDATE_DAYS || upcoming) ? key : "";
   }
 
   var NEW_PILL = '<span class="pill new">New</span>';
