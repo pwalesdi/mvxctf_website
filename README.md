@@ -262,8 +262,8 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
    - **Woodward Park marks** (Clovis, State, Rough Rider) go at the end of `mv_woodward_park_all_marks.csv`; the generator builds `WP` and `T` from it. Don't re-sort that file: tied marks are listed in its row order.
 2. **NCS championships**: `assets/data/ncs-championships.csv`. Add one Girls and one Boys row for the new year (`place`, `place_num`, `division`). If the division changed, rewrite the hand-written sentence under the NCS table in `cross-country-records.html`.
 3. **Cross Country page**: `cross-country.html`
-   - Top-line band: "15" NCS titles ("Girls 13, boys 2"), "23 of 38" girls top-three years, "25" State team trips ("18 girls, 7 boys"), "120" State qualifiers.
-   - "Why Monte Vista": "1984 through 2026", "2022, 2024, 2025 and 2026", "since 2019" counts, "12 straight … 2013 through 2025", "5th" best State finish, boys "7" State trips.
+   - Top-line band: "15" NCS titles ("Girls 13, boys 2"), "23 of 38" girls top-three years, "27" State team trips ("19 girls, 8 boys"), "130" State qualifiers (all four of these State figures include 2026 since November 22, 2026; see the Records page item above).
+   - "Why Monte Vista": "1984 through 2026", "2022, 2024, 2025 and 2026", "since 2019" counts, "13 straight … 2013 through 2026", "5th" best State finish, boys "8" State trips.
    - **These go stale after every season. Replace them:** girls `1-2-8-9` ("…Ennen ninth. **All four return.**") and boys `4th` ("**Kotamraju returns** after placing fourth…").
    - Don't name years for the boys' two NCS team titles in prose (the source records conflict). The NCS table shows them as the CSV has them, 2007 and 2015, by decision.
 4. **Home page accomplishments band**: `index.html`. "15" NCS team titles, "4" titles in five years ("2022, 2024, 2025 and 2026"), "21" section titles since 2019, "77" All-NCS honors ("31 different athletes"), and the four highlight lines with their year labels ("2026 · Cross country", "2019–2026 · Cross country" and so on).
