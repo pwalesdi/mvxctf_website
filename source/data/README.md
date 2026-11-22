@@ -7,7 +7,7 @@ Four lines in the `<script>` of `cross-country-records.html` hold the page's dat
 | `mv_cif_state_xc_individuals.csv` | Every Monte Vista individual run at CIF State, 1987–2025, with `source`: where each result came from |
 | `mv_woodward_park_all_marks.csv` | Every Monte Vista 5K mark at Woodward Park (CIF State, Clovis, Rough Rider, NXR), the State runs included |
 | `mv_cif_state_xc_team_places.csv` | Monte Vista's team place at each CIF State meet where it scored as a team (`year, gender, division, place`) |
-| `mv_cif_state_xc_qualifiers.csv` | Every Monte Vista CIF State qualifier, one row per athlete per year (`year, gender, name, grade`). The Years at State strip and the multiple-year qualifiers come from this file, not from the results. Through 2025 it is exactly the athletes who ran at State (it was generated from the Woodward Park file's State rows, and the page didn't change) |
+| `mv_cif_state_xc_qualifiers.csv` | Every Monte Vista CIF State qualifier, one row per athlete per year (`year, gender, name, grade`). The Years at State strip and the multiple-year qualifiers come from this file, not from the results. Through 2025 it is exactly the athletes who ran at State (it was generated from the Woodward Park file's State rows, and the page didn't change); 2026 holds the fourteen who qualified at NCS, before the State meet |
 
 These are public race results. GitHub Pages serves this folder, so they are publicly downloadable.
 
