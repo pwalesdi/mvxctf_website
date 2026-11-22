@@ -8,7 +8,8 @@ The page's <script> holds four generated lines: `const DATA = ...;`, `const M = 
     python3 source/build_xc_records.py --write   replace the four lines in the page
     python3 source/build_xc_records.py           print the four lines
 
-Standard library only. Run it from anywhere. The inputs, the rules and the errors are
+DATA.app (the Years at State strip) and M (the multiple-year qualifiers) come from the qualifiers file;
+DATA.teams, DATA.ind, T and WP come from the results. Standard library only. Run it from anywhere. The inputs, the rules and the errors are
 described in source/data/README.md. A data problem stops it with exit status 2 and a
 message naming the file and line; it never fills in a missing value.
 """
@@ -27,12 +28,13 @@ PAGE = ROOT / "cross-country-records.html"
 STATE_CSV = DATA_DIR / "mv_cif_state_xc_individuals.csv"
 WOODWARD_CSV = DATA_DIR / "mv_woodward_park_all_marks.csv"
 TEAM_PLACES_CSV = DATA_DIR / "mv_cif_state_xc_team_places.csv"
+QUALIFIERS_CSV = DATA_DIR / "mv_cif_state_xc_qualifiers.csv"
 
 STATE_MEET = "CIF State"            # meet_short of the CIF State rows in the Woodward Park file
 DIVISIONS = {"Division I": 1, "Division II": 2, "Division III": 3, "Division IV": 4, "Division V": 5}
 COMPUTED = "(div place computed)"   # in the State file's `source`: the place is calculated, shown with *
 SUB_20 = 1200.0                     # DATA.ind holds the State runs faster than 20:00
-TEAM_MIN = 5                        # five finishers in one race make a team score
+TEAM_MIN = 5                        # five finishers in one race make a team score; five qualifiers, a team trip
 GENDERS = ("Boys", "Girls")
 INDENT = {"DATA": "", "M": "  ", "T": "  ", "WP": "  "}  # each line's indentation in the page
 LINE = re.compile(r"^(\s*)const (DATA|M|T|WP) = (.*);$")
@@ -158,9 +160,41 @@ def state_runs(state_rows, wood_rows):
     return runs
 
 
-def build(state_rows, wood_rows, place_rows):
+def qualifiers(qual_rows, runs):
+    """Every CIF State qualifier, one row per athlete per year, checked against the runs.
+
+    Qualifying is settled at the section meet, a week before State, so a year can have qualifiers and no
+    runs yet. The other way round is an error: every State run must be by someone recorded as qualifying
+    that year, with the same name and gender, and the same grade where both give one.
+    """
+    quals, seen = [], {}
+    for n, q in qual_rows:
+        where = f"{QUALIFIERS_CSV.name} line {n}"
+        g, y = gender(q["gender"], where), whole(q["year"], "year", where)
+        if not q["name"].strip():
+            raise DataError(f"{where}: name is empty")
+        key = (y, g, q["name"])
+        if key in seen:
+            raise DataError(f"{where}: {q['name']} ({g}) is already a {y} qualifier, on line {seen[key]}")
+        seen[key] = n
+        quals.append({"y": y, "g": g, "n": q["name"],
+                      "gr": whole(q["grade"], "grade", where) if q["grade"].strip() else None, "where": where})
+    if not quals:
+        raise DataError(f"{QUALIFIERS_CSV.name} has no rows")
+    by_key = {(q["y"], q["g"], q["n"]): q for q in quals}
+    for r in runs:
+        q = by_key.get((r["y"], r["g"], r["n"]))
+        if q is None:
+            raise DataError(f"{r['where']}: {r['n']} ran at State in {r['y']} ({r['g']}) but isn't a {r['y']} "
+                            f"qualifier in {QUALIFIERS_CSV.name}")
+        if q["gr"] is not None and r["gr"] is not None and q["gr"] != r["gr"]:
+            raise DataError(f"{q['where']} and {r['where']}: {r['n']}'s {r['y']} grade {q['gr']} vs {r['gr']}")
+    return quals
+
+
+def build(state_rows, wood_rows, place_rows, qual_rows):
     runs = state_runs(state_rows, wood_rows)
-    first, last = min(r["y"] for r in runs), max(r["y"] for r in runs)
+    quals = qualifiers(qual_rows, runs)
 
     # DATA.ind: every State run under 20:00.
     ind = []
@@ -203,24 +237,33 @@ def build(state_rows, wood_rows, place_rows):
                             f"division {key[2]} (fewer than {TEAM_MIN} runners in that race)")
     teams.sort(key=lambda t: (boys_first(t["g"]), t["y"]))
 
-    # DATA.app: one entry per gender per year, first to last State year in the data.
+    # DATA.app: from the qualifiers, not the results. One entry per gender per year, first to last
+    # qualifying year in the data. Five or more qualifiers of one gender in a year is a team trip.
+    # Where that year has results too, the results must show the same thing.
+    first, last = min(q["y"] for q in quals), max(q["y"] for q in quals)
+    count = collections.Counter((q["g"], q["y"]) for q in quals)
     team_years = {(t["g"], t["y"]) for t in teams}
     run_years = {(r["g"], r["y"]) for r in runs}
-    app = {f"{g}{y}": "team" if (g, y) in team_years else "ind" if (g, y) in run_years else ""
+    for (g, y), c in count.items():
+        if (g, y) in run_years and (c >= TEAM_MIN) != ((g, y) in team_years):
+            raise DataError(f"{y} {g}: {c} qualifier(s) in {QUALIFIERS_CSV.name}, but the State results "
+                            f"{'show no' if c >= TEAM_MIN else 'show a'} team")
+    app = {f"{g}{y}": "team" if count[(g, y)] >= TEAM_MIN else "ind" if count[(g, y)] else ""
            for g in ("Girls", "Boys") for y in range(first, last + 1)}
 
-    # M: State runs (any time) in two or more seasons. Active: still in school next season.
+    # M: from the qualifiers. Athletes who qualified in two or more seasons. Active: still in school
+    # the season after the latest qualifying year in the data.
     athletes = collections.OrderedDict()
-    for r in runs:
-        athletes.setdefault((r["n"], r["g"]), []).append(r)
+    for q in quals:
+        athletes.setdefault((q["n"], q["g"]), []).append(q)
     multi = []
     for (name, g), rows in athletes.items():
-        years = sorted({r["y"] for r in rows})
+        years = sorted({q["y"] for q in rows})
         if len(years) < 2:
             continue
-        latest = max(rows, key=lambda r: r["y"])
+        latest = max(rows, key=lambda q: q["y"])
         if latest["gr"] is None:
-            raise DataError(f"{latest['where']}: can't work out whether {name} is active: their last State "
+            raise DataError(f"{latest['where']}: can't work out whether {name} is active: their last qualifying "
                             f"year, {latest['y']}, has no grade")
         multi.append({"n": name, "g": g, "ys": years, "active": latest["gr"] + (last + 1 - latest["y"]) <= 12})
     multi.sort(key=lambda m: (-len(m["ys"]), m["ys"][0], m["n"]))
@@ -262,7 +305,8 @@ def generate():
     wood = read_csv(WOODWARD_CSV, ["year", "meet_short", "race", "gender", "name", "grade", "time",
                                    "time_seconds", "place"])
     places = read_csv(TEAM_PLACES_CSV, ["year", "gender", "division", "place"])
-    data = build(state, wood, places)
+    quals = read_csv(QUALIFIERS_CSV, ["year", "gender", "name", "grade"])
+    data = build(state, wood, places, quals)
     return {k: f"{INDENT[k]}const {k} = {json.dumps(v)};" for k, v in data.items()}
 
 
