@@ -51,7 +51,7 @@ What it can't cover: a page the browser is still holding from before the deploy 
 | `assets/js/standards.js` | Renders `varsity-standards.html` from `assets/data/varsity-standards.csv`. |
 | `assets/img/` | Logo, hero photo, and team photos (see "Photos"). |
 | `assets/docs/clearance-guide.pdf` | Clearance step-by-step guide (downloaded from the old Wix site). Linked from `clearance.html`. It describes **AthleticClearance.com**, not Home Campus; see "Unfinished pages". |
-| `source/data/` | The CSVs that `cross-country-records.html` is regenerated from (see "Cross Country Records"). Served publicly like everything else in the repo. |
+| `source/data/` | The CSVs that `cross-country-records.html`'s data is generated from, by `source/build_xc_records.py` (see "Cross Country Records" and `source/data/README.md`). Served publicly like everything else in the repo. |
 | `.nojekyll` | Stops GitHub from running Jekyll over the site. |
 
 **Light only.** The site has no dark mode; every colour is defined once on `:root`. Don't add a `prefers-color-scheme` block.
@@ -246,12 +246,12 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
 ### After each cross country season (late November / December)
 
 1. **State results (Cross Country Records page)**: `cross-country-records.html`
-   - Add the new State results to the source CSVs in `source/data/` (`mv_cif_state_xc_individuals_1987_2025.csv`, `mv_woodward_park_all_marks.csv`), then regenerate the page's `<script>` data block (`DATA`, `WP`, the team-times list `T` and the multi-year list `M`). See "Cross Country Records" below; the generator script isn't in the repo yet.
-   - **Years at State strip: three places, change them together.** In the page's script, both `for (let y = 1987; y <= 2025; y++)` lines: bump `2025` to the new year. In the page's `<style>` block, `.strip{grid-template-columns:56px repeat(39, …)}`: add 1 to `39` for each year added. If they disagree, the strip misaligns.
+   - Add the new State results to `source/data/`: each State run in both `mv_cif_state_xc_individuals.csv` and `mv_woodward_park_all_marks.csv`, and a State team's place in `mv_cif_state_xc_team_places.csv`. Then run `python3 source/build_xc_records.py --write` and `--check`, which regenerate the page's four data lines (`DATA`, `M`, `T`, `WP`). See `source/data/README.md`.
+   - **Years at State strip** extends itself: its columns come from the generated data. Nothing to change.
    - **Headline numbers** at the top of "Monte Vista at State" are typed in: straight girls team trips ("2013 through 2025"), best finishes, team appearances ("18 girls, 7 boys"), State qualifiers ("75 girls, 45 boys · 7 went all four years"). Recount and edit.
-   - **"Active" pills** on the multi-year qualifiers come from `active: true/false` in the `M` list in the page's script. Turn off graduates; turn on returning athletes.
+   - **"Active" pills** on the multi-year qualifiers are set by the generator: an athlete is active if still in school the season after the latest State meet in the data. Nothing to set by hand.
    - **Footnotes** at the bottom of the page name year ranges ("Places marked * (2022–2025)", the Sources line, the Clovis years). Extend them.
-   - **Woodward Park marks** (Clovis, State, Rough Rider) go into `WP` with the rest of the regenerated data.
+   - **Woodward Park marks** (Clovis, State, Rough Rider) go at the end of `mv_woodward_park_all_marks.csv`; the generator builds `WP` and `T` from it. Don't re-sort that file: tied marks are listed in its row order.
 2. **NCS championships**: `assets/data/ncs-championships.csv`. Add one Girls and one Boys row for the new year (`place`, `place_num`, `division`). If the division changed, rewrite the hand-written sentence under the NCS table in `cross-country-records.html`.
 3. **Cross Country page**: `cross-country.html`
    - Top-line band: "14" NCS titles ("Girls 12, boys 2"), "22 of 37" girls top-three years, "25" State team trips ("18 girls, 7 boys"), "120" State qualifiers.
@@ -474,9 +474,9 @@ Archived results files are kept outside the repo, in `~/Developer/mvxctf_archive
 
 ## Cross Country Records
 
-`cross-country-records.html` (formerly `state-history.html`) is the Woodward Park record book. "Monte Vista at State" is a section within it. The year strip numbers each "individuals only" cell with its qualifier count, computed from the page's CIF State rows (the Woodward Park data), not from `DATA.ind`, which only holds sub-20:00 runs. It is **regenerated from the CSVs in `source/data/`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The data and table logic are the page's `<script>` block; the rest of the page is the shared header/footer and site styling.
+`cross-country-records.html` (formerly `state-history.html`) is the Woodward Park record book. "Monte Vista at State" is a section within it. The year strip numbers each "individuals only" cell with its qualifier count, computed from the page's CIF State rows (the Woodward Park data), not from `DATA.ind`, which only holds sub-20:00 runs. Its data, the four `const DATA`, `M`, `T` and `WP` lines in the `<script>`, is **generated from the CSVs in `source/data/` by `source/build_xc_records.py`, not hand-edited**. Rebuild it after each CIF State meet and each Clovis Invitational. The table logic is the rest of the page's `<script>` block; the rest of the page is the shared header/footer and site styling.
 
-The CSVs are `source/data/mv_cif_state_xc_individuals_1987_2025.csv` and `source/data/mv_woodward_park_all_marks.csv`. **Not in the repo yet:** the script that turns them into the page's `DATA` objects. Until that script is added, a rebuild means producing a new `<script>` block elsewhere and pasting it over the old one. Leave everything outside that block alone.
+`python3 source/build_xc_records.py --write` rewrites the four lines and touches nothing else; `--check` confirms the page matches the CSVs. When the generator was added (November 2026) it reproduced the existing lines byte for byte. Its inputs are `mv_cif_state_xc_individuals.csv`, `mv_woodward_park_all_marks.csv` and `mv_cif_state_xc_team_places.csv` (the team places at State, which the other two don't hold). Its rules, its errors and how to add a season are in `source/data/README.md`. **The row order of `mv_woodward_park_all_marks.csv` matters**: tied marks are listed in file order, so don't re-sort it. The Years at State strip takes its columns from the generated data (`--years` in the `.strip` rule is set by the page's script), so a new season needs no edit to the page.
 
 The pre-site originals, `montevistaxc-mockup.html` (the approved home page design) and `mv-state-history.html`, are in git history: `git show 5ce55d9:montevistaxc-mockup.html`, `git show 5ce55d9:mv-state-history.html`.
 

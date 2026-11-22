@@ -35,7 +35,7 @@
   /* Right-edge scroll cue, same technique as .table-scroll in site.css, on this page's surface ground */
   background:linear-gradient(to left,var(--surface) 40%,transparent) right center/48px 100% no-repeat local,
     linear-gradient(to left,color-mix(in srgb,var(--ink) 14%,transparent),transparent) right center/16px 100% no-repeat scroll}
-.strip{display:grid;grid-template-columns:56px repeat(39,minmax(16px,1fr));gap:4px;min-width:760px;align-items:center}
+.strip{display:grid;grid-template-columns:56px repeat(var(--years),minmax(16px,1fr));gap:4px;min-width:760px;align-items:center}
 .strip .lab{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
 .cell{height:26px;border-radius:2px;background:transparent;border:1px dashed var(--line)}
 .cell.team{background:var(--red);border:1px solid var(--red)}
@@ -278,13 +278,17 @@ const placeCell = (pl, div, calc) => pl ? `<span class="place"><b>${ord(pl)}</b>
   list.forEach((r,i) => { r.rank = (i && list[i-1].ts === r.ts) ? list[i-1].rank : i + 1; });
 });
  
-// year strip
+// year strip: one column per year in DATA.app, which the generator fills from the first
+// to the last State year in the data, so a new season needs no edit here. --years sets
+// the column count in the .strip rule above.
 (function(){
   const el = document.getElementById("strip");
+  const years = [...new Set(Object.keys(DATA.app).map(k => +k.slice(-4)))].sort((a, b) => a - b);
+  el.style.setProperty("--years", years.length);
   let h = "";
   ["Girls","Boys"].forEach(g => {
     h += `<div class="lab">${g}</div>`;
-    for (let y = 1987; y <= 2025; y++) {
+    for (const y of years) {
       const k = DATA.app[g + y];
       const cls = y === 2020 ? "nomeet" : (k || "");
       const tip = y === 2020 ? "2020: no state meet" : `${y} ${g}: ${k === "team" ? "team" : k === "ind" ? "individuals" : "did not qualify"}`;
@@ -292,7 +296,7 @@ const placeCell = (pl, div, calc) => pl ? `<span class="place"><b>${ord(pl)}</b>
     }
   });
   h += `<div></div>`;
-  for (let y = 1987; y <= 2025; y++) h += `<div class="yr">${y}</div>`;
+  for (const y of years) h += `<div class="yr">${y}</div>`;
   el.innerHTML = h;
 })();
  
