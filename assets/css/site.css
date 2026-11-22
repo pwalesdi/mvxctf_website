@@ -594,6 +594,9 @@ figcaption .photo-credit{display:block;margin-top:2px;font-family:var(--display)
 /* Meet pages we write ourselves (meets/*.html, and the Haystack page in the root): the meet facts, then a Race schedule
    section of start times. Girls and boys are in words, in the record book's pills; times shrink to fit their column. */
 .race-panel{margin-top:clamp(20px,3vw,28px)}
+/* The meet's links (results, live results, photos, video): directly under the heading, above the facts, so a phone
+   shows them without scrolling. A .panel holding a .linklist; absent until there's something to link. */
+.meet-links{margin-bottom:clamp(20px,3vw,28px)}
 .race-table th.num,.race-table td.num{width:1%}
 .race-table .pill{margin-right:6px;vertical-align:1px}
 @media (max-width:640px){.race-table th,.race-table td{padding-inline:12px}.race-table th:first-child,.race-table td:first-child{padding-left:14px}}
