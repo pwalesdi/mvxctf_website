@@ -382,7 +382,6 @@ To add a photo, save it as:
 | Dan Graham | `assets/img/coaches/graham.jpg` |
 | Brittany Williams | `assets/img/coaches/williams-brittany.jpg` |
 | Edd Williams | `assets/img/coaches/williams-edd.jpg` |
-| Craig Rothstein | `assets/img/coaches/rothstein.jpg` |
 | Kinsey Pogue | `assets/img/coaches/pogue.jpg` |
 
 - **Aspect ratio 4:5 (portrait), at least 600px wide, never enlarged.** Crop at the source photo's own resolution; if a 4:5 crop can't reach 600px wide without upscaling, don't use the photo. JPEG, about quality 82, with metadata stripped (see "Photos" for how; don't use `sips` alone, it keeps GPS). Wales-Dinan (710 × 887), Edd Williams (710 × 887) and Graham (691 × 864) are about three times the 240px card.
@@ -471,8 +470,8 @@ Dates in a filename come from the camera's capture time (Pacific). **When a phot
 | --- | --- |
 | `track-field.html` | Program overview, season and event-group information |
 | `team/*/index.html` | **Year counts are hardcoded and need bumping every season:** head coach "ninth season", Graham "40th year" (four places; see the yearly checklist). Spilker's and Brittany Williams's bios have none; they get a new season paragraph after each track season. Brittany Williams's says "the past three seasons" and runs 2024–2026 by season. |
-| `team/index.html` | Coach bios still needed: Craig Rothstein, Kinsey Pogue. They're on the index as plain name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn their index entry into a link. |
-| `team/` pages | Coach photos: Wales-Dinan, Graham and Edd Williams done; Spilker, Brittany Williams and Kinsey Pogue done at low resolution (larger files wanted); Rothstein not supplied yet. See "Coach photos". |
+| `team/index.html` | Coach bio still needed: Kinsey Pogue. The index lists the name and title, not linked, until a bio exists; then add `team/<first>-<last>/index.html` (copy an existing one; e.g. `team/kinsey-pogue/`), add it to `sitemap.xml`, and turn the index entry into a link. |
+| `team/` pages | Coach photos: Wales-Dinan, Graham and Edd Williams done; Spilker, Brittany Williams and Kinsey Pogue done at low resolution (larger files wanted). See "Coach photos". |
 | `clearance.html` | **Check the steps.** They were reconstructed from the old Wix site and may be wrong. The linked PDF guide describes AthleticClearance.com, while the steps and links say Home Campus; one of them is out of date. |
 | `team/index.html` | A contact method for the coaching staff is still undecided. No email addresses on the coach pages. |
 | `donate.html` | Check drop-off, what the donation pays for, corporate matching details. The $600 / check / webstore / no-cash wording is done. |
