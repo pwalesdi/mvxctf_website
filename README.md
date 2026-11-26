@@ -32,7 +32,7 @@ What it can't cover: a page the browser is still holding from before the deploy 
 | `assets/js/schedule.js` | Renders `schedule.html` (Season selector, one season at a time) and the "Next" row on the home page from the current season ("Today" on a meet's own date). |
 | `assets/js/records.js` | Renders `track-field-records.html` from `assets/data/records.csv`. |
 | `assets/js/ebal-distance.js` | Renders `ebal-distance.html` (EBAL distance points) from `assets/data/ebal-distance.csv`. |
-| `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`. |
+| `assets/js/ncs.js` | Renders the NCS Championships table on `cross-country-records.html` from `assets/data/ncs-championships.csv`, linking each year that has archived results (found in `assets/data/results-archive.csv`). |
 | `assets/js/nav.js` | The header dropdowns, Cross Country, Track & Field and Records: every `.nav-dd` gets the same behaviour. Loaded on every page. |
 | `assets/js/news.js` | Renders the home page's "Latest" item, or the Latest carousel when there are two or more, from `assets/data/news.csv` (see "Home page"). |
 | `assets/js/hero.js` | Picks the home page hero photo at random from `assets/data/hero.csv` on every load, from the current season's photos (see "Home page"). Works with a small inline script in `index.html`'s `<head>`. |
@@ -245,7 +245,7 @@ Several parts of the site go stale on a fixed yearly cycle. Work through the rel
 2. Keep the original in `~/Developer/mvxctf_archive/`. For the repo copy, take the smaller of the original and a Ghostscript `/ebook` pass, and strip metadata.
 3. Screen it: results only. No rosters, contact details, forms, or social events (see "Results archive"). Leave out community or open races that name entrants who aren't on a school team, especially children: the 2026 Wildcat Invitational copy holds its seven high school races and leaves out the Community 2 Mile run (the full page is in the private archive).
 4. Save it as `archive/results/<season>/<YYYY>-<track|xc>-<MM>-<DD>-<meet-slug>-results.pdf`. A meet published as many per-event pages gets a folder of that name, with the original filenames.
-5. Add one row per file to `assets/data/results-archive.csv`. **Relative paths only**, no leading `/`.
+5. Add one row per file to `assets/data/results-archive.csv`. **Relative paths only**, no leading `/`. **Name the NCS cross country championships exactly `NCS Championships`**, in that year's `<year>-xc` season: that name is how the NCS table on the Cross Country Records page finds a year's results and links its year to them (see `assets/data/ncs-championships.csv` under "Records and letters"). A different name costs that year its link, but can never produce a wrong one: a row that doesn't match is simply not used.
 6. In the season's `schedule-<id>.csv`, point `results_url` at the copy (the file, or `results-archive.html#m-<date>-<meet-slug>` for multi-file meets) and keep the original URL in `results_source_url`.
 7. At season end, open `results-archive.html` and click every link for the season.
 
@@ -261,7 +261,7 @@ To find leftover years quickly: `grep -rn "2026" *.html assets/js assets/data` (
    - **"Active" pills** on the multi-year qualifiers are set by the generator: an athlete is active if still in school the season after the latest State meet in the data. Nothing to set by hand.
    - **Footnotes** at the bottom of the page name year ranges ("Places marked * (2022–2025)", the Sources line, the Clovis years). Extend them.
    - **Woodward Park marks** (Clovis, State, Rough Rider) go at the end of `mv_woodward_park_all_marks.csv`; the generator builds `WP` and `T` from it. Don't re-sort that file: tied marks are listed in its row order.
-2. **NCS championships**: `assets/data/ncs-championships.csv`. Add one Girls and one Boys row for the new year (`place`, `place_num`, `division`). If the division changed, rewrite the hand-written sentence under the NCS table in `cross-country-records.html`.
+2. **NCS championships**: `assets/data/ncs-championships.csv`. Add one Girls and one Boys row for the new year (`place`, `place_num`, `division`). If the division changed, rewrite the hand-written sentence under the NCS table in `cross-country-records.html`. The year's link to its results needs nothing here: it appears once the results are archived under the meet name `NCS Championships` (see the archive checklist above).
 3. **Cross Country page**: `cross-country.html`
    - Top-line band: "15" NCS titles ("Girls 13, boys 2"), "23 of 38" girls top-three years, "27" State team trips ("19 girls, 8 boys"), "130" State qualifiers (all four of these State figures include 2026 since November 22, 2026; see the Records page item above).
    - "Why Monte Vista": "1984 through 2026", "2022, 2024, 2025 and 2026", "since 2019" counts, "13 straight … 2013 through 2026", "5th" best State finish, boys "8" State trips.
@@ -332,6 +332,7 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 - One row per team per year. The Cross Country Records page shows one row per year, newest first: Year, Division (shared by both teams), Girls, Boys. `place` is printed as-is (`1st`, `15th`); `place_num` of 1 gets the red tint.
 - An empty `place` shows as an em dash, with the `note` available to screen readers. When both teams have no place and the same note (2020, "No championship held"), the note spans both columns.
 - The sentence under the table about divisions is hand-written. Check it if the division column changes.
+- **A year with archived results links its Year cell to them**, worked out by `ncs.js` from `assets/data/results-archive.csv` when the page loads; there's no URL column here. The join is on the year: an archive row in season `<year>-xc` whose meet is exactly `NCS Championships`. Every NCS file is the whole meet (all divisions, girls and boys), so one link serves both teams. A year with one file and no `group` links the file; a year with more than one links the meet's entry on `results-archive.html` (`#m-<date>-ncs-championships`). The link is in the standard link style and stretches over the cell (`.ncs-yr` in `site.css`); a screen reader hears "2026 results (PDF)". Years without results look exactly as before. The line "Linked years open that meet's full results." under the table is hand-written. If the archive file fails to load, the table still renders, without links. Since November 2026: 2022, 2024, 2025 and 2026.
 
 **`assets/data/varsity-standards.csv`**: `gender, event_group, event_order, event, standard`
 - The **2026** standards, the most recent published set. `event_group` is `Track` or `Field`, shown in that order; rows within each are sorted by `event_order`. `standard` is printed as-is: track times to two decimals, field marks rounded to the nearest half inch (`28' 6"`, `15' 6.5"`, `85' 0"`).

@@ -358,6 +358,11 @@ th.num{text-align:right}
 /* NCS table: a first-place cell gets the same tint */
 .ledger td.win{background:color-mix(in srgb,var(--red) 7.5%,transparent);color:var(--red-ink);font-weight:700}
 .ledger td.ncs-none{color:var(--ink-2)}
+/* NCS table: a year with archived results links its Year cell (ncs.js). The link keeps the standard link style and
+   stretches over the whole cell for an easy tap; the cell's padding is unchanged, so the row is the same height as an
+   unlinked one. */
+.ledger td.ncs-yr{position:relative}
+.ledger td.ncs-yr a::after{content:"";position:absolute;inset:0}
 
 /* ---------- cross country page ---------- */
 /* Layout modifiers on existing components; no new visual treatment. */
