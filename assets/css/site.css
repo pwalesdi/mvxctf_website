@@ -413,10 +413,11 @@ section.panel.letters{padding-block:0}
 .name-list li{break-inside:avoid;padding:5px 0;font-size:.9375rem;line-height:1.45}
 .name-list .pill{margin-left:4px;vertical-align:1px}
 .controls + #letters-body{margin-top:20px}
-/* Varsity standards: compact tables, one per event group */
-.std-app{margin-top:clamp(28px,4vw,44px)}
-.std-app #standards-body{max-width:640px}
-.std-app .controls + #standards-body .data-group:first-child{margin-top:20px}
+/* Varsity standards: girls then boys on one page, no toggle. Each gender is a data-group h2 over compact tables, one
+   per event group (Track, Field), each in a panel headed by its group (.panel-head). */
+.std-app{margin-top:clamp(28px,4vw,44px);max-width:640px}
+.std-app .data-group:first-child{margin-top:0}
+.std-app .panel + .panel{margin-top:16px}
 .std-table td.num{width:1%}
 /* A mark in running text (14-04, 40' 6") that must not break across lines; the characters stay as typed. */
 .nowrap{white-space:nowrap}
