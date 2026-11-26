@@ -19,14 +19,14 @@ Open <http://localhost:8000/>. Use the server, not `file://`: the schedule is fe
 
 A visitor can briefly get a cached script against a fresh CSV, which looks like content disappearing (in October 2026, the old one-item `news.js` against the new two-row `news.csv` showed only the newest Latest item); a hard refresh clears it. The CSVs are always fetched fresh (`csv.js` asks for `no-store`), but browsers keep other files for up to 10 minutes.
 
-The version tag prevents it. **Every script that reads a CSV loads with a version**, as `…/ncs.js?v=<this page's deploy time>`, written by a small inline script from `document.lastModified` on each page that loads it:
+The version tag prevents it. **Every script that reads a CSV loads with a version**, and so does `archive-links.js`, which two of them depend on, as `…/ncs.js?v=<this page's deploy time>`, written by a small inline script from `document.lastModified` on each page that loads it:
 
 | Page | Versioned scripts |
 |---|---|
 | `index.html` | `schedule.js`, `hero.js`, `news.js`, `photos.js` |
 | `schedule.html` | `schedule.js` |
-| `cross-country-records.html` | `ncs.js` |
-| `results-archive.html` | `archive.js` |
+| `cross-country-records.html` | `archive-links.js`, `ncs.js` |
+| `results-archive.html` | `archive-links.js`, `archive.js` |
 | `track-field-records.html` | `records.js` |
 | `varsity-letters.html` | `letters.js` |
 | `varsity-standards.html` | `standards.js` |
@@ -51,6 +51,7 @@ What it can't cover: a page the browser is still holding from before the deploy 
 | `assets/js/news.js` | Renders the home page's "Latest" item, or the Latest carousel when there are two or more, from `assets/data/news.csv` (see "Home page"). |
 | `assets/js/hero.js` | Picks the home page hero photo at random from `assets/data/hero.csv` on every load, from the current season's photos (see "Home page"). Works with a small inline script in `index.html`'s `<head>`. |
 | `assets/js/archive.js` | Renders `results-archive.html` from `assets/data/results-archive.csv` (see "Results archive"). |
+| `assets/js/archive-links.js` | **The one place a link into the results archive is made**: the meet id the archive page gives each meet (`m-<date>-<meet-slug>`) and the relative-path check on archived files. `archive.js` and `ncs.js` both use it, so the archive page's ids and the links to them can't drift apart. Load it before either; don't copy its functions into another script. |
 | `assets/js/photos.js` | Adds photographer credits from `assets/data/photo-credits.csv` to any photo on the page (see "Photos"). Loaded on the home page, `team/index.html` and every coach page, with a version (see "Cached scripts"). |
 | `assets/js/letters.js` | Renders `varsity-letters.html` from `assets/data/letter-winners.csv`. |
 | `assets/data/seasons.csv` | The season index for the schedule's Season selector (see "The schedule"). |
@@ -346,7 +347,7 @@ Both pages render from CSVs, so updating them means editing a CSV. Neither page 
 - One row per team per year. The Cross Country Records page shows one row per year, newest first: Year, Division (shared by both teams), Girls, Boys. `place` is printed as-is (`1st`, `15th`); `place_num` of 1 gets the red tint.
 - An empty `place` shows as an em dash, with the `note` available to screen readers. When both teams have no place and the same note (2020, "No championship held"), the note spans both columns.
 - The sentence under the table about divisions is hand-written. Check it if the division column changes.
-- **A year with archived results links its Year cell to them**, worked out by `ncs.js` from `assets/data/results-archive.csv` when the page loads; there's no URL column here. The join is on the year: an archive row in season `<year>-xc` whose meet is exactly `NCS Championships`. Every NCS file is the whole meet (all divisions, girls and boys), so one link serves both teams. A year with one file and no `group` links the file; a year with more than one links the meet's entry on `results-archive.html` (`#m-<date>-ncs-championships`). The link is in the standard link style and stretches over the cell (`.ncs-yr` in `site.css`); a screen reader hears "2026 results (PDF)". Years without results look exactly as before. The line "Linked years open that meet's full results." under the table is hand-written. If the archive file fails to load, the table still renders, without links. Since November 2026: 2022, 2024, 2025 and 2026.
+- **A year with archived results links its Year cell to them**, worked out by `ncs.js` from `assets/data/results-archive.csv` when the page loads; there's no URL column here. The join is on the year: an archive row in season `<year>-xc` whose meet is exactly `NCS Championships`. Every NCS file is the whole meet (all divisions, girls and boys), so one link serves both teams. A year with one file and no `group` links the file; a year with more than one links the meet's entry on `results-archive.html` (`#m-<date>-ncs-championships`, the id made by `archive-links.js`, the same code that gives the archive page its ids). The link is in the standard link style and stretches over the cell (`.ncs-yr` in `site.css`); a screen reader hears "2026 results (PDF)". Years without results look exactly as before. The line "Linked years open that meet's full results." under the table is hand-written. If the archive file fails to load, the table still renders, without links. Since November 2026: 2022, 2024, 2025 and 2026.
 
 **`assets/data/varsity-standards.csv`**: `gender, event_group, event_order, event, standard`
 - The **2026** standards, the most recent published set. `event_group` is `Track` or `Field`, shown in that order; rows within each are sorted by `event_order`. `standard` is printed as-is: track times to two decimals, field marks rounded to the nearest half inch (`28' 6"`, `15' 6.5"`, `85' 0"`).

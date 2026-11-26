@@ -429,9 +429,9 @@ renderTeams(); renderInd();
 
 <script src="/assets/js/csv.js"></script>
 <script>
-/* ncs.js loads with this page's deploy time as a version (?v=); see the same script in index.html
-   and README, "Cached scripts". */
-["ncs"].forEach(function (name) {
+/* archive-links.js and ncs.js load with this page's deploy time as a version (?v=); see the same
+   script in index.html and README, "Cached scripts". archive-links.js comes first: ncs.js uses it. */
+["archive-links", "ncs"].forEach(function (name) {
   document.write('<script src="/assets/js/' + name + '.js?v=' + (Date.parse(document.lastModified) || 0) + '"><\/script>');
 });
 </script>

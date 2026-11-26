@@ -3,7 +3,8 @@
    Renders Year | Division | Girls | Boys, newest first. Needs csv.js first.
    A year whose results are archived links its Year cell to them, found at
    render time in assets/data/results-archive.csv (see ncsLinks), so archiving
-   a result makes its link appear with no edit here. */
+   a result makes its link appear with no edit here. Needs csv.js and
+   archive-links.js first. */
 (function () {
   "use strict";
 
@@ -16,11 +17,10 @@
   function fail() { app.innerHTML = '<p class="count">The NCS results couldn’t load. Try again later.</p>'; }
   if (!window.MVCSV) { fail(); return; }
   var esc = window.MVCSV.esc;
-
-  // Same slug and relative-path check as archive.js, so the anchor below is the
-  // id it gives the meet (m-<date>-<meet-slug>) and a bad path gets no link.
-  function slug(s) { return s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
-  function rel(p) { return /^[a-z0-9][\w\-\/.]*$/i.test(p) && p.indexOf("..") < 0 ? p : null; }
+  // The meet id and path check archive.js uses (archive-links.js), so the anchor
+  // below is the id the archive page gives the meet and a bad path gets no link.
+  // Without it the table renders with no links, as when the archive can't load.
+  var A = window.MVArchive;
 
   // Archived results by year: the archive rows in season "<year>-xc" whose meet
   // is exactly "NCS Championships". Each file is the whole meet (every division,
@@ -29,6 +29,7 @@
   // results archive page. A meet named any other way just gets no link.
   function ncsLinks(archive) {
     var byYear = {}, links = {};
+    if (!A) return links;
     archive.forEach(function (r) {
       var m = /^(\d{4})-xc$/.exec(r.season);
       if (m && r.meet === MEET) (byYear[m[1]] = byYear[m[1]] || []).push(r);
@@ -36,8 +37,8 @@
     Object.keys(byYear).forEach(function (y) {
       var files = byYear[y], first = files[0];
       var href = files.length === 1 && !first.group
-        ? rel(first.path)
-        : "/results-archive.html#m-" + first.date + "-" + slug(MEET);
+        ? A.rel(first.path)
+        : "/results-archive.html#" + A.meetId(first.date, MEET);
       if (href) links[y] = { href: href, pdf: /\.pdf$/i.test(href) };
     });
     return links;

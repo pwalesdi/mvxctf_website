@@ -119,9 +119,9 @@
 
 <script src="/assets/js/csv.js"></script>
 <script>
-/* archive.js loads with this page's deploy time as a version (?v=); see the same script in index.html
-   and README, "Cached scripts". */
-["archive"].forEach(function (name) {
+/* archive-links.js and archive.js load with this page's deploy time as a version (?v=); see the same
+   script in index.html and README, "Cached scripts". archive-links.js comes first: archive.js uses it. */
+["archive-links", "archive"].forEach(function (name) {
   document.write('<script src="/assets/js/' + name + '.js?v=' + (Date.parse(document.lastModified) || 0) + '"><\/script>');
 });
 </script>
